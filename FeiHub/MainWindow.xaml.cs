@@ -1,4 +1,4 @@
-﻿using FeiHub.Vistas;
+﻿using FeiHub.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace FeiHub
         public MainWindow()
         {
             InitializeComponent();
-            Frame_PagesNavigation.Navigate(new InicioDeSesion());
+            Frame_PagesNavigation.Navigate(new PaginaPrincipal());
         }
     }
 }

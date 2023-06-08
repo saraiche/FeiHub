@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FeiHub.Vistas
+namespace FeiHub.Views
 {
     /// <summary>
     /// Lógica de interacción para InicioDeSesion.xaml
