@@ -1,0 +1,24 @@
+﻿<Window x:Class="FeiHub.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+        mc:Ignorable="d"
+        Title="FeiHub" Height="645" Width="875" WindowStartupLocation="CenterScreen" Icon="/Resources/uv.png"
+        WindowStyle="SingleBorderWindow"   Background="Transparent"
+        ResizeMode="NoResize" FontSize="18" FontFamily="{DynamicResource MaterialDesignFont}" >
+    <Grid Background="White">
+        <Border Grid.Row="1" Margin="10">
+            <Frame x:Name="Frame_PagesNavigation" NavigationUIVisibility="Hidden" Margin="-10,-10,-10,-10">
+                <!-- Page Content -->
+            </Frame>
+        </Border>
+
+    </Grid>
+</Window>
