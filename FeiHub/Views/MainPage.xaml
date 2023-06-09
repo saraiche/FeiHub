@@ -44,10 +44,10 @@
                   ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
             </Button>
-            <Button Grid.Column="1"
+            <Button x:Name="Logout" Grid.Column="1"
                 Margin="5 0 30 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}" Click="LogOut">
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
             </Button>
         </StackPanel>
@@ -58,7 +58,7 @@
         </Border>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Margin="0 0 0 10">
             <StackPanel>
-                <uc:PostPreview/>
+                <uc:PostPreview Cursor=""/>
                 <uc:PostPreview/>
                 <uc:PostPreview/>
             </StackPanel>
