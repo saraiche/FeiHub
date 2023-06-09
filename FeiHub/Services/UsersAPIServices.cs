@@ -34,6 +34,7 @@ namespace FeiHub.Services
                 userCredentials.StatusCode = response.StatusCode;
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 userCredentials = JsonConvert.DeserializeObject<UserCredentials>(jsonResponse);
+                userCredentials.StatusCode = response.StatusCode;
                 return userCredentials;
             }
             catch (Exception ex)
