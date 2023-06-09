@@ -1,6 +1,4 @@
-﻿using FeiHub.Models;
-using FeiHub.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,22 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FeiHub
+namespace FeiHub.Views
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Lógica de interacción para Chat.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Chat : Page
     {
-        public MainWindow()
+        public Chat()
         {
             InitializeComponent();
-            Frame_PagesNavigation.Navigate(new ManagePosts());
-        }
-
-        private void DestroySingleton(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SingletonUser.Instance.BorrarSinglenton();
         }
     }
 }
