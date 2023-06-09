@@ -58,6 +58,9 @@ namespace FeiHub.Views
             MessageBox.Show("Hola, me voy al perfil de " + (((((e.Source as TextBlock).Parent as Grid).Parent as Border).Parent as UserControl) as UserControls.Seguidor).Username);
         }
 
-
+        private void IrANuevaPublicacion(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new NuevaPublicacion());
+        }
     }
 }

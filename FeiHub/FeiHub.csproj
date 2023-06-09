@@ -75,8 +75,14 @@
     <Compile Include="Views\InicioDeSesion.xaml.cs">
       <DependentUpon>InicioDeSesion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NuevaPublicacion.xaml.cs">
+      <DependentUpon>NuevaPublicacion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaginaPrincipal.xaml.cs">
       <DependentUpon>PaginaPrincipal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Perfil.xaml.cs">
+      <DependentUpon>Perfil.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -102,7 +108,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\NuevaPublicacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PaginaPrincipal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Perfil.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
