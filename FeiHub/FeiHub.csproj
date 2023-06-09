@@ -66,17 +66,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UserControls\Publicacion.xaml.cs">
-      <DependentUpon>Publicacion.xaml</DependentUpon>
+    <Compile Include="UserControls\PostPreview.xaml.cs">
+      <DependentUpon>PostPreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Seguidor.xaml.cs">
-      <DependentUpon>Seguidor.xaml</DependentUpon>
+    <Compile Include="UserControls\PreviewUser.xaml.cs">
+      <DependentUpon>PreviewUser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\InicioDeSesion.xaml.cs">
-      <DependentUpon>InicioDeSesion.xaml</DependentUpon>
+    <Compile Include="Views\LogIn.xaml.cs">
+      <DependentUpon>LogIn.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PaginaPrincipal.xaml.cs">
-      <DependentUpon>PaginaPrincipal.xaml</DependentUpon>
+    <Compile Include="Views\NewPost.xaml.cs">
+      <DependentUpon>NewPost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Perfil.xaml.cs">
+      <DependentUpon>Perfil.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -90,19 +96,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UserControls\Publicacion.xaml">
+    <Page Include="UserControls\PostPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Seguidor.xaml">
+    <Page Include="UserControls\PreviewUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\InicioDeSesion.xaml">
+    <Page Include="Views\LogIn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PaginaPrincipal.xaml">
+    <Page Include="Views\NewPost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Perfil.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
