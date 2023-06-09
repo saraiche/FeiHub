@@ -60,7 +60,7 @@ namespace FeiHub.Views
         private async void ButtonLogIn_Click(object sender, RoutedEventArgs e)
         {
             usernameLogin = Username.Text;
-            passwordLogin = Password.Password;
+            passwordLogin = Encryptor.Encrypt(Password.Password);
             bool withoutFieldsNull = ValidateNullFieldsLogin();
             if (withoutFieldsNull)
             {

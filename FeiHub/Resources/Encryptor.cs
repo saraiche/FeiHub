@@ -15,8 +15,11 @@ namespace FeiHub.Resources
             {
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
                 StringBuilder encriptedPassword = new StringBuilder();
-
-                return Encoding.UTF8.GetString(bytes);
+                for(int i = 0; i < (bytes.Length); i++)
+                {
+                    encriptedPassword.Append(bytes[i].ToString("x2"));
+                }
+                return encriptedPassword.ToString();
             }
         }
     }
