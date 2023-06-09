@@ -1,4 +1,5 @@
 ﻿using FeiHub.Models;
+using FeiHub.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,32 +22,56 @@ namespace FeiHub.Views
     /// </summary>
     public partial class MainPage : Page
     {
+
+        UsersAPIServices usersAPIServices = new UsersAPIServices();
         public MainPage()
         {
             InitializeComponent();
             AddFollowing();
         }
 
-        public void AddFollowing()
+        public async void AddFollowing()
         {
-            UserControls.PreviewUser following = new UserControls.PreviewUser();
-            following.previewUser.Username = "Carsiano";
-            ImageSourceConverter converter = new ImageSourceConverter();
-            following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/uv.png");
+            List<User> followingUsers = await usersAPIServices.GetListUsersFollowing(SingletonUser.Instance.Username);
+            if (followingUsers.Count > 0)
+            {
+                if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.OK)
+                {
 
-            following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
-            following.previewUser.Button_SendMessage.Click += SendMessage;
+                    foreach (User user in followingUsers)
+                    {
+                        UserControls.PreviewUser following = new UserControls.PreviewUser();
+                        following.previewUser.Username = user.username;
+                        if(user.profilePhoto == null)
+                        {
+                            ImageSourceConverter converter = new ImageSourceConverter();
+                            following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
+                        following.previewUser.Button_SendMessage.Click += SendMessage;
+                        StackPanel_Following.Children.Add(following);
+                    }
+                }
+                if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
 
-            StackPanel_Following.Children.Add(following);
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
 
-            UserControls.PreviewUser anotherFollowing = new UserControls.PreviewUser();
-            anotherFollowing.previewUser.Username = "Saraiche";
-            anotherFollowing.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-
-            anotherFollowing.previewUser.TextBlock_Username.MouseDown += GoToProfile;
-            anotherFollowing.previewUser.Button_SendMessage.Click += SendMessage;
+                    MessageBox.Show("Tuvimos un error al obtener a quiénes sigues, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                Label labelWithoutFollowings = new Label();
+                labelWithoutFollowings.Content = "Sigue a tus amigos para verlos aquí";
+                StackPanel_Following.Children.Add(labelWithoutFollowings);
+            }
             
-            StackPanel_Following.Children.Add(anotherFollowing);
 
         }
 
