@@ -1,4 +1,4 @@
-﻿<Page x:Class="FeiHub.Views.InicioDeSesion"
+﻿<Page x:Class="FeiHub.Views.LogIn"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       Height="600" Width="875"
-      Title="InicioDeSesion">
+      Title="LogIn">
 
     <Grid>
 
@@ -35,8 +35,10 @@
             </StackPanel>
         </Grid>
         <Grid  Background="White" Grid.Column="1">
-            <Label Content="Universidad Veracruzana" Background="#063970" Width="247" HorizontalAlignment="Right" FontFamily="Yu Gothic" FontWeight="Bold" FontStretch="SemiExpanded" Foreground="#DDFFFFFF" HorizontalContentAlignment="Center" Margin="0,0,0,575" VerticalContentAlignment="Center"/>
-            <StackPanel Orientation="Vertical" Margin="30" Name="IniciarSesion" Visibility="Visible">
+            <Label Content="Universidad Veracruzana" Background="#063970" Width="247" HorizontalAlignment="Right" 
+                   FontFamily="Yu Gothic" FontWeight="Bold" FontStretch="SemiExpanded" Foreground="#DDFFFFFF" 
+                   HorizontalContentAlignment="Center" Margin="0,0,0,575" VerticalContentAlignment="Center"/>
+            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_LogIn" Visibility="Visible">
                 <Label Content="Inicio de Sesión" HorizontalAlignment="Center"
                         FontFamily="Yu Gothic" Margin="0 80 0 50 " FontSize="50"/>
                 <TextBox
@@ -53,16 +55,16 @@
                         materialDesign:TextFieldAssist.UnderlineBrush="#063970"
                       Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" FontFamily="Yu Gothic" FontWeight="Bold"
                     FontSize="14"/>
-                <Button Content="Iniciar Sesión" Margin="0 30 0 0" Name="Button_IniciarSesion"
+                <Button Content="Iniciar Sesión" Margin="0 30 0 0" Name="Button_LogIn"
                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="#14a3c8"
-                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonIniciarSesion_Click"/>
+                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonLogIn_Click"/>
 
-                <Button Content="Regístrate" Margin="0 80 0 0" Name="Button_Registrate"
+                <Button Content="Regístrate" Margin="0 80 0 0" Name="Button_SignIn"
                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="White"
-                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonRegistrate_Click"/>
+                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonSignIn_Click"/>
             </StackPanel>
             
-            <StackPanel Orientation="Vertical" Margin="30" Name="Registrarse" Visibility="Collapsed">
+            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_SignIn" Visibility="Collapsed">
                 <Label Content="¡Bienvenido!" HorizontalAlignment="Center"
                         FontFamily="Yu Gothic" Margin="0 70 0 0 " FontSize="50"/>
                 <TextBlock Text="Crea tu cuenta como estudiante o como académico para comenzar a usar FeiHub" 
@@ -144,7 +146,7 @@
                                 <Button Content="Iniciar sesión" Margin="0 0 0 0"
                                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="White"
                                     FontFamily="Yu Gothic" FontWeight="Normal" BorderBrush="{x:Null}" Height="30" 
-                                        Width="104" Click="ButtonIrAIniciarSesion_Click" FontSize="12"/>
+                                        Width="104" Click="ButtonGoToLogIn_Click" FontSize="12"/>
                             </StackPanel>
                         </TextBlock>
                     </TabItem>
@@ -202,34 +204,11 @@
                                 <Button Content="Iniciar sesión" Margin="0 0 0 0"
                                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="White"
                                     FontFamily="Yu Gothic" FontWeight="Normal" BorderBrush="{x:Null}" Height="30" 
-                                        Width="104" Click="ButtonIrAIniciarSesion_Click" FontSize="12"/>
+                                        Width="104" Click="ButtonGoToLogIn_Click" FontSize="12"/>
                             </StackPanel>
                         </TextBlock>
                     </TabItem>
                 </TabControl>
-                <!--
-                <TextBox
-                    VerticalAlignment="Center"
-                      materialDesign:HintAssist.Hint="Correo electrónico"  FontFamily="Yu Gothic"
-                    materialDesign:TextFieldAssist.UnderlineBrush="#063970"
-                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontWeight="Bold" FontSize="14" />
-
-                <PasswordBox Margin="0 30 0 0"
-                      x:Name="Password2"
-                      materialDesign:HintAssist.Foreground="Black"
-                      materialDesign:HintAssist.Hint="Contraseña"
-                        materialDesign:TextFieldAssist.HasClearButton="True"
-                        materialDesign:TextFieldAssist.UnderlineBrush="#063970"
-                      Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" FontFamily="Yu Gothic" FontWeight="Bold"
-                    FontSize="14"/>
-                <Button Content="Iniciar Sesión" Margin="0 30 0 0" Name="Button_IniciarSesion2"
-                    Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="#14a3c8"
-                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonIniciarSesion_Click"/>
-
-                <Button Content="Regístrate" Margin="0 80 0 0" Name="Button_Registrate2"
-                    Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="White"
-                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonRegistrate_Click"/>
-                -->
             </StackPanel>
         </Grid>
         

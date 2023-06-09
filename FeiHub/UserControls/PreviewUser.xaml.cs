@@ -6,11 +6,11 @@ using System.Windows.Navigation;
 namespace FeiHub.UserControls
 {
     /// <summary>
-    /// Lógica de interacción para Seguidor.xaml
+    /// Lógica de interacción para PreviewUser.xaml
     /// </summary>
-    public partial class Seguidor : UserControl
+    public partial class PreviewUser : UserControl
     {
-        public Seguidor()
+        public PreviewUser()
         {
             InitializeComponent();
         }
@@ -21,7 +21,7 @@ namespace FeiHub.UserControls
             set { SetValue(UsernameProperty, value); }
         }
 
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register("Username", typeof(string), typeof(Seguidor));
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register("Username", typeof(string), typeof(PreviewUser));
 
         public ImageSource Source
         {
@@ -29,7 +29,7 @@ namespace FeiHub.UserControls
             set { SetValue(SourceProperty, value); }
         }
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(ImageSource), typeof(Seguidor));
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(ImageSource), typeof(PreviewUser));
 
 
     }

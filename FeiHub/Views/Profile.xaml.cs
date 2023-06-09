@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace FeiHub.Views
 {
     /// <summary>
-    /// Lógica de interacción para NuevaPublicacion.xaml
+    /// Lógica de interacción para Profile.xaml
     /// </summary>
-    public partial class NuevaPublicacion : Page
+    public partial class Profile : Page
     {
-        public NuevaPublicacion()
+        public Profile()
         {
             InitializeComponent();
-        }
-
-        private void RegresarAPaginaPrincipal(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new PaginaPrincipal());
         }
     }
 }
