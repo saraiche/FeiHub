@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace FeiHub.Models
         public string schoolId { get; set; }
         public string educationalProgram { get; set; }
         public string profilePhoto { get; set;  }
+        public HttpStatusCode StatusCode { get; set; }
     }
 
 }

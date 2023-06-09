@@ -1,4 +1,5 @@
-﻿using FeiHub.Views;
+﻿using FeiHub.Models;
+using FeiHub.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace FeiHub
         {
             InitializeComponent();
             Frame_PagesNavigation.Navigate(new Profile());
+        }
+
+        private void DestroySingleton(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SingletonUser.Instance.BorrarSinglenton();
         }
     }
 }
