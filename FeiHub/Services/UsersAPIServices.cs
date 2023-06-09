@@ -8,6 +8,7 @@ using FeiHub.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace FeiHub.Services
 {
@@ -119,6 +120,56 @@ namespace FeiHub.Services
                 return null;
             }
             
+        }
+        public async Task<List<User>> GetListUsersFollowing(string username)
+        {
+            try
+            {
+                string apiUrl = $"/follows/followingUsers/{username}";
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, httpClient.BaseAddress + apiUrl);
+                request.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                JsonDocument document = JsonDocument.Parse(jsonResponse);
+                List<User> userList = new List<User>();
+                JsonElement root = document.RootElement;
+                if(response.IsSuccessStatusCode)
+                {
+                    if (root.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (JsonElement element in root.EnumerateArray())
+                        {
+                            User user = new User();
+                            user.username = element.GetProperty("username").GetString();
+                            user.name = element.GetProperty("name").GetString();
+                            user.paternalSurname = element.GetProperty("paternalSurname").GetString();
+                            user.maternalSurname = element.GetProperty("maternalSurname").GetString();
+                            user.schoolId = element.GetProperty("schoolId").GetString();
+                            user.educationalProgram = element.GetProperty("educationalProgram").GetString();
+                            user.profilePhoto = element.GetProperty("profilePhoto").GetString();
+                            user.StatusCode = System.Net.HttpStatusCode.OK;
+                            userList.Add(user);
+                        }
+                    }
+
+                    
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
+                    User user = new User();
+                    user.StatusCode = System.Net.HttpStatusCode.Unauthorized;
+                    userList.Add(user) ;
+                }
+                return userList;
+            }
+            catch
+            {
+                List<User> userList = new List<User>();
+                User user = new User();
+                user.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                userList.Add(user);
+                return userList;
+            }
+
         }
 
     }
