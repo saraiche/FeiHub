@@ -31,7 +31,7 @@
             <Button Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
             </Button>
         </StackPanel>
@@ -39,13 +39,13 @@
             <Button Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Ir a perfil" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
             </Button>
             <Button Grid.Column="1"
                 Margin="5 0 30 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
             </Button>
         </StackPanel>

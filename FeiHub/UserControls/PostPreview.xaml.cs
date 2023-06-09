@@ -63,5 +63,13 @@ namespace FeiHub.UserControls
         }
         public static readonly DependencyProperty BodyProperty =
             DependencyProperty.Register("BodyProperty", typeof(string), typeof(PostPreview));
+
+        public ImageSource PostMainPhoto
+        {
+            get { return (ImageSource)GetValue(PostMainPhotoProperty); }
+            set { SetValue(PostMainPhotoProperty, value); }
+        }
+
+        public static readonly DependencyProperty PostMainPhotoProperty = DependencyProperty.Register("PostMainPhotoProperty", typeof(ImageSource), typeof(PostPreview));
     }
 }

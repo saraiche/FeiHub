@@ -34,8 +34,8 @@
             <TextBlock x:Name="TextBlock_Body" 
                        Text="Este es el cuerpo de la publicación donde se supone que se puede extender un poco más lo que se escirbe y así blah blah blah ola que tal solo estoy escribiendo para ver que no se vea feo cuando son textos largos" 
                        FontSize="13" FontWeight="Light" FontFamily="Yu Gothic" TextWrapping="Wrap"/>
-            <WrapPanel HorizontalAlignment="Center">
-                <Image Source="/Resources/pic.jpg" Width="150"/>
+            <WrapPanel HorizontalAlignment="Center" Name="WrapPanel_Images">
+                <Image Source="/Resources/pic.jpg" Width="150" x:Name="Image_Post"/>
             </WrapPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
                 <materialDesign:Badged Badge="5" BadgeBackground="#b8ebf7">

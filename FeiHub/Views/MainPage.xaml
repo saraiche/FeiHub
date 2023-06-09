@@ -33,7 +33,7 @@
             <Button Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
             </Button>
         </StackPanel>
@@ -41,13 +41,13 @@
             <Button Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Ir al perfil" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
             </Button>
             <Button x:Name="Logout" Grid.Column="1"
                 Margin="5 0 30 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="MaterialDesignFloatingActionMiniDarkButton" Background="#05303b" BorderBrush="{x:Null}" Click="LogOut">
+                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}" Click="LogOut">
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
             </Button>
         </StackPanel>
@@ -57,7 +57,7 @@
             </StackPanel>
         </Border>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Margin="0 0 0 10">
-            <StackPanel>
+            <StackPanel x:Name="StackPanel_Posts">
                 <uc:PostPreview Cursor=""/>
                 <uc:PostPreview/>
                 <uc:PostPreview/>
