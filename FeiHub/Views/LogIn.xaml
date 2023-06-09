@@ -41,9 +41,9 @@
             <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_LogIn" Visibility="Visible">
                 <Label Content="Inicio de Sesión" HorizontalAlignment="Center"
                         FontFamily="Yu Gothic" Margin="0 80 0 50 " FontSize="50"/>
-                <TextBox
+                <TextBox x:Name="Username"
                     VerticalAlignment="Center"
-                      materialDesign:HintAssist.Hint="Correo electrónico"  FontFamily="Yu Gothic"
+                      materialDesign:HintAssist.Hint="Nombre de usuario"  FontFamily="Yu Gothic"
                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"
                       Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontWeight="Bold" FontSize="14" />
 
@@ -74,38 +74,38 @@
                     materialDesign:ColorZoneAssist.Background="White"
                         materialDesign:ColorZoneAssist.Foreground="#063970"
                         materialDesign:ColorZoneAssist.Mode="Custom">
-                    <TabItem
+                    <TabItem 
                     Header="Estudiante">
                         <TextBlock Margin="0">
                             <StackPanel Orientation="Vertical">
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                                <TextBox
+                                <TextBox x:Name="NameStudent"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Nombre(s)" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="20 0 0 0"
+                                <TextBox x:Name="PaternalSurnameStudent" Margin="20 0 0 0"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Apellido Paterno" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="20 0 0 0"
+                                <TextBox x:Name="MaternalStudentSurname" Margin="20 0 0 0"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Apellido Materno" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="0 0 0 0" HorizontalAlignment="Center"
+                                <TextBox x:Name="PhoneStudent" Margin="0 0 0 0" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Teléfono" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="20 0 0 0" HorizontalAlignment="Center"
+                                <TextBox x:Name="SchoolID" Margin="20 0 0 0" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Matrícula" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:HintAssist.HelperText="Ej: s12345678"
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <ComboBox HorizontalAlignment="Center" Margin="0 10 0 0"
+                                <ComboBox x:Name="EducationalProgramStudent" HorizontalAlignment="Center" Margin="0 10 0 0"
                                   materialDesign:HintAssist.Hint="Programa Educativo" FontFamily="Yu Gothic" FontSize="14"
                                     FontWeight="Normal" IsEditable="True" Height="43">
                                   <ComboBoxItem
@@ -123,13 +123,13 @@
                                 </ComboBox>
                             </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <TextBox Margin="0 0 0 0" 
+                                    <TextBox x:Name="UsernameStudent" Margin="0 0 0 0" 
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Nombre de usuario" Width="130"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970" Height="51"/>
                                 <PasswordBox Margin="40 0 0 0"
-                                      x:Name="NewPassword"
+                                      x:Name="PasswordStudent"
                                       materialDesign:HintAssist.Foreground="Black"
                                       materialDesign:HintAssist.Hint="Contraseña"
                                         materialDesign:TextFieldAssist.HasClearButton="True"
@@ -137,11 +137,11 @@
                                       Style="{StaticResource MaterialDesignFloatingHintRevealPasswordBox}" FontFamily="Yu Gothic" FontWeight="Normal"
                                     FontSize="14"/>
                                 </StackPanel>
-                                 <Button Content="Registrarse" Margin="0 30 0 0" Name="Button_Registrarse"
+                                 <Button Content="Registrarse" Margin="0 30 0 0" Name="Button_RegistrarseEstudiante"
                                         Style="{StaticResource MaterialDesignRaisedSecondaryButton}" 
                                          Background="#14a3c8"
                                         FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" 
-                                         Height="30" Width="114"/>
+                                         Height="30" Width="114" Click="SingInStudent"/>
                                 <Label Content="¿Ya tienes una cuenta?" HorizontalAlignment="Center" Margin="0 25 0 0"/>
                                 <Button Content="Iniciar sesión" Margin="0 0 0 0"
                                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="White"
@@ -150,31 +150,31 @@
                             </StackPanel>
                         </TextBlock>
                     </TabItem>
-                    <TabItem Header="Académico">
+                    <TabItem  Header="Académico">
                         <TextBlock Margin="0">
                             <StackPanel Orientation="Vertical">
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                                <TextBox
+                                <TextBox x:Name="NameAcademic"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Nombre(s)" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="20 0 0 0"
+                                <TextBox x:Name="PaternalSurnameAcademic" Margin="20 0 0 0"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Apellido Paterno" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="20 0 0 0"
+                                <TextBox x:Name="MaternalSurnameAcademic" Margin="20 0 0 0"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Apellido Materno" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="0 0 0 0" HorizontalAlignment="Center"
+                                <TextBox x:Name="PhoneAcademic" Margin="0 0 0 0" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Teléfono" Width="120"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <TextBox Margin="20 0 0 0" HorizontalAlignment="Center"
+                                <TextBox x:Name="EmailAcademic" Margin="20 0 0 0" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Correo Institucional" Width="125"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
@@ -182,12 +182,12 @@
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
                             </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <TextBox Margin="0 0 0 0" 
+                                    <TextBox x:Name="UsernameAcademic" Margin="0 0 0 0" 
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
                                     materialDesign:HintAssist.Hint="Nombre de usuario" Width="130"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970" Height="51"/>
-                                <PasswordBox Margin="40 0 0 0"
+                                <PasswordBox x:Name="PasswordAcademic" Margin="40 0 0 0"
                                       materialDesign:HintAssist.Foreground="Black"
                                       materialDesign:HintAssist.Hint="Contraseña"
                                         materialDesign:TextFieldAssist.HasClearButton="True"
@@ -199,7 +199,7 @@
                                         Style="{StaticResource MaterialDesignRaisedSecondaryButton}" 
                                          Background="#14a3c8"
                                         FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" 
-                                         Height="30" Width="114"/>
+                                         Height="30" Width="114" Click="SingInAcademic"/>
                                 <Label Content="¿Ya tienes una cuenta?" HorizontalAlignment="Center" Margin="0 25 0 0"/>
                                 <Button Content="Iniciar sesión" Margin="0 0 0 0"
                                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="White"
