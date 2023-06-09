@@ -147,11 +147,14 @@
     <Compile Include="UserControls\PreviewUser.xaml.cs">
       <DependentUpon>PreviewUser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FollowersFollowing.xaml.cs">
-      <DependentUpon>FollowersFollowing.xaml</DependentUpon>
+    <Compile Include="Views\Chat.xaml.cs">
+      <DependentUpon>Chat.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogIn.xaml.cs">
       <DependentUpon>LogIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManagePosts.xaml.cs">
+      <DependentUpon>ManagePosts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewPost.xaml.cs">
       <DependentUpon>NewPost.xaml</DependentUpon>
@@ -182,11 +185,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FollowersFollowing.xaml">
+    <Page Include="Views\Chat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LogIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ManagePosts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
