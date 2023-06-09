@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FeiHub.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,12 @@ namespace FeiHub.Views
         private void GoToNewPost(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new NewPost());
+        }
+
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            SingletonUser.Instance.BorrarSinglenton();
+            this.NavigationService.Navigate(new LogIn());
         }
     }
 }
