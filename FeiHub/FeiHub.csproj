@@ -147,6 +147,9 @@
     <Compile Include="UserControls\PreviewUser.xaml.cs">
       <DependentUpon>PreviewUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FollowersFollowing.xaml.cs">
+      <DependentUpon>FollowersFollowing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LogIn.xaml.cs">
       <DependentUpon>LogIn.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PreviewUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FollowersFollowing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

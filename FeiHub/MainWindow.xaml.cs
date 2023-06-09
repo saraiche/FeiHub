@@ -24,7 +24,7 @@ namespace FeiHub
         public MainWindow()
         {
             InitializeComponent();
-            Frame_PagesNavigation.Navigate(new LogIn());
+            Frame_PagesNavigation.Navigate(new Profile());
         }
     }
 }
