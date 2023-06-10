@@ -12,6 +12,7 @@ namespace FeiHub.UserControls
     {
         public PreviewUser()
         {
+            ThisVisibility = Visibility.Visible;
             InitializeComponent();
         }
 

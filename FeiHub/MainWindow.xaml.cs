@@ -26,7 +26,7 @@ namespace FeiHub
         public MainWindow()
         {
             InitializeComponent();
-            Frame_PagesNavigation.Navigate(new SearchResults());
+            Frame_PagesNavigation.Navigate(new Chat());
         }
 
         private void DestroySingleton(object sender, System.ComponentModel.CancelEventArgs e)

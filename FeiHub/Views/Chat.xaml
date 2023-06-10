@@ -14,6 +14,7 @@
             <RowDefinition Height="56"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <!--#region TOP_BAR-->
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Fill="#14a3c8"/>
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Left">
             <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="20 0 245 0" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Right"/>
@@ -44,6 +45,20 @@
                   ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
             </Button>
+        </StackPanel>
+        <!--#endregion-->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="25">
+            <ScrollViewer>
+            <StackPanel Orientation="Vertical" Name="StackPanel_Following">
+                <Label Content="Chats" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_Content" BorderBrush="Black" BorderThickness="1" Foreground="Black" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="232"/>
+            </StackPanel>
+            </ScrollViewer>
+            <StackPanel Orientation="Vertical" Name="StackPanel_Chat" Width="562" VerticalAlignment="Center">
+                <TextBlock Text="Selecciona un chat para comenzar a compartir mensajes" FontFamily="Yu Gothic" FontSize="18" 
+                           FontWeight="SemiBold" Name="Label_NoChatSelected" TextWrapping="Wrap"
+                       HorizontalAlignment="Center"
+                       Width="361" TextAlignment="Center" Foreground="#FF31353A"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
