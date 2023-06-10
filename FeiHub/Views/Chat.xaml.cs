@@ -102,8 +102,20 @@ namespace FeiHub.Views
 
         private void Border_Seguidor_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            //Se debe mantener la parte del código, solo cambiar la manera de presentar los mensajes
             string username = (((sender as Border).Parent as UserControl) as PreviewUser).Username;
-            MessageBox.Show("Abrir chat de " + username);
+            Label_NoChatSelected.Visibility = Visibility.Collapsed;
+            Label_Username.Content = username;
+            Label_Username.Visibility = Visibility.Visible;
+            ScrollViewer_ListMessages.Visibility = Visibility.Visible;
+            ListView_Chat.Items.Clear();
+            StackPanel_MessageToSend.Visibility = Visibility.Visible;
+
+            //Esta es la línea que se debe modificar 
+            ListView_Chat.Items.Add(username + " : Hola");
+            ListView_Chat.Items.Add(username + " : Hola");
+            ListView_Chat.Items.Add(username + " : Hola");
+
         }
     }
 }
