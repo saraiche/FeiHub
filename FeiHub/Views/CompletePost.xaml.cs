@@ -31,6 +31,8 @@ namespace FeiHub.Views
         public CompletePost(PostPreview post)
         {
             InitializeComponent();
+            PostPreview = new PostPreview(post);
+            StackPanel_Post.Children.Add(PostPreview);
             if (post.postPreview.Username == SingletonUser.Instance.Username)
             {
                 IsOwner();
@@ -53,9 +55,9 @@ namespace FeiHub.Views
         }
         public void IsOwner()
         {
-            PostPreview_Post.MenuPost.Visibility = Visibility.Visible;
-            PostPreview_Post.MenuItem_EditPost.Click += EditPost;
-            PostPreview_Post.MenuItem_DeletePost.Click += DeletePost;
+            PostPreview.MenuPost.Visibility = Visibility.Visible;
+            PostPreview.MenuItem_EditPost.Click += EditPost;
+            PostPreview.MenuItem_DeletePost.Click += DeletePost;
         }
 
         public void AddComments()

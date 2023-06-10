@@ -26,6 +26,19 @@ namespace FeiHub.UserControls
             InitializeComponent();
         }
 
+        public PostPreview(PostPreview post)
+        {
+            InitializeComponent();
+            Username = post.postPreview.Username;
+            ProfilePhoto = post.postPreview.ProfilePhoto;
+            PostDate = post.postPreview.PostDate;
+            Title = post.postPreview.Title;
+            Body = post.postPreview.Body;
+            Likes = post.postPreview.Likes;
+            Dislikes = post.postPreview.Dislikes;
+            Target = post.postPreview.Target;
+        }
+
         public string Username
         {
             get { return (string)GetValue(UsernameProperty); }
