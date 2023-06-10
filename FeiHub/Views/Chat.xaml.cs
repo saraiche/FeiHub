@@ -30,7 +30,7 @@ namespace FeiHub.Views
 
         public void AddFollowing()
         {
-
+            
             PreviewUser following = new PreviewUser();
 
             ImageSourceConverter converter = new ImageSourceConverter();
@@ -99,11 +99,6 @@ namespace FeiHub.Views
             following11.Username = "Carsiano";
             following11.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
             StackPanel_Following.Children.Add(following11);
-        }
-
-        private void GoToCompletePost(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new CompletePost(((sender as Border).Parent as UserControls.PostPreview)));
         }
 
         private void Border_Seguidor_MouseDown(object sender, MouseButtonEventArgs e)

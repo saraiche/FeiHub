@@ -38,7 +38,28 @@ namespace FeiHub.Views
                 IsOwner();
             }
             AddComments();
+            MessageBox.Show("id: " + PostPreview.Id);
         }
+
+        public CompletePost(Posts post)
+        {
+            InitializeComponent();
+            PostPreview = new PostPreview();
+            PostPreview.Title = post.title;
+            PostPreview.Body = post.body;
+            PostPreview.Username = post.author;
+            PostPreview.PostDate = post.dateOfPublish;
+            PostPreview.Target = post.target;
+            PostPreview.Likes = post.likes;
+            PostPreview.Dislikes = post.dislikes;
+            StackPanel_Post.Children.Add(PostPreview);
+            if (post.author == SingletonUser.Instance.Username)
+            {
+                IsOwner();
+            }
+            AddComments();
+        }
+
         private void EditPost(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new NewPost());

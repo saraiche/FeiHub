@@ -71,6 +71,8 @@ namespace FeiHub.Views
             Image image = new Image();
             image.Source = (ImageSource)converter.ConvertFromString("../../Resources/uv.png");
             postPreview.WrapPanel_Images.Children.Add(image);
+            //  NO TIENE OBJETO POST
+            //postPreview.postPreview.Border_Post.Tag = post;
             postPreview.postPreview.Border_Post.MouseDown += GoToCompletePost;
             StackPanel_Posts.Children.Add(postPreview);
 
@@ -243,6 +245,7 @@ namespace FeiHub.Views
                         {
                             posts.postPreview.Target = "Estudiantes";
                         }
+                        posts.postPreview.Border_Post.Tag = post;
                         posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
                         StackPanel_Posts.Children.Add(posts);
                     }
@@ -277,7 +280,15 @@ namespace FeiHub.Views
 
         private void GoToCompletePost(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new CompletePost(((sender as Border).Parent as UserControls.PostPreview)));
+            var border = sender as Border;
+            if (border != null)
+            {
+                var post = border.Tag as Posts;
+                if (post != null)
+                {
+                    this.NavigationService.Navigate(new CompletePost(post));
+                }
+            }
         }
     }
 }
