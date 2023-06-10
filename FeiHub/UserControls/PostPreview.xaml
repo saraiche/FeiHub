@@ -25,7 +25,7 @@
             <local:PreviewUser Username="{Binding Path=Username,ElementName=postPreview}" Source="{Binding Path=ProfilePhoto,ElementName=postPreview}"/>
             <Label x:Name="Label_Date" FontSize="13" FontWeight="Bold" FontFamily="Yu Gothic" Height="28"
                    Content="{Binding Path=PostDate,ElementName=postPreview}"/>
-            <TextBlock x:Name="TextBlock_Title" Text="{Binding Path=Body,ElementName=postPreview}" 
+            <TextBlock x:Name="TextBlock_Title" Text="{Binding Path=Title,ElementName=postPreview}" 
                        FontSize="15" FontWeight="Bold" FontFamily="Yu Gothic" 
                        Foreground="#084251"/>
             <TextBlock x:Name="TextBlock_Body" 

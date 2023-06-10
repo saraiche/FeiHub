@@ -97,14 +97,24 @@ namespace FeiHub.Views
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
                         posts.postPreview.Body = post.body;
-                        posts.postPreview.Likes = post.likes;
                         if(post.photos != null)
                         {
                             posts.Label_Photos.Visibility = Visibility.Visible;
                         }
                         posts.postPreview.Likes = post.likes;
                         posts.postPreview.Dislikes = post.dislikes;
-                        posts.postPreview.Target = post.target;
+                        if(post.target == "EVERYBODY")
+                        {
+                            posts.postPreview.Target = "Todos";
+                        }
+                        if (post.target == "ACADEMIC")
+                        {
+                            posts.postPreview.Target = "Académicos";
+                        }
+                        if (post.target == "STUDENT")
+                        {
+                            posts.postPreview.Target = "Estudiantes";
+                        }
                         StackPanel_Posts.Children.Add(posts);
                     }
                 }

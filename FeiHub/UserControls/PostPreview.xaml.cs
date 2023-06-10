@@ -39,14 +39,14 @@ namespace FeiHub.UserControls
             set { SetValue(ProfilePhotoProperty, value); }
         }
 
-        public static readonly DependencyProperty ProfilePhotoProperty = DependencyProperty.Register("ProfilePhotoProperty", typeof(ImageSource), typeof(PostPreview));
+        public static readonly DependencyProperty ProfilePhotoProperty = DependencyProperty.Register("ProfilePhoto", typeof(ImageSource), typeof(PostPreview));
 
         public DateTime PostDate
         {
             get { return (DateTime)GetValue(PostDateProperty); }
             set { SetValue(PostDateProperty, value); }
         }
-        public static readonly DependencyProperty PostDateProperty = DependencyProperty.Register("PostDateProperty", typeof(DateTime), typeof(PostPreview));
+        public static readonly DependencyProperty PostDateProperty = DependencyProperty.Register("PostDate", typeof(DateTime), typeof(PostPreview));
 
         public string Title
         {
@@ -54,7 +54,7 @@ namespace FeiHub.UserControls
             set { SetValue(TitleProperty, value); }
         }
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("TitleProperty", typeof(string), typeof(PostPreview));
+            DependencyProperty.Register("Title", typeof(string), typeof(PostPreview));
 
         public string Body
         {
@@ -63,7 +63,7 @@ namespace FeiHub.UserControls
         }
 
         public static readonly DependencyProperty BodyProperty =
-            DependencyProperty.Register("BodyProperty", typeof(string), typeof(PostPreview));
+            DependencyProperty.Register("Body", typeof(string), typeof(PostPreview));
         public int Likes
         {
             get { return (int)GetValue(LikesProperty); }
@@ -71,7 +71,7 @@ namespace FeiHub.UserControls
         }
 
         public static readonly DependencyProperty LikesProperty =
-            DependencyProperty.Register("LikesProperty", typeof(int), typeof(PostPreview));
+            DependencyProperty.Register("Likes", typeof(int), typeof(PostPreview));
         public int Dislikes
         {
             get { return (int)GetValue(DislikesProperty); }
@@ -79,7 +79,7 @@ namespace FeiHub.UserControls
         }
 
         public static readonly DependencyProperty DislikesProperty =
-            DependencyProperty.Register("DislikesProperty", typeof(int), typeof(PostPreview));
+            DependencyProperty.Register("Dislikes", typeof(int), typeof(PostPreview));
         public string Target
         {
             get { return (string)GetValue(TargetProperty); }
@@ -87,6 +87,6 @@ namespace FeiHub.UserControls
         }
 
         public static readonly DependencyProperty TargetProperty =
-            DependencyProperty.Register("TargetProperty", typeof(string), typeof(PostPreview));
+            DependencyProperty.Register("Target", typeof(string), typeof(PostPreview));
     }
 }
