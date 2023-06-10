@@ -49,6 +49,7 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        following.previewUser.TextBlock_Username.Tag = user; 
                         following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
                         following.previewUser.Button_SendMessage.Click += SendMessage;
                         StackPanel_Following.Children.Add(following);
@@ -149,6 +150,7 @@ namespace FeiHub.Views
             }
         }
 
+
         private void SendMessage(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Mando mensaje a " + (((((e.Source as Button).Parent as Grid).Parent as Border).Parent as UserControl) as UserControls.PreviewUser).Username);
@@ -156,7 +158,15 @@ namespace FeiHub.Views
 
         private void GoToProfile(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Hola, me voy al perfil de " + (((((e.Source as TextBlock).Parent as Grid).Parent as Border).Parent as UserControl) as UserControls.PreviewUser).Username);
+            var textBlock = sender as TextBlock;
+            if (textBlock != null)
+            {
+                var user = textBlock.Tag as User;
+                if (user != null)
+                {
+                    this.NavigationService.Navigate(new Profile(user));
+                }
+            }
         }
 
         private void GoToNewPost(object sender, RoutedEventArgs e)
@@ -303,5 +313,16 @@ namespace FeiHub.Views
                 AddPostWithTarget();
             }
         }
+
+        private void FindUser(object sender, RoutedEventArgs e)
+        {
+            string username = "";
+            username = TextBox_Finder.Text;
+            if (username != "")
+            {
+                this.NavigationService.Navigate(new SearchResults(username));
+            }
+        }
+        
     }
 }
