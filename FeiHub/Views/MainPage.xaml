@@ -58,6 +58,7 @@
         </Border>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Margin="0 0 0 10">
             <StackPanel x:Name="StackPanel_Posts">
+                <ComboBox Width="130" HorizontalAlignment="Right" x:Name="ComboBox_Target"/>
             </StackPanel>
         </ScrollViewer>
         <Button Content="Nuevo post" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top"
