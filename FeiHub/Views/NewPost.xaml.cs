@@ -41,7 +41,8 @@ namespace FeiHub.Views
             Label_PageTitle.Content = "Editar Publicación";
             TextBox_Title.Text = "Aquí va el titulo recuperado";
             TextBox_Body.Text = "Aquí va toda la descrípción";
-            Button_Post_SaveChanges.Content = "Guardar cambios";
+            Button_Post.Visibility = Visibility.Collapsed;
+            Button_SaveChanges.Visibility = Visibility.Visible;
         }
 
         private void GoBack(object sender, RoutedEventArgs e)
