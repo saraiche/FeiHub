@@ -24,6 +24,7 @@ namespace FeiHub.Views
         {
             InitializeComponent();
             IsOwner();
+            AddComments();
         }
         private void EditPost(object sender, RoutedEventArgs e)
         {
@@ -44,6 +45,18 @@ namespace FeiHub.Views
             PostPreview_Post.MenuPost.Visibility = Visibility.Visible;
             PostPreview_Post.MenuItem_EditPost.Click += EditPost;
             PostPreview_Post.MenuItem_DeletePost.Click += DeletePost;
+        }
+
+        public void AddComments()
+        {
+            UserControls.Comment commentUserControl = new UserControls.Comment();
+            commentUserControl.comment.Username = "Hola";
+            ImageSourceConverter converter = new ImageSourceConverter();
+            commentUserControl.comment.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+            commentUserControl.comment.Body = "Este es el comentario";
+            commentUserControl.comment.DateOfComment = DateTime.Now;
+            //StackPanel_Comments.Children.Add(commentUserControl);
+            StackPanel_Comments.Children.Insert(0, commentUserControl);
         }
     }
 }

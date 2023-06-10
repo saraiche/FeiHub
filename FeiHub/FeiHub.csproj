@@ -141,6 +141,12 @@
     <Compile Include="Models\UserCredentials.cs" />
     <Compile Include="Resources\Encryptor.cs" />
     <Compile Include="Services\UsersAPIServices.cs" />
+    <Compile Include="UserControls\Comment.xaml.cs">
+      <DependentUpon>Comment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MainBar.xaml.cs">
+      <DependentUpon>MainBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PostPreview.xaml.cs">
       <DependentUpon>PostPreview.xaml</DependentUpon>
     </Compile>
@@ -180,6 +186,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\Comment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MainBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\PostPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

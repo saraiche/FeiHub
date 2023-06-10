@@ -46,51 +46,21 @@
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
             </Button>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="30, 0, 30, 10" Grid.Row="1">
-            <uc:PostPreview x:Name="PostPreview_Post"/>
-            <!--
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Label Name="Label_Target" Content="Todos" Margin="0 0 30 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
-                       FontFamily="Yu Gothic" FontSize="12" FontWeight="Light"/>
-                    <Menu materialDesign:MenuAssist.TopLevelMenuItemHeight="20" x:Name="MenuPost" Visibility="Collapsed">
-                        <MenuItem Header=":" FontFamily="Yu Gothic" FontWeight="Bold" FontSize="10">
-                            <MenuItem Header="Editar"  Click="EditPost"/>
-                            <MenuItem Header="Eliminar" Click="DeletePost"/>
-                        </MenuItem>
-                    </Menu>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Orientation="Vertical" Margin="30, 0, 30, 10" Name="StackPanel_CompletePost">
+                <StackPanel x:Name="StackPanel_Post">
+                    <uc:PostPreview x:Name="PostPreview_Post"/>
                 </StackPanel>
-                <uc:PreviewUser Username="Juan Perez" Source="/Resources/pic.jpg"/>
-                <Label x:Name="Label_Fecha" FontSize="13" FontWeight="Bold" FontFamily="Yu Gothic" Height="28"
-                   Content="13/05/2023"/>
-                <TextBlock x:Name="TextBlock_Title" Text="Este es el título" 
-                       FontSize="15" FontWeight="Bold" FontFamily="Yu Gothic" 
-                       Foreground="#084251"/>
-                <TextBlock x:Name="TextBlock_Body" 
-                       Text="Este es el cuerpo de la publicación donde se supone que se puede extender un poco más lo que se escirbe y así blah blah blah ola que tal solo estoy escribiendo para ver que no se vea feo cuando son textos largos" 
-                       FontSize="13" FontWeight="Light" FontFamily="Yu Gothic" TextWrapping="Wrap"/>
-                <WrapPanel HorizontalAlignment="Center" Name="WrapPanel_Images">
-                    <Image Source="/Resources/pic.jpg" Width="150" x:Name="Image_Post"/>
-                </WrapPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
-                    <materialDesign:Badged Badge="5" BadgeBackground="#b8ebf7" Name="NumberLikes">
-                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta">
-                            <materialDesign:PackIcon Kind="ThumbUpOutline" />
-                        </Button>
-                    </materialDesign:Badged>
-                    <materialDesign:Badged Badge="3" Margin="20 0 0 0" BadgeBackground="#b8ebf7">
-                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta">
-                            <materialDesign:PackIcon Kind="ThumbDownOutline" />
-                        </Button>
-                    </materialDesign:Badged>
-                    <Button Background="#139dc0" Margin="20 0 0 0" BorderBrush="#139dc0" ToolTip="Comentar">
-                        <materialDesign:PackIcon Kind="CommentEditOutline" />
-                    </Button>
-                    <Button Background="Red" Margin="20 0 0 0" BorderBrush="Red" ToolTip="Reportar publicación">
-                        <materialDesign:PackIcon Kind="Flag" />
-                    </Button>
+                <Label Content="Nuevo Comentario" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_NewComment"/>
+                <TextBox x:Name="TextBlox_Comment" Margin="3 5 0 10" FontFamily="Yu Gothic" FontSize="12" TextWrapping="Wrap" Height="49"
+                     VerticalScrollBarVisibility="Auto" materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
+                <Button Content="Comentar" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="SemiBold"  
+                            FontSize="14" Margin="10" Foreground="#05303b" Background="LightBlue" BorderBrush="LightBlue" Height="40" />
+                <Label Content="Comentarios" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_Comments"/>
+                <StackPanel Orientation="Vertical" Name="StackPanel_Comments">
                 </StackPanel>
-            -->
             </StackPanel>
-        
+        </ScrollViewer>
+
     </Grid>
 </Page>
