@@ -23,16 +23,19 @@ namespace FeiHub.Views
     public partial class MainPage : Page
     {
 
-        UsersAPIServices usersAPIServices = new UsersAPIServices();
+        UsersAPIServices usersAPIServices = new UsersAPIServices(); 
+        PostsAPIServices postsAPIServices = new PostsAPIServices();
+        List<User> followingUsers = new List<User>();
         public MainPage()
         {
             InitializeComponent();
             AddFollowing();
+            AddPost();
         }
 
         public async void AddFollowing()
         {
-            List<User> followingUsers = await usersAPIServices.GetListUsersFollowing(SingletonUser.Instance.Username);
+            followingUsers = await usersAPIServices.GetListUsersFollowing(SingletonUser.Instance.Username);
             if (followingUsers.Count > 0)
             {
                 if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.OK)
@@ -73,6 +76,65 @@ namespace FeiHub.Views
             }
             
 
+        }
+        public async void AddPost()
+        {
+            List<Posts> postsObtained = await postsAPIServices.GetPostsWithoutFollowings(SingletonUser.Instance.Rol);
+            if(postsObtained.Count > 0  )
+            {
+                if(postsObtained[0].StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    foreach(Posts post in postsObtained)
+                    {
+                        UserControls.PostPreview posts  = new UserControls.PostPreview();
+                        posts.postPreview.Username = post.author;
+                        User userData = await usersAPIServices.GetUser(post.author);
+                        if(userData.profilePhoto == null)
+                        {
+                            ImageSourceConverter converter = new ImageSourceConverter();
+                            posts.postPreview.ProfilePhoto= (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        posts.postPreview.PostDate = post.dateOfPublish.Date;
+                        posts.postPreview.Title = post.title;
+                        posts.postPreview.Body = post.body;
+                        if(post.photos != null)
+                        {
+                            posts.Label_Photos.Visibility = Visibility.Visible;
+                        }
+                        posts.postPreview.Likes = post.likes;
+                        posts.postPreview.Dislikes = post.dislikes;
+                        if(post.target == "EVERYBODY")
+                        {
+                            posts.postPreview.Target = "Todos";
+                        }
+                        if (post.target == "ACADEMIC")
+                        {
+                            posts.postPreview.Target = "Académicos";
+                        }
+                        if (post.target == "STUDENT")
+                        {
+                            posts.postPreview.Target = "Estudiantes";
+                        }
+                        StackPanel_Posts.Children.Add(posts);
+                    }
+                }
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.Unauthorized) 
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al obtener las publicaciones, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                Label labelWithoutFollowings = new Label();
+                labelWithoutFollowings.Content = "No existen publicaciones recientes";
+                StackPanel_Posts.Children.Add(labelWithoutFollowings);
+            }
         }
 
         private void SendMessage(object sender, RoutedEventArgs e)

@@ -1,7 +1,4 @@
-﻿using FeiHub.Models;
-using FeiHub.UserControls;
-using FeiHub.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,22 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FeiHub
+namespace FeiHub.UserControls
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Lógica de interacción para MainBar.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainBar : UserControl
     {
-        public MainWindow()
+        public MainBar()
         {
             InitializeComponent();
-            Frame_PagesNavigation.Navigate(new CompletePost());
         }
 
-        private void DestroySingleton(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SingletonUser.Instance.BorrarSinglenton();
-        }
     }
 }
