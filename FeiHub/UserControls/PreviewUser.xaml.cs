@@ -31,6 +31,12 @@ namespace FeiHub.UserControls
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(ImageSource), typeof(PreviewUser));
 
+        public Visibility ThisVisibility
+        {
+            get { return (Visibility)GetValue(ThisVisibilityProperty); }
+            set { SetValue(ThisVisibilityProperty, value); }
+        }
 
+        public static readonly DependencyProperty ThisVisibilityProperty = DependencyProperty.Register("ThisVisibility", typeof(Visibility), typeof(PreviewUser));
     }
 }
