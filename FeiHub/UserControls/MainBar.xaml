@@ -16,17 +16,17 @@
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Fill="#14a3c8"/>
         <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="15 0 0 0" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Right"/>
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Center">
-            <TextBox Grid.Column="1" 
+            <TextBox x:Name="TextBox_Search" Grid.Column="1" 
                 FontFamily="Yu Gothic" FontSize="14" FontWeight="Medium" Margin="0 0 0 0"
                  Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center"
                 materialDesign:HintAssist.Hint="Buscar en FeiHub"
                      materialDesign:TextFieldAssist.UnderlineBrush="#063970"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto" BorderBrush="#BC656565" BorderThickness="1,1,1,1" />
-            <Button Grid.Column="1"
+            <Button x:Name="Button_Search" Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}" Click="SearchResults">
                 <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
             </Button>
         </StackPanel>

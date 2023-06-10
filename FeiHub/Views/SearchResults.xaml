@@ -18,17 +18,17 @@
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Fill="#14a3c8"/>
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Left">
             <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="20 0 245 0" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Right"/>
-            <TextBox Grid.Column="1" 
+            <TextBox x:Name="TextBox_Finder" Grid.Column="1" 
                 FontFamily="Yu Gothic" FontSize="14" FontWeight="Medium" Margin="0 0 0 0"
                  Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center"
                 materialDesign:HintAssist.Hint="Buscar en FeiHub"
                      materialDesign:TextFieldAssist.UnderlineBrush="#063970"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto" BorderBrush="#BC656565" BorderThickness="1,1,1,1" />
-            <Button Grid.Column="1"
+            <Button x:Name="Button_Find" Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}" Click="FindUsers">
                 <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
             </Button>
         </StackPanel>
@@ -49,8 +49,6 @@
         <StackPanel Orientation="Vertical" Name="StackPanel_Users" Grid.Row="1" Margin="30">
             <Label Content="Resultados Encontrados" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_Content"/>
             <WrapPanel Orientation="Horizontal" Name="WrapPanel_Users" Visibility="Visible">
-                <uc:PreviewUser Username="Juanita Lopez" Source="/Resources/pic.jpg" Margin="10"/>
-                <uc:PreviewUser Username="Juanita Perez" Source="/Resources/uv.png" Margin="10"/>
             </WrapPanel>
         </StackPanel>
     </Grid>

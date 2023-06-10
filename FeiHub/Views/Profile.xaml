@@ -21,17 +21,17 @@
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Fill="#14a3c8"/>
         <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="15,0,0,0" Grid.Column="0" HorizontalContentAlignment="Right" Height="36"/>
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Center" Width="246">
-            <TextBox Grid.Column="1" 
+            <TextBox x:Name="TextBox_Finder" Grid.Column="1" 
                 FontFamily="Yu Gothic" FontSize="14" FontWeight="Medium" Margin="0 0 0 0"
                  Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center"
                 materialDesign:HintAssist.Hint="Buscar en FeiHub"
                      materialDesign:TextFieldAssist.UnderlineBrush="#063970"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto" BorderBrush="#BC656565" BorderThickness="1,1,1,1" />
-            <Button Grid.Column="1"
+            <Button x:Name="Button_Finder" Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}" Click="FindUser">
                 <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
             </Button>
         </StackPanel>
@@ -55,7 +55,7 @@
                     <Border Background="#ffffff" CornerRadius="50" Margin="10 0 0 0" Padding="3" Name="Border_Foto" Width="200" Height="200">
                         <Ellipse>
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="/Resources/pic.jpg" x:Name="ProfilePhoto"/>
+                                <ImageBrush  x:Name="ProfilePhoto"/>
                             </Ellipse.Fill>
                         </Ellipse>
                     </Border>
@@ -95,8 +95,7 @@
                 </StackPanel>
                 <Label Content="Publicaciones" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_Content"/>
                 <StackPanel Name="StackPanel_Posts" Visibility="Visible">
-                    <uc:PostPreview/>
-                    <uc:PostPreview/>
+                    
                 </StackPanel>
                 <WrapPanel Orientation="Horizontal" Name="WrapPanel_Followers" Visibility="Collapsed">
                     <uc:PreviewUser Username="Juanita Lopez" Source="/Resources/pic.jpg" Margin="10"/>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FeiHub.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,10 +21,15 @@ namespace FeiHub.UserControls
     /// </summary>
     public partial class MainBar : UserControl
     {
+        string usernameToFind = "";
         public MainBar()
         {
             InitializeComponent();
         }
 
+        private void SearchResults(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

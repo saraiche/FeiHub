@@ -1,5 +1,6 @@
 ﻿using FeiHub.Models;
 using FeiHub.Services;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,6 +130,17 @@ namespace FeiHub.Views
             return fullFields;
         }
 
-        
+        private void AddPhotos(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Todos los archivos|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openFileDialog.Multiselect = false;
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // No se realiza ninguna acción adicional aquí
+            }
+        }
     }
 }
