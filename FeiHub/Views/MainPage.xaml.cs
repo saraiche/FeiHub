@@ -51,7 +51,8 @@ namespace FeiHub.Views
                         }
                         following.previewUser.TextBlock_Username.Tag = user; 
                         following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
-                        following.previewUser.Button_SendMessage.Click += SendMessage;
+                        following.previewUser.Button_SendMessage.Tag = user;
+                        following.previewUser.Button_SendMessage.Click += GoToChat;
                         StackPanel_Following.Children.Add(following);
                     }
                 }
@@ -339,6 +340,18 @@ namespace FeiHub.Views
                 if (post != null)
                 {
                     this.NavigationService.Navigate(new CompletePost(post));
+                }
+            }
+        }
+        private void GoToChat(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var user = button.Tag as User;
+                if (user != null)
+                {
+                    this.NavigationService.Navigate(new Chat(user));
                 }
             }
         }

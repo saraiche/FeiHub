@@ -12,13 +12,12 @@
         mc:Ignorable="d"
         Title="FeiHub" Height="645" Width="875" WindowStartupLocation="CenterScreen" Icon="/Resources/uv.png"
         WindowStyle="SingleBorderWindow"   Background="Transparent"
-        ResizeMode="NoResize" FontSize="18" FontFamily="{DynamicResource MaterialDesignFont}" Closing="DestroySingleton" >
+        ResizeMode="NoResize" FontSize="18" FontFamily="{DynamicResource MaterialDesignFont}" Closing="DestroySingleton">
     <Grid Background="White">
         <Border Grid.Row="1" Margin="10">
             <Frame x:Name="Frame_PagesNavigation" NavigationUIVisibility="Hidden" Margin="-10,-10,-10,-10">
-                <!-- Page Content -->
+                
             </Frame>
         </Border>
-
     </Grid>
 </Window>
