@@ -39,7 +39,7 @@ namespace FeiHub.Views
         }
         private void EditPost(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new NewPost(1));
+            this.NavigationService.Navigate(new NewPost());
         }
 
         private void DeletePost(object sender, RoutedEventArgs e)

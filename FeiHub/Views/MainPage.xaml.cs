@@ -30,7 +30,6 @@ namespace FeiHub.Views
         {
             InitializeComponent();
             AddFollowing();
-            AddPost();
         }
 
         public async void AddFollowing()
@@ -67,17 +66,29 @@ namespace FeiHub.Views
 
                     MessageBox.Show("Tuvimos un error al obtener a quiénes sigues, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                ComboBox_Target.Visibility = Visibility.Visible;
+                ComboBox_Target.Items.Add("Todos");
+                if (SingletonUser.Instance.Rol == "STUDENT")
+                {
+                    ComboBox_Target.Items.Add("Estudiantes");
+                }
+                else
+                {
+                    ComboBox_Target.Items.Add("Académicos");
+                }
+                ComboBox_Target.SelectedIndex = 0;
             }
             else
             {
                 Label labelWithoutFollowings = new Label();
                 labelWithoutFollowings.Content = "Sigue a tus amigos para verlos aquí";
                 StackPanel_Following.Children.Add(labelWithoutFollowings);
+                AddPostWithoutFollowings();
             }
             
 
         }
-        public async void AddPost()
+        public async void AddPostWithoutFollowings()
         {
             List<Posts> postsObtained = await postsAPIServices.GetPostsWithoutFollowings(SingletonUser.Instance.Rol);
             if(postsObtained.Count > 0  )
@@ -89,15 +100,16 @@ namespace FeiHub.Views
                         UserControls.PostPreview posts  = new UserControls.PostPreview();
                         posts.postPreview.Username = post.author;
                         User userData = await usersAPIServices.GetUser(post.author);
-                        if(userData.profilePhoto == null)
+                        if (userData.profilePhoto == null)
                         {
+                            
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto= (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
                         posts.postPreview.Body = post.body;
-                        if(post.photos != null)
+                        if (post.photos.Count() > 0)
                         {
                             posts.Label_Photos.Visibility = Visibility.Visible;
                         }
@@ -156,6 +168,140 @@ namespace FeiHub.Views
         {
             SingletonUser.Instance.BorrarSinglenton();
             this.NavigationService.Navigate(new LogIn());
+        }
+        public async void AddPostWithTarget()
+        {
+            List<Posts> postsObtained = await postsAPIServices.GetPostsByTarget(followingUsers,SingletonUser.Instance.Rol);
+            if (postsObtained.Count > 0)
+            {
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    foreach (Posts post in postsObtained)
+                    {
+                        UserControls.PostPreview posts = new UserControls.PostPreview();
+                        posts.postPreview.Username = post.author;
+                        User userData = await usersAPIServices.GetUser(post.author);
+                        if (userData.profilePhoto == null)
+                        {
+
+                            ImageSourceConverter converter = new ImageSourceConverter();
+                            posts.postPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        posts.postPreview.PostDate = post.dateOfPublish.Date;
+                        posts.postPreview.Title = post.title;
+                        posts.postPreview.Body = post.body;
+                        if (post.photos.Count() > 0)
+                        {
+                            posts.Label_Photos.Visibility = Visibility.Visible;
+                        }
+                        posts.postPreview.Likes = post.likes;
+                        posts.postPreview.Dislikes = post.dislikes;
+                        if (post.target == "EVERYBODY")
+                        {
+                            posts.postPreview.Target = "Todos";
+                        }
+                        if (post.target == "ACADEMIC")
+                        {
+                            posts.postPreview.Target = "Académicos";
+                        }
+                        if (post.target == "STUDENT")
+                        {
+                            posts.postPreview.Target = "Estudiantes";
+                        }
+                        StackPanel_Posts.Children.Add(posts);
+                    }
+                }
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al obtener las publicaciones, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                Label labelWithoutFollowings = new Label();
+                labelWithoutFollowings.Content = "No existen publicaciones recientes";
+                StackPanel_Posts.Children.Add(labelWithoutFollowings);
+            }
+        }
+        public async void AddPrincipalPosts()
+        {
+            List<Posts> postsObtained = await postsAPIServices.GetPrincipalPosts(followingUsers, SingletonUser.Instance.Rol);
+            if (postsObtained.Count > 0)
+            {
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    foreach (Posts post in postsObtained)
+                    {
+                        UserControls.PostPreview posts = new UserControls.PostPreview();
+                        posts.postPreview.Username = post.author;
+                        User userData = await usersAPIServices.GetUser(post.author);
+                        if (userData.profilePhoto == null)
+                        {
+
+                            ImageSourceConverter converter = new ImageSourceConverter();
+                            posts.postPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        posts.postPreview.PostDate = post.dateOfPublish.Date;
+                        posts.postPreview.Title = post.title;
+                        posts.postPreview.Body = post.body;
+                        if (post.photos.Count() > 0)
+                        {
+                            posts.Label_Photos.Visibility = Visibility.Visible;
+                        }
+                        posts.postPreview.Likes = post.likes;
+                        posts.postPreview.Dislikes = post.dislikes;
+                        if (post.target == "EVERYBODY")
+                        {
+                            posts.postPreview.Target = "Todos";
+                        }
+                        if (post.target == "ACADEMIC")
+                        {
+                            posts.postPreview.Target = "Académicos";
+                        }
+                        if (post.target == "STUDENT")
+                        {
+                            posts.postPreview.Target = "Estudiantes";
+                        }
+                        StackPanel_Posts.Children.Add(posts);
+                    }
+                }
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al obtener las publicaciones, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                Label labelWithoutFollowings = new Label();
+                labelWithoutFollowings.Content = "No existen publicaciones recientes";
+                StackPanel_Posts.Children.Add(labelWithoutFollowings);
+            }
+        }
+        private void FilterPost(object sender, SelectionChangedEventArgs e)
+        {
+            string targetSelected = ComboBox_Target.SelectedItem.ToString();
+            if (targetSelected == "Todos")
+            {
+                StackPanel_Posts.Children.Clear();
+                AddPrincipalPosts();
+            }
+            else
+            {
+                StackPanel_Posts.Children.Clear();
+                AddPostWithTarget();
+            }
         }
     }
 }
