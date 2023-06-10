@@ -41,7 +41,7 @@
             <Button x:Name="Logout" Grid.Column="1"
                 Margin="5 0 30 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}" Click="LogOut">
+                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
             </Button>
         </StackPanel>

@@ -136,10 +136,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Credentials.cs" />
+    <Compile Include="Models\Posts.cs" />
     <Compile Include="Models\SingletonUser.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserCredentials.cs" />
     <Compile Include="Resources\Encryptor.cs" />
+    <Compile Include="Services\PostsAPIServices.cs" />
     <Compile Include="Services\UsersAPIServices.cs" />
     <Compile Include="UserControls\Comment.xaml.cs">
       <DependentUpon>Comment.xaml</DependentUpon>

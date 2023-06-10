@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FeiHub.Models;
+using FeiHub.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,10 +22,19 @@ namespace FeiHub.Views
     /// </summary>
     public partial class CompletePost : Page
     {
+        private PostPreview PostPreview;
         public CompletePost()
         {
             InitializeComponent();
-            IsOwner();
+            AddComments();
+        }
+        public CompletePost(PostPreview post)
+        {
+            InitializeComponent();
+            if (post.postPreview.Username == SingletonUser.Instance.Username)
+            {
+                IsOwner();
+            }
             AddComments();
         }
         private void EditPost(object sender, RoutedEventArgs e)
