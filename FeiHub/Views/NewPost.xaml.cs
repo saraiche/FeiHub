@@ -34,9 +34,9 @@ namespace FeiHub.Views
             Button_Post_SaveChanges.Content = "Guardar cambios";
         }
 
-        private void GoBackToMainPage(object sender, RoutedEventArgs e)
+        private void GoBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainPage());
+            this.NavigationService.GoBack();
         }
     }
 }

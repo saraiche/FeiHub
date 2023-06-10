@@ -25,7 +25,7 @@ namespace FeiHub
         public MainWindow()
         {
             InitializeComponent();
-            Frame_PagesNavigation.Navigate(new Profile());
+            Frame_PagesNavigation.Navigate(new CompletePost());
         }
 
         private void DestroySingleton(object sender, System.ComponentModel.CancelEventArgs e)

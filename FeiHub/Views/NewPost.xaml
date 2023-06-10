@@ -82,7 +82,7 @@
                     Style="{StaticResource MaterialDesignRaisedLightButton}"/>
                 <Button Margin="20 0 0 0" Background="#FFCE1D1D"
                     Content="Cancelar" FontWeight="Bold" FontSize="14"
-                    Style="{StaticResource MaterialDesignRaisedLightButton}" Click="GoBackToMainPage"/>
+                    Style="{StaticResource MaterialDesignRaisedLightButton}" Click="GoBack" IsCancel="True"/>
             </StackPanel>
         </StackPanel>
     </Grid>
