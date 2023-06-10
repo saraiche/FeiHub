@@ -57,10 +57,7 @@
             </StackPanel>
         </Border>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Margin="0 0 0 10">
-            <StackPanel>
-                <uc:PostPreview Cursor=""/>
-                <uc:PostPreview/>
-                <uc:PostPreview/>
+            <StackPanel x:Name="StackPanel_Posts">
             </StackPanel>
         </ScrollViewer>
         <Button Content="Nuevo post" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" 

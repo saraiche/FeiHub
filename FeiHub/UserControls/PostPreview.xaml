@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FeiHub.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:uc="clr-namespace:FeiHub.UserControls" Name="postPreview"
+              Name="postPreview"
              mc:Ignorable="d">
     <Border CornerRadius="5" BorderBrush="Black" Margin="10" BorderThickness="1,1,1,1">
         <Border.Style>
@@ -19,31 +19,27 @@
         </Border.Style>
         <StackPanel Orientation="Vertical" Margin="10, 0, 10, 10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Name="Label_TargetAcademics" Content="Académico" Margin="0 0 10 0" HorizontalContentAlignment="Center" Background="#1297b9" FontFamily="Yu Gothic" FontSize="12" FontWeight="Light"/>
-                <Label Name="Label_TargetStudents" Content="Estudiantes" Margin="10 0 10 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
-                       FontFamily="Yu Gothic" FontSize="12" FontWeight="Light"/>
-                <Label Name="Label_TargetEverybody" Content="Todos" Margin="10 0 10 0" HorizontalContentAlignment="Center" Background="#139dc0"
+                <Label Name="Label_Target" Content="{Binding Path=Target,ElementName=postPreview}" Margin="10 0 10 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
                        FontFamily="Yu Gothic" FontSize="12" FontWeight="Light"/>
             </StackPanel>
-            <uc:PreviewUser Username="Juan Perez" Source="/Resources/pic.jpg"/>
-            <Label x:Name="Label_Fecha" FontSize="13" FontWeight="Bold" FontFamily="Yu Gothic" Height="28"
-                   Content="13/05/2023"/>
-            <TextBlock x:Name="TextBlock_Title" Text="Este es el título" 
+            <local:PreviewUser Username="{Binding Path=Username,ElementName=postPreview}" Source="{Binding Path=ProfilePhoto,ElementName=postPreview}"/>
+            <Label x:Name="Label_Date" FontSize="13" FontWeight="Bold" FontFamily="Yu Gothic" Height="28"
+                   Content="{Binding Path=PostDate,ElementName=postPreview}"/>
+            <TextBlock x:Name="TextBlock_Title" Text="{Binding Path=Body,ElementName=postPreview}" 
                        FontSize="15" FontWeight="Bold" FontFamily="Yu Gothic" 
                        Foreground="#084251"/>
             <TextBlock x:Name="TextBlock_Body" 
-                       Text="Este es el cuerpo de la publicación donde se supone que se puede extender un poco más lo que se escirbe y así blah blah blah ola que tal solo estoy escribiendo para ver que no se vea feo cuando son textos largos" 
+                       Text="{Binding Path=Body,ElementName=postPreview}" 
                        FontSize="13" FontWeight="Light" FontFamily="Yu Gothic" TextWrapping="Wrap"/>
-            <WrapPanel HorizontalAlignment="Center">
-                <Image Source="/Resources/pic.jpg" Width="150"/>
-            </WrapPanel>
+            <Label Name="Label_Photos" Content="Esta publicación contiene fotos, ingresa a ella para verlas" Margin="10 0 10 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
+                       FontFamily="Yu Gothic" FontSize="12" FontWeight="Light" Visibility="Collapsed"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
-                <materialDesign:Badged Badge="5" BadgeBackground="#b8ebf7">
+                <materialDesign:Badged x:Name="Badge_Likes" Badge="{Binding Path=Likes,ElementName=postPreview}" BadgeBackground="#b8ebf7">
                     <Button Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta">
                         <materialDesign:PackIcon Kind="ThumbUpOutline" />
                     </Button>
                 </materialDesign:Badged>
-                <materialDesign:Badged Badge="3" Margin="20 0 0 0" BadgeBackground="#b8ebf7">
+                <materialDesign:Badged x:Name="Badged_Dislikes" Badge="{Binding Path=Dislikes,ElementName=postPreview}" Margin="20 0 0 0" BadgeBackground="#b8ebf7">
                     <Button Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta">
                         <materialDesign:PackIcon Kind="ThumbDownOutline" />
                     </Button>

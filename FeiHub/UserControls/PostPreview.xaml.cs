@@ -61,7 +61,32 @@ namespace FeiHub.UserControls
             get { return (string)GetValue(BodyProperty); }
             set { SetValue(BodyProperty, value); }
         }
+
         public static readonly DependencyProperty BodyProperty =
             DependencyProperty.Register("BodyProperty", typeof(string), typeof(PostPreview));
+        public int Likes
+        {
+            get { return (int)GetValue(LikesProperty); }
+            set { SetValue(LikesProperty, value); }
+        }
+
+        public static readonly DependencyProperty LikesProperty =
+            DependencyProperty.Register("LikesProperty", typeof(int), typeof(PostPreview));
+        public int Dislikes
+        {
+            get { return (int)GetValue(DislikesProperty); }
+            set { SetValue(DislikesProperty, value); }
+        }
+
+        public static readonly DependencyProperty DislikesProperty =
+            DependencyProperty.Register("DislikesProperty", typeof(int), typeof(PostPreview));
+        public string Target
+        {
+            get { return (string)GetValue(TargetProperty); }
+            set { SetValue(TargetProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetProperty =
+            DependencyProperty.Register("TargetProperty", typeof(string), typeof(PostPreview));
     }
 }
