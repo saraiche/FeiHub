@@ -31,18 +31,33 @@ namespace FeiHub.Views
         DateTime dateOfPublish = DateTime.Now;
         Photo[] photos = null;
         PostsAPIServices postsAPIServices = new PostsAPIServices();
+        Posts postToEdit = new Posts();
         public NewPost()
         {
             InitializeComponent();
         }
 
-        public NewPost(string idPublicacion)
+        public NewPost(Posts post)
         {
             InitializeComponent();
+            postToEdit = post;
             Label_PageTitle.Content = "Editar Publicación";
-            TextBox_Title.Text = "Aquí va el titulo recuperado";
-            TextBox_Body.Text = "Aquí va toda la descrípción";
+            TextBox_Title.Text = postToEdit.title;
+            TextBox_Body.Text = postToEdit.body;
+            if(postToEdit.target == "STUDENT")
+            {
+                ComboBox_Target.SelectedIndex = 0;
+            }
+            if (postToEdit.target == "ACADEMIC")
+            {
+                ComboBox_Target.SelectedIndex = 1;
+            }
+            if (postToEdit.target == "EVERYBODY")
+            {
+                ComboBox_Target.SelectedIndex = 2;
+            }
             Button_Post.Visibility = Visibility.Collapsed;
+            Button_Post.Background = null;
             Button_SaveChanges.Visibility = Visibility.Visible;
         }
 
@@ -140,6 +155,65 @@ namespace FeiHub.Views
             if (openFileDialog.ShowDialog() == true)
             {
                 // No se realiza ninguna acción adicional aquí
+            }
+        }
+
+        private async void EditPost(object sender, RoutedEventArgs e)
+        {
+            title = TextBox_Title.Text;
+            body = TextBox_Body.Text;
+            if (ComboBox_Target.SelectedItem != null)
+            {
+                ComboBoxItem selectedItem = (ComboBoxItem)ComboBox_Target.SelectedItem;
+                string selectedValue = selectedItem.Content.ToString();
+
+                if (selectedValue == "Estudiantes")
+                {
+                    target = "STUDENT";
+                }
+                else if (selectedValue == "Académicos")
+                {
+                    target = "ACADEMIC";
+                }
+                else if (selectedValue == "Todos")
+                {
+                    target = "EVERYBODY";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecciona una etiqueta de a quienés irá dirigida la publicación", "Notificación", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            bool withoutNullFields = ValidateNullFields();
+            if (withoutNullFields)
+            {
+                postToEdit.title = title;
+                postToEdit.body = body;
+                postToEdit.target = target;
+                postToEdit.dateOfPublish = dateOfPublish;
+                HttpResponseMessage response = await postsAPIServices.EditPost(postToEdit);
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBoxResult result = MessageBox.Show("Publicación editada exitosamente, se te redirigirá a la página principal", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (result == MessageBoxResult.OK)
+                    {
+                        this.NavigationService.Navigate(new MainPage());
+                    }
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al editar tu publicación, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No puede dejar campos vacíos", "Notificación", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
