@@ -155,6 +155,9 @@
     <Compile Include="UserControls\PreviewUser.xaml.cs">
       <DependentUpon>PreviewUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ReportPost.xaml.cs">
+      <DependentUpon>ReportPost.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
     </Compile>
@@ -207,6 +210,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PreviewUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ReportPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

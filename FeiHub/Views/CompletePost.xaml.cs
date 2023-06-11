@@ -39,6 +39,7 @@ namespace FeiHub.Views
             InitializeComponent();
             postConsulted = post;
             PostPreview = new PostPreview();
+            PostPreview.Id = post.id;
             PostPreview.Title = post.title;
             PostPreview.Body = post.body;
             PostPreview.Username = post.author;
