@@ -54,7 +54,7 @@
                             <materialDesign:PackIcon Kind="ThumbDownOutline" />
                         </Button>
                     </materialDesign:Badged>
-                    <Button Background="#139dc0" Margin="20 0 0 0" BorderBrush="#139dc0" ToolTip="Comentar">
+                    <Button Background="#139dc0" Margin="20 0 0 0" BorderBrush="#139dc0" ToolTip="Comentar" x:Name="Button_Comment">
                         <materialDesign:PackIcon Kind="CommentEditOutline" />
                     </Button>
                     <Button Background="Red" Margin="20 0 0 0" BorderBrush="Red" ToolTip="Reportar publicación" Click="ReportThisPost">

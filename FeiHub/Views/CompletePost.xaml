@@ -15,37 +15,7 @@
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Fill="#14a3c8"/>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Left">
-            <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="20 0 245 0" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Right"/>
-            <TextBox Grid.Column="1" 
-                FontFamily="Yu Gothic" FontSize="14" FontWeight="Medium" Margin="0 0 0 0"
-                 Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                materialDesign:HintAssist.Hint="Buscar en FeiHub"
-                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto" BorderBrush="#BC656565" BorderThickness="1,1,1,1" />
-            <Button Grid.Column="1"
-                Margin="5 0 0 0"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
-            </Button>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" >
-            <Button Grid.Column="1"
-                Margin="5 0 0 0"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Ir al perfil" Background="#05303b" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
-            </Button>
-            <Button x:Name="Logout" Grid.Column="1"
-                Margin="5 0 30 0"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
-            </Button>
-        </StackPanel>
+        <uc:MainBar x:Name="MainBar"/>
         <ScrollViewer Grid.Row="1">
             <StackPanel Orientation="Vertical" Margin="30, 0, 30, 10" Name="StackPanel_CompletePost">
                 <StackPanel x:Name="StackPanel_Post">
@@ -54,8 +24,9 @@
                 <Label Content="Nuevo Comentario" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_NewComment"/>
                 <TextBox x:Name="TextBlox_Comment" Margin="3 5 0 10" FontFamily="Yu Gothic" FontSize="12" TextWrapping="Wrap" Height="49"
                      VerticalScrollBarVisibility="Auto" materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                <Button Content="Comentar" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="SemiBold"  
-                            FontSize="14" Margin="10" Foreground="#05303b" Background="LightBlue" BorderBrush="LightBlue" Height="40" />
+                <Button Content="Comentar" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="SemiBold"  x:Name="Button_Comment"
+                            FontSize="14" Margin="10" Foreground="#05303b" Background="LightBlue" 
+                        BorderBrush="LightBlue" Height="40" Click="CommentPost"/>
                 <Label Content="Comentarios" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_Comments"/>
                 <StackPanel Orientation="Vertical" Name="StackPanel_Comments">
                 </StackPanel>
