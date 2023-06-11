@@ -14,12 +14,13 @@ namespace FeiHub.Models
         {
             public string Username { get; set; }
             public string Message { get; set; }
+            public DateTime DateOfMessage { get; set; }
             public string DateOfMessageString { get; set; }
             public string DateAPI { get; set; }
             override
             public string ToString()
             {
-                return DateOfMessageString + " " + Username + ": " + Message;
+                return DateOfMessage.ToString() + " " + Username + ": " + Message;
             }
         }
 

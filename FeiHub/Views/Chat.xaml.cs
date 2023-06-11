@@ -96,8 +96,8 @@ namespace FeiHub.Views
 
         private void Border_Seguidor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string username = (((sender as Border).Parent as UserControl) as PreviewUser).Username;
-            AddMessages(username);
+            User.username = (((sender as Border).Parent as UserControl) as PreviewUser).Username;
+            AddMessages(User.username);
         }
 
         private async void AddMessages(string username)
@@ -116,6 +116,7 @@ namespace FeiHub.Views
                 {
                     ListView_Chat.Items.Add(msg.ToString());
                 }
+                Label_NoMessages.Visibility = Visibility.Collapsed;
             }
             if(UserChat.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -173,44 +174,44 @@ namespace FeiHub.Views
 
         private async void SendMessage(object sender, RoutedEventArgs e)
         {
-            if (UserChat.chats.Length == 0)
+            Chats.Chat newMessage = new Chats.Chat();
+            newMessage.Message = TextBox_Message.Text;
+            newMessage.DateOfMessageString = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            newMessage.DateAPI = DateTime.Now.AddHours(6).ToString("MM/dd/yyyy hh:mm:ss tt");
+            if (UserChat.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                //Crear chat
+                Label_NoMessages.Visibility = Visibility.Collapsed;
+                UserChat = await postsAPIServices.CreateChat(newMessage, User.username);
             }
             else
             {
-                Chats.Chat newMessage = new Chats.Chat();
-                newMessage.Message = TextBox_Message.Text;
-                newMessage.DateOfMessageString = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                newMessage.DateAPI = DateTime.Now.AddHours(6).ToString("MM/dd/yyyy hh:mm:ss tt");
                 UserChat = await postsAPIServices.SendMessage(newMessage, User.username);
-
-                if (UserChat.StatusCode == System.Net.HttpStatusCode.OK)
+            }
+            if (UserChat.StatusCode == System.Net.HttpStatusCode.OK || UserChat.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                if (UserChat.messages.Length > 0)
                 {
-                    if (UserChat.messages.Length > 0)
+                    var msg = SearchMessage(newMessage, UserChat.messages);
+                    if (msg.username != null)
                     {
-                        var msg = SearchMessage(newMessage, UserChat.messages);
-                        if (msg.username != null)
-                        {
-                            ListView_Chat.Items.Add(msg.ToString());
-                            TextBox_Message.Clear();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tuvimos un error al enviar el mensajes, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                        ListView_Chat.Items.Add(msg.ToString());
+                        TextBox_Message.Clear();
                     }
                 }
-                if (UserChat.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                {
-                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
-                    SingletonUser.Instance.BorrarSinglenton();
-                    this.NavigationService.Navigate(new LogIn());
-                }
-                if (UserChat.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                else
                 {
                     MessageBox.Show("Tuvimos un error al enviar el mensajes, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+            }
+            if (UserChat.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                SingletonUser.Instance.BorrarSinglenton();
+                this.NavigationService.Navigate(new LogIn());
+            }
+            if (UserChat.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                MessageBox.Show("Tuvimos un error al enviar el mensajes, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         private Chats.Message SearchMessage(Chats.Chat chat, Chats.Message[] messages)

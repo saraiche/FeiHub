@@ -34,8 +34,8 @@
                            FontWeight="SemiBold" Name="Label_NoMessages" TextWrapping="Wrap" 
                        HorizontalAlignment="Center" 
                        Width="361" TextAlignment="Center" Foreground="#FF31353A" Visibility="Collapsed"/>
-                <ScrollViewer Name="ScrollViewer_ListMessages" Visibility="Collapsed" BorderBrush="Black" BorderThickness="1">
-                    <ListView Name="ListView_Chat" MaxHeight="419" MinHeight="360">
+                <ScrollViewer Name="ScrollViewer_ListMessages" Visibility="Collapsed" BorderBrush="Black" BorderThickness="1" MaxHeight="400">
+                    <ListView Name="ListView_Chat" MaxHeight="400" MinHeight="360">
                     </ListView>
                 </ScrollViewer>
                 <StackPanel Orientation="Horizontal" Width="562" Name="StackPanel_MessageToSend" Visibility="Collapsed" VerticalAlignment="Bottom">

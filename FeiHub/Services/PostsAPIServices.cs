@@ -457,5 +457,48 @@ namespace FeiHub.Services
             }
             return chat;
         }
+        public async Task<Chats> CreateChat(Chats.Chat messageToSend, string username)
+        {
+            Chats chat = new Chats();
+            try
+            {
+                string apiUrl = "/chats/createChat";
+                var requestData = new
+                {
+                    usernameFrom = SingletonUser.Instance.Username,
+                    usernameTo = username,
+                    newMessage = messageToSend.Message,
+                    date = messageToSend.DateOfMessageString
+                };
+                string jsonRequest = JsonConvert.SerializeObject(requestData);
+                StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                content.Headers.Add("token", SingletonUser.Instance.Token);
+
+                HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress + apiUrl, content);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    JObject jsonObject = JObject.Parse(jsonResponse);
+
+                    JArray participants = jsonObject.GetValue("participants") as JArray;
+                    if (participants != null)
+                    {
+                        chat.participants = participants.ToObject<Chats.Participant[]>();
+                    }
+
+                    JArray messages = jsonObject.GetValue("messages") as JArray;
+                    if (messages != null)
+                    {
+                        chat.messages = messages.ToObject<Chats.Message[]>();
+                    }
+                }
+                chat.StatusCode = response.StatusCode;
+            }
+            catch
+            {
+                chat.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+            }
+            return chat;
+        }
     }
 }
