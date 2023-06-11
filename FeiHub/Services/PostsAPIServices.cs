@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace FeiHub.Services
@@ -490,7 +491,7 @@ namespace FeiHub.Services
                 return errorPost;
             }
         }
-        public async Task<Posts> DeleteComment(Comment newComment, string idPost)
+        public async Task<Posts> DeleteComment(string commentId, string idPost)
         {
             Posts post = new Posts();
             try
@@ -499,7 +500,7 @@ namespace FeiHub.Services
                 var requestData = new
                 {
                     postId = idPost,
-                    commentId = newComment.commentId
+                    commentId = commentId
                 };
                 string jsonRequest = JsonConvert.SerializeObject(requestData);
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, httpClient.BaseAddress + apiUrl);
@@ -510,27 +511,30 @@ namespace FeiHub.Services
                 if (response.IsSuccessStatusCode)
                 {
                     JObject jsonObject = JObject.Parse(jsonResponse);
-                    post.id = jsonObject.GetValue("id").ToString();
-                    post.title = jsonObject.GetValue("title").ToString();
-                    post.author = jsonObject.GetValue("author").ToString();
-                    post.body = jsonObject.GetValue("body").ToString();
-                    post.dateOfPublish = DateTime.Parse(jsonObject.GetValue("dateOfPublish").ToString());
-                    JArray photosArray = jsonObject.GetValue("photos") as JArray;
-                    if (photosArray != null)
+                    JObject postObject = jsonObject.GetValue("post") as JObject;
+                    if (postObject != null)
                     {
-                        post.photos = photosArray.ToObject<Photo[]>();
-                    }
-                    post.target = jsonObject.GetValue("target").ToString();
-                    post.likes = int.Parse(jsonObject.GetValue("likes").ToString());
-                    post.dislikes = int.Parse(jsonObject.GetValue("dislikes").ToString());
-                    JArray commentsArray = jsonObject.GetValue("comments") as JArray;
-                    if (commentsArray != null)
-                    {
-                        post.comments = commentsArray.ToObject<Comment[]>();
+                        post.id = postObject.GetValue("id").ToString();
+                        post.title = postObject.GetValue("title").ToString();
+                        post.author = postObject.GetValue("author").ToString();
+                        post.body = postObject.GetValue("body").ToString();
+                        post.dateOfPublish = DateTime.Parse(postObject.GetValue("dateOfPublish").ToString());
+                        JArray photosArray = postObject.GetValue("photos") as JArray;
+                        if (photosArray != null)
+                        {
+                            post.photos = photosArray.ToObject<Photo[]>();
+                        }
+                        post.target = postObject.GetValue("target").ToString();
+                        post.likes = int.Parse(postObject.GetValue("likes").ToString());
+                        post.dislikes = int.Parse(postObject.GetValue("dislikes").ToString());
+                        JArray commentsArray = postObject.GetValue("comments") as JArray;
+                        if (commentsArray != null)
+                        {
+                            post.comments = commentsArray.ToObject<Comment[]>();
+                        }
                     }
 
                     post.StatusCode = response.StatusCode;
-
                 }
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
@@ -545,6 +549,8 @@ namespace FeiHub.Services
                 return errorPost;
             }
         }
+
+
         public async Task<HttpResponseMessage> AddLike(string postId)
         {
             try
@@ -604,6 +610,29 @@ namespace FeiHub.Services
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, httpClient.BaseAddress + apiUrl);
                 request.Headers.Add("token", SingletonUser.Instance.Token);
                 HttpResponseMessage response = await httpClient.SendAsync(request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                return response;
+            }
+        }
+        public async Task<HttpResponseMessage> AddReport(string idPost, int totalReports)
+        {
+            try
+            {
+                string apiUrl = "/posts/addReport";
+                var requestData = new
+                {
+                    postId = idPost,
+                    totalReports = totalReports
+                };
+                string jsonRequest = JsonConvert.SerializeObject(requestData);
+                StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                content.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress + apiUrl, content);
                 return response;
             }
             catch (Exception ex)

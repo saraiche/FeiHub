@@ -47,19 +47,19 @@
                 </WrapPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
                     <materialDesign:Badged x:Name="Badge_Likes" Badge="{Binding Path=Likes,ElementName=postPreview}" BadgeBackground="#b8ebf7">
-                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta" Click="LikePost">
+                        <Button x:Name="Button_Like" Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta" Click="LikePost">
                             <materialDesign:PackIcon Kind="ThumbUpOutline" />
                         </Button>
                     </materialDesign:Badged>
                     <materialDesign:Badged x:Name="Badged_Dislikes" Badge="{Binding Path=Dislikes,ElementName=postPreview}" Margin="20 0 0 0" BadgeBackground="#b8ebf7">
-                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta" Click="DislikePost">
+                        <Button x:Name="Button_Dislike" Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta" Click="DislikePost">
                             <materialDesign:PackIcon Kind="ThumbDownOutline" />
                         </Button>
                     </materialDesign:Badged>
                     <Button Background="#139dc0" Margin="20 0 0 0" BorderBrush="#139dc0" ToolTip="Comentar" x:Name="Button_Comment">
                         <materialDesign:PackIcon Kind="CommentEditOutline" />
                     </Button>
-                    <Button Background="Red" Margin="20 0 0 0" BorderBrush="Red" ToolTip="Reportar publicación" Click="ReportThisPost">
+                    <Button x:Name="Button_Report" Background="Red" Margin="20 0 0 0" BorderBrush="Red" ToolTip="Reportar publicación" Click="ReportThisPost">
                         <materialDesign:PackIcon Kind="Flag" />
                     </Button>
                 </StackPanel>

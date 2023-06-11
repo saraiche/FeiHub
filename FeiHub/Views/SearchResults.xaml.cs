@@ -123,7 +123,7 @@ namespace FeiHub.Views
         }
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.GoBack();
+            this.NavigationService.Navigate(new MainPage());
         }
         private void LogOut(object sender, RoutedEventArgs e)
         {

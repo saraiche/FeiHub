@@ -184,7 +184,7 @@ namespace FeiHub.Views
             }
         }
 
-        private void DeleteComment(object sender, RoutedEventArgs e)
+        private async void DeleteComment(object sender, RoutedEventArgs e)
         {
             var menu = (sender as MenuItem).Parent as MenuItem;
             if (menu != null)
@@ -192,7 +192,23 @@ namespace FeiHub.Views
                 var comment = menu.Tag as Models.Comment;
                 if (comment != null)
                 {
-                    MessageBox.Show("Eliminar");
+                    var idPost = postConsulted.id;
+                    var idComment = comment.commentId;
+                    Posts postCommented = await postsAPIServices.DeleteComment(idComment, idPost);
+                    if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        this.NavigationService.Navigate(new CompletePost(postCommented));
+                    }
+                    if (postCommented.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                        SingletonUser.Instance.BorrarSinglenton();
+                        this.NavigationService.Navigate(new LogIn());
+                    }
+                    if (postCommented.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    {
+                        MessageBox.Show("Tuvimos un error al crear el comentario, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
             }
         }
@@ -205,37 +221,13 @@ namespace FeiHub.Views
                 var comment = menu.Tag as Models.Comment;
                 if (comment != null)
                 {
-                    
-                    var idPost = postConsulted.id;
-                    var body = TextBlox_Comment.Text;
-                    if (String.IsNullOrEmpty(body))
-                    {
-                        comment.body = body;
-                        Posts postCommented = await postsAPIServices.AddComment(comment, idPost);
-                        if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
-                        {
-                            this.NavigationService.Navigate(new CompletePost(postCommented));
-                        }
-                        if (postCommented.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                        {
-                            MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
-                            SingletonUser.Instance.BorrarSinglenton();
-                            this.NavigationService.Navigate(new LogIn());
-                        }
-                        if (postCommented.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-                        {
-                            MessageBox.Show("Tuvimos un error al crear el comentario, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("No puedes dejar el comentario vacío", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                     if ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment != null)
                         ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).ThisVisibility = Visibility.Visible;
                     ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).TextBox_Comment.IsEnabled = true;
-                    }
+                    ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).IdPost = postConsulted.id;
                 }
             }
+
         }
 
         private async void CommentPost(object sender, RoutedEventArgs args)
@@ -285,12 +277,15 @@ namespace FeiHub.Views
         private void Search(object sender, RoutedEventArgs e)
         {
             string stringToSearch = this.MainBar.TextBox_Search.Text;
-            MessageBox.Show(stringToSearch);
+            if (stringToSearch != "")
+            {
+                this.NavigationService.Navigate(new SearchResults(stringToSearch));
+            }
         }
 
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.GoBack();
+            this.NavigationService.Navigate(new MainPage());
         }
     }
 }

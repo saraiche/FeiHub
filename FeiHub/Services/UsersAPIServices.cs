@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System.Text.Json;
 using System.Xml.Linq;
 using FeiHub.Views;
+using Amazon.Runtime.Internal;
 
 namespace FeiHub.Services
 {
@@ -282,6 +283,87 @@ namespace FeiHub.Services
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
                 content.Headers.Add("token", SingletonUser.Instance.Token);
                 HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress + apiUrl, content);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                return response;
+            }
+        }
+
+        public async Task<List<string>> GetListFollowing(string username)
+        {
+            try
+            {
+                string apiUrl = $"/follows/following/{username}";
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, httpClient.BaseAddress + apiUrl);
+                request.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                JsonDocument document = JsonDocument.Parse(jsonResponse);
+                List<string> userList = new List<string>();
+                JsonElement root = document.RootElement;
+                if (response.IsSuccessStatusCode)
+                {
+                    if (root.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (JsonElement element in root.EnumerateArray())
+                        {
+                            if (element.ValueKind == JsonValueKind.String)
+                            {
+                                string usernameObtained = element.GetString();
+                                userList.Add(usernameObtained);
+                            }
+                        }
+                    }
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    userList.Add(System.Net.HttpStatusCode.Unauthorized.ToString());
+                }
+                return userList;
+            }
+            catch
+            {
+                List<string> userList = new List<string>();
+                userList.Add(System.Net.HttpStatusCode.InternalServerError.ToString());
+                return userList;
+            }
+        }
+        public async Task<HttpResponseMessage> Follow(string userFollow, string myUsername)
+        {
+            try
+            {
+                string apiUrl = "/follows";
+                var requestData = new
+                {
+                    follower = myUsername,
+                    following = userFollow
+                };
+                string jsonRequest = JsonConvert.SerializeObject(requestData);
+                StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                content.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress + apiUrl, content);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                return response;
+            }
+        }
+
+        public async Task<HttpResponseMessage> Unfollow(string userFollow, string myUsername)
+        {
+            try
+            {
+                string apiUrl = $"/follows/{myUsername}/{userFollow}";
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, httpClient.BaseAddress + apiUrl);
+                request.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
                 return response;
             }
             catch (Exception ex)

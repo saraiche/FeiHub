@@ -5,6 +5,7 @@ using MaterialDesignColors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -81,8 +82,13 @@ namespace FeiHub.Views
             {
                 IsOwner();
             }
+            else
+            {
+                Button_EditProfile.IsEnabled = false;
+            }
             FillHeader();
             AddPosts();
+            IsFollowingUser();
         }
 
         public async void AddDataUserLogged()
@@ -387,10 +393,9 @@ namespace FeiHub.Views
         }
         public void IsOwner()
         {
-            Button_EditProfile.Visibility = Visibility.Visible;
-            Button_Follow.Visibility = Visibility.Collapsed;
-            Button_UnFollow.Visibility = Visibility.Collapsed;
-            Button_SendMessage.Visibility = Visibility.Collapsed;
+            Button_Follow.IsEnabled = false;
+            Button_UnFollow.IsEnabled = false;
+            Button_SendMessage.IsEnabled = false;
         }
 
         private void LogOut(object sender, RoutedEventArgs e)
@@ -406,11 +411,69 @@ namespace FeiHub.Views
 
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.GoBack();
+            this.NavigationService.Navigate(new MainPage());
         }
         private void GoToThisUserChat(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Chat(userConsulted));
+        }
+        private async void Follow(object sender, RoutedEventArgs e)
+        {
+            HttpResponseMessage response = await usersAPIServices.Follow(userConsulted.username, SingletonUser.Instance.Username);
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBoxResult result = MessageBox.Show($"Haz empezado a seguir a {userConsulted.username}", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                Button_UnFollow.IsEnabled = true;
+                Button_Follow.IsEnabled = false;
+            }
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                SingletonUser.Instance.BorrarSinglenton();
+                this.NavigationService.Navigate(new LogIn());
+            }
+            if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                MessageBox.Show($"Tuvimos un error al seguir a {userConsulted.username}, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void UnFollow(object sender, RoutedEventArgs e)
+        {
+            HttpResponseMessage response = await usersAPIServices.Unfollow(userConsulted.username, SingletonUser.Instance.Username);
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBoxResult result = MessageBox.Show($"Haz dejado de a seguir a {userConsulted.username}", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                Button_UnFollow.IsEnabled = false;
+                Button_Follow.IsEnabled = true;
+            }
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                SingletonUser.Instance.BorrarSinglenton();
+                this.NavigationService.Navigate(new LogIn());
+            }
+            if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                MessageBox.Show($"Tuvimos un error al dejar de seguir a {userConsulted.username}, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void IsFollowingUser()
+        {
+            if(userConsulted.username != SingletonUser.Instance.Username)
+            {
+                List<string> followings = await usersAPIServices.GetListFollowing(SingletonUser.Instance.Username);
+                if (followings.Contains(userConsulted.username))
+                {
+                    Button_UnFollow.IsEnabled = true;
+                    Button_Follow.IsEnabled = false;
+                }
+                else
+                {
+                    Button_UnFollow.IsEnabled=false; 
+                    Button_Follow.IsEnabled = true;
+                }
+            }
         }
     }
 }

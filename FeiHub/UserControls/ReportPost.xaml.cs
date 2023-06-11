@@ -1,6 +1,10 @@
-﻿using System;
+﻿using FeiHub.Models;
+using FeiHub.Services;
+using FeiHub.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +24,8 @@ namespace FeiHub.UserControls
     /// </summary>
     public partial class ReportPost : UserControl
     {
+        int checkedCount = 0;
+        PostsAPIServices postsAPIServices = new PostsAPIServices();
         public ReportPost()
         {
             InitializeComponent();
@@ -47,10 +53,56 @@ namespace FeiHub.UserControls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ReportThisPost(object sender, RoutedEventArgs e)
+        private async void ReportThisPost(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Funcion de reportar, ID Recibido: " + this.Tag);
+            foreach (string item in DataGrid_Situations.Items)
+            {
+                var row = DataGrid_Situations.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                if (row != null)
+                {
+                    var checkBox = DataGrid_Situations.Columns[1].GetCellContent(row) as CheckBox;
+                    if (checkBox.IsChecked == true)
+                    {
+                        checkedCount++;
+                    }
+
+                }
+            }
+            HttpResponseMessage response =  await postsAPIServices.AddReport(this.Tag.ToString(), checkedCount);
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBoxResult result = MessageBox.Show($"Reporte enviado", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                SingletonUser.Instance.BorrarSinglenton();
+                this.Visibility = Visibility.Collapsed;
+            }
+            if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                MessageBox.Show($"Tuvimos un error al enviar el reporte, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             this.Visibility = Visibility.Collapsed;
+        }
+        private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T found)
+                {
+                    return found;
+                }
+
+                var foundChild = FindVisualChild<T>(child);
+                if (foundChild != null)
+                {
+                    return foundChild;
+                }
+            }
+
+            return null;
         }
     }
 }
