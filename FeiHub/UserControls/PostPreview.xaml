@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
               Name="postPreview"
              mc:Ignorable="d">
-    <Border CornerRadius="5" BorderBrush="Black" Margin="10" BorderThickness="1,1,1,1">
+    <Border CornerRadius="5" BorderBrush="Black" Margin="10" BorderThickness="1,1,1,1" Name="Border_Post">
         <Border.Style>
             <Style TargetType="Border">
                 <Style.Triggers>

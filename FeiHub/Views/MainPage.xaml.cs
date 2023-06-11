@@ -107,6 +107,10 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto= (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        else
+                        {
+                            // ADD PHOTO IN AWS
+                        }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
                         posts.postPreview.Body = post.body;
@@ -128,6 +132,8 @@ namespace FeiHub.Views
                         {
                             posts.postPreview.Target = "Estudiantes";
                         }
+                        posts.postPreview.Border_Post.Tag = post;
+                        posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
                         StackPanel_Posts.Children.Add(posts);
                     }
                 }
@@ -197,6 +203,10 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        else
+                        {
+                            // ADD PHOTO IN AWS
+                        }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
                         posts.postPreview.Body = post.body;
@@ -218,6 +228,8 @@ namespace FeiHub.Views
                         {
                             posts.postPreview.Target = "Estudiantes";
                         }
+                        posts.postPreview.Border_Post.Tag = post;
+                        posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
                         StackPanel_Posts.Children.Add(posts);
                     }
                 }
@@ -257,6 +269,10 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        else
+                        {
+                            // ADD PHOTO IN AWS
+                        }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
                         posts.postPreview.Body = post.body;
@@ -278,6 +294,8 @@ namespace FeiHub.Views
                         {
                             posts.postPreview.Target = "Estudiantes";
                         }
+                        posts.postPreview.Border_Post.Tag = post;
+                        posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
                         StackPanel_Posts.Children.Add(posts);
                     }
                 }
@@ -324,5 +342,17 @@ namespace FeiHub.Views
             }
         }
         
+        private void GoToCompletePost(object sender, RoutedEventArgs e)
+        {
+            var border = sender as Border;
+            if (border != null)
+            {
+                var post = border.Tag as Posts;
+                if (post != null)
+                {
+                    this.NavigationService.Navigate(new CompletePost(post));
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FeiHub.Models;
+using FeiHub.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -307,6 +308,43 @@ namespace FeiHub.Services
                 post.StatusCode = System.Net.HttpStatusCode.InternalServerError;
                 postList.Add(post);
                 return postList;
+            }
+        }
+        
+        public async Task<HttpResponseMessage> DeletePost(Posts postToDelete)
+        {
+            try
+            {
+                string apiUrl = $"/posts/deletePost/{postToDelete.id}";
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, httpClient.BaseAddress + apiUrl);
+                request.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                return response;
+            }
+        }
+
+        public async Task<HttpResponseMessage> EditPost(Posts newPosts)
+        {
+            try
+            {
+                string apiUrl = "/posts/editPost";
+                string jsonRequest = JsonConvert.SerializeObject(newPosts);
+                StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                content.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress + apiUrl, content);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                return response;
             }
         }
     }

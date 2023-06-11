@@ -1,4 +1,5 @@
-﻿using FeiHub.UserControls;
+﻿using FeiHub.Models;
+using FeiHub.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,9 @@ namespace FeiHub.Views
 
         public void AddFollowing()
         {
+            
             PreviewUser following = new PreviewUser();
 
-            following.ThisVisibility = Visibility.Collapsed;
             ImageSourceConverter converter = new ImageSourceConverter();
             following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
             following.previewUser.Username = "Saraiche";

@@ -33,5 +33,10 @@ namespace FeiHub
         {
             SingletonUser.Instance.BorrarSinglenton();
         }
+
+        public void NavigateToPage(Page page)
+        {
+            Frame_PagesNavigation.Navigate(page);
+        }
     }
 }
