@@ -23,6 +23,7 @@ namespace FeiHub.UserControls
         public Comment()
         {
             InitializeComponent();
+            ThisVisibility = Visibility.Collapsed;
         }
 
         public string Username
@@ -54,6 +55,24 @@ namespace FeiHub.UserControls
             get { return (DateTime)GetValue(DateOfCommentProperty); }
             set { SetValue(DateOfCommentProperty, value); }
         }
-        public static readonly DependencyProperty DateOfCommentProperty = DependencyProperty.Register("DateOfComment", typeof(DateTime), typeof(PostPreview));
+        public static readonly DependencyProperty DateOfCommentProperty = DependencyProperty.Register("DateOfComment", typeof(DateTime), typeof(Comment));
+        public Visibility ThisVisibility
+        {
+            get { return (Visibility)GetValue(ThisVisibilityProperty); }
+            set { SetValue(ThisVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty ThisVisibilityProperty = DependencyProperty.Register("ThisVisibility", typeof(Visibility), typeof(Comment));
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ThisVisibility = Visibility.Collapsed;
+            TextBox_Comment.IsEnabled = false;
+        }
+
+        private void Button_SaveChages_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Guardar cambios del comentario con id " + ((sender as Button).Tag as Models.Comment).commentId);
+        }
     }
 }

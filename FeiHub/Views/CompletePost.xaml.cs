@@ -175,6 +175,7 @@ namespace FeiHub.Views
                     {
                         commentUserControl.comment.MenuComment.Visibility = Visibility.Visible;
                         commentUserControl.comment.MenuComment.Tag = commentObtained;
+                        commentUserControl.comment.Button_SaveChages.Tag = commentObtained;
                         commentUserControl.comment.MenuItem_EditComment.Click += EditComment;
                         commentUserControl.comment.MenuItem_DeleteComment.Click += DeleteComment;
                     }
@@ -211,6 +212,9 @@ namespace FeiHub.Views
                 if (comment != null)
                 {
                     MessageBox.Show("Editar");
+                    if ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment != null)
+                        ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).ThisVisibility = Visibility.Visible;
+                    ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).TextBox_Comment.IsEnabled = true;
                 }
             }
         }
