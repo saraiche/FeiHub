@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FeiHub.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"  Name="previewUser">
-    <Border Name="Border_Seguidor" BorderBrush="LightBlue" BorderThickness="1" Margin="0 0 0 0">
+    <Border Name="Border_Seguidor" Margin="0 0 0 0">
         <Border.Style>
             <Style TargetType="Border">
                 <Style.Triggers>

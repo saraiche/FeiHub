@@ -51,7 +51,8 @@ namespace FeiHub.Views
                         }
                         following.previewUser.TextBlock_Username.Tag = user; 
                         following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
-                        following.previewUser.Button_SendMessage.Click += SendMessage;
+                        following.previewUser.Button_SendMessage.Tag = user;
+                        following.previewUser.Button_SendMessage.Click += GoToChat;
                         StackPanel_Following.Children.Add(following);
                     }
                 }
@@ -157,10 +158,6 @@ namespace FeiHub.Views
         }
 
 
-        private void SendMessage(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Mando mensaje a " + (((((e.Source as Button).Parent as Grid).Parent as Border).Parent as UserControl) as UserControls.PreviewUser).Username);
-        }
 
         private void GoToProfile(object sender, MouseButtonEventArgs e)
         {
@@ -351,6 +348,18 @@ namespace FeiHub.Views
                 if (post != null)
                 {
                     this.NavigationService.Navigate(new CompletePost(post));
+                }
+            }
+        }
+        private void GoToChat(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var user = button.Tag as User;
+                if (user != null)
+                {
+                    this.NavigationService.Navigate(new Chat(user));
                 }
             }
         }
