@@ -49,6 +49,10 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        else
+                        {
+                            following.previewUser.Source = new BitmapImage(new Uri(user.profilePhoto));
+                        }
                         following.previewUser.TextBlock_Username.Tag = user; 
                         following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
                         following.previewUser.Button_SendMessage.Tag = user;

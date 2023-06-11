@@ -109,6 +109,10 @@ namespace FeiHub.Views
                 ImageSourceConverter converter = new ImageSourceConverter();
                 PostPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
             }
+            else
+            {
+                PostPreview.ProfilePhoto = new BitmapImage(new Uri(userPost.profilePhoto));
+            }
         }
 
 

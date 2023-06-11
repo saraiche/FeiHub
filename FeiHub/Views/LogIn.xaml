@@ -38,7 +38,7 @@
             <Label Content="Universidad Veracruzana" Background="#063970" Width="247" HorizontalAlignment="Right" 
                    FontFamily="Yu Gothic" FontWeight="Bold" FontStretch="SemiExpanded" Foreground="#DDFFFFFF" 
                    HorizontalContentAlignment="Center" Margin="0,0,0,575" VerticalContentAlignment="Center"/>
-            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_LogIn" Visibility="Collapsed">
+            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_LogIn" Visibility="Visible">
                 <Label Content="Inicio de Sesión" HorizontalAlignment="Center"
                         FontFamily="Yu Gothic" Margin="0 80 0 50 " FontSize="50"/>
                 <TextBox x:Name="Username"
@@ -64,7 +64,7 @@
                         FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonSignIn_Click"/>
             </StackPanel>
             
-            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_SignIn" Visibility="Visible">
+            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_SignIn" Visibility="Collapsed">
                 <Label Content="¡Bienvenido!" HorizontalAlignment="Center"
                         FontFamily="Yu Gothic" Margin="0 30 0 0 " FontSize="50"/>
                 <TextBlock Text="Crea tu cuenta como estudiante o como académico para comenzar a usar FeiHub" 
