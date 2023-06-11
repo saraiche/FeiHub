@@ -42,6 +42,10 @@ namespace FeiHub.Views
         public CompletePost(Posts post)
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += Search;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             postConsulted = post;
             PostPreview = new PostPreview();
             PostPreview.Id = post.id;

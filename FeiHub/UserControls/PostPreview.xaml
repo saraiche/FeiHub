@@ -45,12 +45,12 @@
                 </WrapPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
                     <materialDesign:Badged x:Name="Badge_Likes" Badge="{Binding Path=Likes,ElementName=postPreview}" BadgeBackground="#b8ebf7">
-                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta">
+                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta" Click="LikePost">
                             <materialDesign:PackIcon Kind="ThumbUpOutline" />
                         </Button>
                     </materialDesign:Badged>
                     <materialDesign:Badged x:Name="Badged_Dislikes" Badge="{Binding Path=Dislikes,ElementName=postPreview}" Margin="20 0 0 0" BadgeBackground="#b8ebf7">
-                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta">
+                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta" Click="DislikePost">
                             <materialDesign:PackIcon Kind="ThumbDownOutline" />
                         </Button>
                     </materialDesign:Badged>
