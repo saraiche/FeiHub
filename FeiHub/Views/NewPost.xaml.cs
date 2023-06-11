@@ -52,6 +52,8 @@ namespace FeiHub.Views
             Label_PageTitle.Content = "Editar Publicación";
             TextBox_Title.Text = postToEdit.title;
             TextBox_Body.Text = postToEdit.body;
+            TextBlock_PhotosName.Visibility = Visibility.Collapsed;
+            TextBlock_TitlePhotos.Visibility = Visibility.Collapsed;
             if(postToEdit.target == "STUDENT")
             {
                 ComboBox_Target.SelectedIndex = 0;
