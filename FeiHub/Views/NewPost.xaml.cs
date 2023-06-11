@@ -31,7 +31,7 @@ namespace FeiHub.Views
         string body = "";
         string target = "";
         string author = SingletonUser.Instance.Username;
-        DateTime dateOfPublish = DateTime.Now;
+        DateTime dateOfPublish = DateTime.Now.Date;
         Photo[] photos = null;
         PostsAPIServices postsAPIServices = new PostsAPIServices();
         S3Service s3Service = new S3Service();
@@ -48,6 +48,7 @@ namespace FeiHub.Views
         public NewPost(Posts post)
         {
             InitializeComponent();
+            MessageBox.Show("No podemos actualizar las fotos de tu publicación, pero pronto lo agregaremos", "Notificación", MessageBoxButton.OK, MessageBoxImage.Error);
             this.MainBar.Button_GoBack.Click += GoBack;
             this.MainBar.Button_Search.Click += FindUser;
             this.MainBar.Button_Profile.Click += GoToProfile;
@@ -58,6 +59,7 @@ namespace FeiHub.Views
             TextBox_Body.Text = postToEdit.body;
             TextBlock_PhotosName.Visibility = Visibility.Collapsed;
             TextBlock_TitlePhotos.Visibility = Visibility.Collapsed;
+            Button_Photos.Visibility = Visibility.Collapsed;
             if(postToEdit.target == "STUDENT")
             {
                 ComboBox_Target.SelectedIndex = 0;
@@ -121,10 +123,11 @@ namespace FeiHub.Views
                 {
                     if (selectedFilePaths.Count > 0)
                     {
+
+                        int counter = 1;
                         List<Photo> tempPhotos = new List<Photo>(newPost.photos);
                         foreach (string imagePath in selectedFilePaths)
                         {
-                            int counter = 1;
                             string customName = $"{newPost.id}{counter++}";
                             bool uploadSuccess = await s3Service.UploadImage(imagePath, customName);
 
@@ -188,6 +191,9 @@ namespace FeiHub.Views
 
         private void AddPhotos(object sender, RoutedEventArgs e)
         {
+            selectedFilePaths.Clear();
+            TextBlock_PhotosName.Text = "";
+            TextBlock_PhotosName.Visibility = Visibility.Visible;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -196,7 +202,19 @@ namespace FeiHub.Views
             if (openFileDialog.ShowDialog() == true)
             {
                 selectedFilePaths.AddRange(openFileDialog.FileNames);
+                List<string> namesImages = new List<string>();
+
+                foreach (string pathImage in selectedFilePaths)
+                {
+                    string nameImage = System.IO.Path.GetFileName(pathImage);
+                    namesImages.Add(nameImage);
+                }
+
+                string nombresSeparados = string.Join(", ", namesImages);
+
+                TextBlock_PhotosName.Text = nombresSeparados;
             }
+            
         }
 
         private async void EditPost(object sender, RoutedEventArgs e)

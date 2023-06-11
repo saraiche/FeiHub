@@ -73,6 +73,7 @@ namespace FeiHub.Views
             {
                 IsOwner();
             }
+
             AddUserDataToPost();
             AddComments();
             AddImages();
@@ -81,23 +82,13 @@ namespace FeiHub.Views
         {
             WrapPanel wrapPanel = new WrapPanel();
             wrapPanel.HorizontalAlignment = HorizontalAlignment.Center;
-
-            /* 
-             * ESTO SE SUSTITUYE CON LO DE LAS IMÁGENES QUE TENGAS :)
-            ImageSourceConverter converter = new ImageSourceConverter();
-            Image image = new Image();
-            image.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
-            image.Margin = new Thickness(0, 10, 0, 10);
-            wrapPanel.Children.Add(image);
-            Image image2 = new Image();
-            image2.Source = (ImageSource)converter.ConvertFromString("../../Resources/uv.png");
-            image2.Margin = new Thickness(0, 10, 0, 10);
-            wrapPanel.Children.Add(image2);
-            Image image3 = new Image();
-            image3.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            image3.Margin = new Thickness(0, 10, 0, 10);
-            wrapPanel.Children.Add(image3);
-            */
+            foreach(Photo photo in postConsulted.photos)
+            {
+                Image image = new Image();
+                image.Source =  new BitmapImage(new Uri(photo.url));
+                image.Margin = new Thickness(0, 10, 0, 10);
+                wrapPanel.Children.Add(image);
+            }
 
             StackPanel_Post.Children.Add(wrapPanel);
         }
@@ -108,6 +99,10 @@ namespace FeiHub.Views
             {
                 ImageSourceConverter converter = new ImageSourceConverter();
                 PostPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+            }
+            else
+            {
+                PostPreview.ProfilePhoto = new BitmapImage(new Uri(userPost.profilePhoto));
             }
         }
 
@@ -167,10 +162,9 @@ namespace FeiHub.Views
                     }
                     else
                     {
-                        // ADD PHOTO IN AWS
+                         commentUserControl.comment.Source = new BitmapImage(new Uri(userComment.profilePhoto));
                     }
                     commentUserControl.comment.Body = commentObtained.body;
-                    commentUserControl.comment.DateOfComment = commentObtained.dateOfComment.Date;
                     if(commentObtained.author == SingletonUser.Instance.Username)
                     {
                         commentUserControl.comment.MenuComment.Visibility = Visibility.Visible;
@@ -202,7 +196,7 @@ namespace FeiHub.Views
             }
         }
 
-        private void EditComment(object sender, RoutedEventArgs e)
+        private async void EditComment(object sender, RoutedEventArgs e)
         {
             var menu = (sender as MenuItem).Parent as MenuItem;
             if (menu != null)
@@ -210,17 +204,68 @@ namespace FeiHub.Views
                 var comment = menu.Tag as Models.Comment;
                 if (comment != null)
                 {
-                    MessageBox.Show("Editar");
+                    
+                    var idPost = postConsulted.id;
+                    var body = TextBlox_Comment.Text;
+                    if (String.IsNullOrEmpty(body))
+                    {
+                        comment.body = body;
+                        Posts postCommented = await postsAPIServices.AddComment(comment, idPost);
+                        if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            this.NavigationService.Navigate(new CompletePost(postCommented));
+                        }
+                        if (postCommented.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        {
+                            MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                            SingletonUser.Instance.BorrarSinglenton();
+                            this.NavigationService.Navigate(new LogIn());
+                        }
+                        if (postCommented.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                        {
+                            MessageBox.Show("Tuvimos un error al crear el comentario, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No puedes dejar el comentario vacío", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
             }
         }
 
-        private void CommentPost(object sender, RoutedEventArgs args)
+        private async void CommentPost(object sender, RoutedEventArgs args)
         {
             var idPost = postConsulted.id;
             var body = TextBlox_Comment.Text;
-            var date = DateTime.Now;
+            var date = DateTime.Now.Date;
             var author = SingletonUser.Instance.Username;
+            if (!String.IsNullOrEmpty(body))
+            {
+                Models.Comment comment = new Models.Comment();
+                comment.author = author;
+                comment.dateOfComment = date;
+                comment.body = body;
+                Posts postCommented = await postsAPIServices.AddComment(comment, idPost);
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    this.NavigationService.Navigate(new CompletePost(postCommented));
+                }
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al crear el comentario, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No puedes dejar el comentario vacío", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         private void LogOut(object sender, RoutedEventArgs e)
         {

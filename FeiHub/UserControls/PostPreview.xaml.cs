@@ -38,6 +38,8 @@ namespace FeiHub.UserControls
             Likes = post.postPreview.Likes;
             Dislikes = post.postPreview.Dislikes;
             Target = post.postPreview.Target;
+            LikeStatus = false;
+            DislikeStatus = false;
         }
 
         public string Id
@@ -119,6 +121,20 @@ namespace FeiHub.UserControls
         }
 
         public static readonly DependencyProperty PostMainPhotoProperty = DependencyProperty.Register("PostMainPhoto", typeof(ImageSource), typeof(PostPreview));
+        public bool LikeStatus
+        {
+            get { return (bool)GetValue(LikesSatusProperty); }
+            set { SetValue(LikesSatusProperty, value); }
+        }
+
+        public static readonly DependencyProperty LikesSatusProperty = DependencyProperty.Register("LikeStatus", typeof(bool), typeof(PostPreview));
+        public bool DislikeStatus
+        {
+            get { return (bool)GetValue(DislikesSatusProperty); }
+            set { SetValue(DislikesSatusProperty, value); }
+        }
+
+        public static readonly DependencyProperty DislikesSatusProperty = DependencyProperty.Register("DislikesSatus", typeof(bool), typeof(PostPreview));
         public Visibility ThisVisibility
         {
             get { return (Visibility)GetValue(ThisVisibilityProperty); }
@@ -135,7 +151,14 @@ namespace FeiHub.UserControls
         public void LikePost(Object sender, RoutedEventArgs args)
         {
             //Aquí va like, el idPost está en this.Id
-            MessageBox.Show("Like");
+            if (!this.LikeStatus)
+            {
+
+            }
+            if(this.LikeStatus)
+            {
+
+            }
         }
         public void DislikePost(Object sender, RoutedEventArgs args)
         {
