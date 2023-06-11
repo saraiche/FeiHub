@@ -1,4 +1,5 @@
 ﻿using FeiHub.Models;
+using FeiHub.Services;
 using FeiHub.UserControls;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace FeiHub.Views
     /// </summary>
     public partial class Chat : Page
     {
+        private UsersAPIServices usersAPIServices = new UsersAPIServices();
         public Chat()
         {
             InitializeComponent();
@@ -40,18 +42,61 @@ namespace FeiHub.Views
             this.MainBar.Button_Profile.Click += GoToProfile;
             this.MainBar.Button_LogOut.Click += LogOut;
             AddFollowing();
-            ShowChatWithUser(user);
+            ShowChatWithUser(user.username);
         }
 
-        public void AddFollowing()
+        public async void AddFollowing()
         {
-            
+            List<User> followingUsers = new List<User>();
+            followingUsers = await usersAPIServices.GetListUsersFollowing(SingletonUser.Instance.Username);
+            if (followingUsers.Count > 0)
+            {
+                if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    foreach (User user in followingUsers)
+                    {
+                        PreviewUser following = new PreviewUser();
+                        following.previewUser.Username = user.username;
+                        if (user.profilePhoto == null)
+                        {
+                            ImageSourceConverter converter = new ImageSourceConverter();
+                            following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        following.previewUser.TextBlock_Username.Tag = user;
+                        following.previewUser.Button_SendMessage.Tag = user;
+                        following.previewUser.Button_SendMessage.Click += GoToChat;
+                        following.previewUser.Border_Seguidor.MouseDown += Border_Seguidor_MouseDown;
+                        following.previewUser.ThisVisibility = Visibility.Collapsed;
+                        StackPanel_Following.Children.Add(following);
+                    }
+                }
+                if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al obtener a quiénes sigues, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                Label labelWithoutFollowings = new Label();
+                labelWithoutFollowings.Content = "Sigue a tus amigos para verlos aquí";
+                StackPanel_Following.Children.Add(labelWithoutFollowings);
+            }
         }
 
         private void Border_Seguidor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //Se debe mantener la parte del código, solo cambiar la manera de presentar los mensajes
             string username = (((sender as Border).Parent as UserControl) as PreviewUser).Username;
+            ShowChatWithUser(username);
+        }
+
+        public void ShowChatWithUser(string username)
+        {
             Label_NoChatSelected.Visibility = Visibility.Collapsed;
             Label_Username.Content = username;
             Label_Username.Visibility = Visibility.Visible;
@@ -62,23 +107,6 @@ namespace FeiHub.Views
             //Esta es la línea que se debe modificar 
             ListView_Chat.Items.Add(username + " : Hola");
             ListView_Chat.Items.Add(username + " : Hola");
-            ListView_Chat.Items.Add(username + " : Desde border");
-
-        }
-
-        public void ShowChatWithUser(User user)
-        {
-            Label_NoChatSelected.Visibility = Visibility.Collapsed;
-            Label_Username.Content = user.username;
-            Label_Username.Visibility = Visibility.Visible;
-            ScrollViewer_ListMessages.Visibility = Visibility.Visible;
-            ListView_Chat.Items.Clear();
-            StackPanel_MessageToSend.Visibility = Visibility.Visible;
-
-            //Esta es la línea que se debe modificar 
-            ListView_Chat.Items.Add(user.username + " : Desde botón");
-            ListView_Chat.Items.Add(user.username + " : Hola");
-            ListView_Chat.Items.Add(user.username + " : Hola");
         }
 
         private void GoToChat(object sender, RoutedEventArgs e)
