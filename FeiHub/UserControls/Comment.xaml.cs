@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FeiHub.Models;
+using FeiHub.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,7 @@ namespace FeiHub.UserControls
     /// </summary>
     public partial class Comment : UserControl
     {
+        PostsAPIServices postsAPIServices = new PostsAPIServices();
         public Comment()
         {
             InitializeComponent();
@@ -56,6 +59,13 @@ namespace FeiHub.UserControls
             set { SetValue(DateOfCommentProperty, value); }
         }
         public static readonly DependencyProperty DateOfCommentProperty = DependencyProperty.Register("DateOfComment", typeof(DateTime), typeof(Comment));
+        public string IdPost
+        {
+            get { return (string)GetValue(IdPostProperty); }
+            set { SetValue(IdPostProperty, value); }
+        }
+
+        public static readonly DependencyProperty IdPostProperty = DependencyProperty.Register("IdPost", typeof(string), typeof(Comment));
         public Visibility ThisVisibility
         {
             get { return (Visibility)GetValue(ThisVisibilityProperty); }
@@ -70,9 +80,40 @@ namespace FeiHub.UserControls
             TextBox_Comment.IsEnabled = false;
         }
 
-        private void Button_SaveChages_Click(object sender, RoutedEventArgs e)
+        private async void Button_SaveChages_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Guardar cambios del comentario con id " + ((sender as Button).Tag as Models.Comment).commentId);
+            var idComment = ((sender as Button).Tag as Models.Comment).commentId;
+            var idPost = this.IdPost;
+            var body = TextBox_Comment.Text;
+            if (!String.IsNullOrEmpty(body))
+            {
+                Models.Comment comment = new Models.Comment();
+                comment.commentId = idComment;
+                comment.body = body;
+                Posts postCommented = await postsAPIServices.EditComment(comment, idPost);
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    this.ThisVisibility = Visibility.Collapsed;
+                }
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        this.ThisVisibility = Visibility.Collapsed;
+                    }
+                }
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al crear el comentario, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No puedes dejar el comentario vacío", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

@@ -13,7 +13,7 @@
                       Margin="0 20 0 0" x:Name="DataGrid_Situations" FontFamily="Yu Gothic" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Situación" IsReadOnly="True" FontFamily="Yu Gothic" Binding="{Binding}" x:Name="Column_Situations"/>
-                    <DataGridCheckBoxColumn Header="¿Se presenta?" IsReadOnly="False"/>
+                    <DataGridCheckBoxColumn x:Name="Column_CheckBox" Header="¿Se presenta?" IsReadOnly="False"/>
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">

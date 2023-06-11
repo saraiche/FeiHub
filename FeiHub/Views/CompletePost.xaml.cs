@@ -73,6 +73,10 @@ namespace FeiHub.Views
             {
                 IsOwner();
             }
+            if(SingletonUser.Instance.Rol == "ADMIN")
+            {
+                IsAdmin();
+            }
             AddUserDataToPost();
             AddComments();
             AddImages();
@@ -81,23 +85,13 @@ namespace FeiHub.Views
         {
             WrapPanel wrapPanel = new WrapPanel();
             wrapPanel.HorizontalAlignment = HorizontalAlignment.Center;
-
-            /* 
-             * ESTO SE SUSTITUYE CON LO DE LAS IMÁGENES QUE TENGAS :)
-            ImageSourceConverter converter = new ImageSourceConverter();
-            Image image = new Image();
-            image.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
-            image.Margin = new Thickness(0, 10, 0, 10);
-            wrapPanel.Children.Add(image);
-            Image image2 = new Image();
-            image2.Source = (ImageSource)converter.ConvertFromString("../../Resources/uv.png");
-            image2.Margin = new Thickness(0, 10, 0, 10);
-            wrapPanel.Children.Add(image2);
-            Image image3 = new Image();
-            image3.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            image3.Margin = new Thickness(0, 10, 0, 10);
-            wrapPanel.Children.Add(image3);
-            */
+            foreach(Photo photo in postConsulted.photos)
+            {
+                Image image = new Image();
+                image.Source =  new BitmapImage(new Uri(photo.url));
+                image.Margin = new Thickness(0, 10, 0, 10);
+                wrapPanel.Children.Add(image);
+            }
 
             StackPanel_Post.Children.Add(wrapPanel);
         }
@@ -133,7 +127,14 @@ namespace FeiHub.Views
                     MessageBoxResult resultDelete = MessageBox.Show("Publicación eliminada, serás redirigido a la página principal", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                     if(resultDelete == MessageBoxResult.OK) 
                     {
-                        this.NavigationService.Navigate(new MainPage());
+                        if(SingletonUser.Instance.Rol == "ADMIN")
+                        {
+                            this.NavigationService.Navigate(new ManagePosts());
+                        }
+                        else
+                        {
+                            this.NavigationService.Navigate(new MainPage());
+                        }
                     }
                 }
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -154,6 +155,17 @@ namespace FeiHub.Views
             PostPreview.MenuItem_EditPost.Click += EditPost;
             PostPreview.MenuItem_DeletePost.Click += DeletePost;
         }
+        public void IsAdmin()
+        {
+            PostPreview.MenuPost.Visibility = Visibility.Visible;
+            PostPreview.MenuItem_EditPost.IsEnabled = false;
+            PostPreview.MenuItem_DeletePost.Click += DeletePost;
+            Button_Comment.IsEnabled = false;
+            PostPreview.Button_Comment.IsEnabled = false;
+            PostPreview.Button_Dislike.IsEnabled = false;
+            PostPreview.Button_Like.IsEnabled = false;
+            PostPreview.Button_Report.IsEnabled = false;
+        }
 
         public async void AddComments()
         {
@@ -171,10 +183,9 @@ namespace FeiHub.Views
                     }
                     else
                     {
-                        // ADD PHOTO IN AWS
+                         commentUserControl.comment.Source = new BitmapImage(new Uri(userComment.profilePhoto));
                     }
                     commentUserControl.comment.Body = commentObtained.body;
-                    commentUserControl.comment.DateOfComment = commentObtained.dateOfComment.Date;
                     if(commentObtained.author == SingletonUser.Instance.Username)
                     {
                         commentUserControl.comment.MenuComment.Visibility = Visibility.Visible;
@@ -182,6 +193,10 @@ namespace FeiHub.Views
                         commentUserControl.comment.Button_SaveChages.Tag = commentObtained;
                         commentUserControl.comment.MenuItem_EditComment.Click += EditComment;
                         commentUserControl.comment.MenuItem_DeleteComment.Click += DeleteComment;
+                    }
+                    if (SingletonUser.Instance.Rol == "ADMIN")
+                    {
+                        commentUserControl.comment.MenuComment.Visibility = Visibility.Collapsed;
                     }
                     StackPanel_Comments.Children.Add(commentUserControl);
                 }
@@ -194,7 +209,7 @@ namespace FeiHub.Views
             }
         }
 
-        private void DeleteComment(object sender, RoutedEventArgs e)
+        private async void DeleteComment(object sender, RoutedEventArgs e)
         {
             var menu = (sender as MenuItem).Parent as MenuItem;
             if (menu != null)
@@ -202,12 +217,28 @@ namespace FeiHub.Views
                 var comment = menu.Tag as Models.Comment;
                 if (comment != null)
                 {
-                    MessageBox.Show("Eliminar");
+                    var idPost = postConsulted.id;
+                    var idComment = comment.commentId;
+                    Posts postCommented = await postsAPIServices.DeleteComment(idComment, idPost);
+                    if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        this.NavigationService.Navigate(new CompletePost(postCommented));
+                    }
+                    if (postCommented.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                        SingletonUser.Instance.BorrarSinglenton();
+                        this.NavigationService.Navigate(new LogIn());
+                    }
+                    if (postCommented.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    {
+                        MessageBox.Show("Tuvimos un error al crear el comentario, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
             }
         }
 
-        private void EditComment(object sender, RoutedEventArgs e)
+        private async void EditComment(object sender, RoutedEventArgs e)
         {
             var menu = (sender as MenuItem).Parent as MenuItem;
             if (menu != null)
@@ -215,20 +246,47 @@ namespace FeiHub.Views
                 var comment = menu.Tag as Models.Comment;
                 if (comment != null)
                 {
-                    MessageBox.Show("Editar");
                     if ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment != null)
                         ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).ThisVisibility = Visibility.Visible;
                     ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).TextBox_Comment.IsEnabled = true;
+                    ((((menu.Parent as Menu).Parent as Grid).Parent as Border).Parent as UserControls.Comment).IdPost = postConsulted.id;
                 }
             }
+
         }
 
-        private void CommentPost(object sender, RoutedEventArgs args)
+        private async void CommentPost(object sender, RoutedEventArgs args)
         {
             var idPost = postConsulted.id;
             var body = TextBlox_Comment.Text;
-            var date = DateTime.Now;
+            var date = DateTime.Now.Date;
             var author = SingletonUser.Instance.Username;
+            if (!String.IsNullOrEmpty(body))
+            {
+                Models.Comment comment = new Models.Comment();
+                comment.author = author;
+                comment.dateOfComment = date;
+                comment.body = body;
+                Posts postCommented = await postsAPIServices.AddComment(comment, idPost);
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    this.NavigationService.Navigate(new CompletePost(postCommented));
+                }
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SingletonUser.Instance.BorrarSinglenton();
+                    this.NavigationService.Navigate(new LogIn());
+                }
+                if (postCommented.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    MessageBox.Show("Tuvimos un error al crear el comentario, inténtalo más tarde", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No puedes dejar el comentario vacío", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         private void LogOut(object sender, RoutedEventArgs e)
         {
@@ -243,16 +301,23 @@ namespace FeiHub.Views
 
         private void Search(object sender, RoutedEventArgs e)
         {
-            string username = MainBar.TextBox_Search.Text;
-            if (username != "")
+            string stringToSearch = this.MainBar.TextBox_Search.Text;
+            if (stringToSearch != "")
             {
-                this.NavigationService.Navigate(new SearchResults(username));
+                this.NavigationService.Navigate(new SearchResults(stringToSearch));
             }
         }
 
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.GoBack();
+            if(SingletonUser.Instance.Rol == "ADMIN")
+            {
+                this.NavigationService.Navigate(new ManagePosts());
+            }
+            else
+            {
+                this.NavigationService.Navigate(new MainPage());
+            }
         }
     }
 }
