@@ -30,8 +30,12 @@
                 <Label Content="Username" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Name="Label_Username" 
                        BorderBrush="Black" BorderThickness="0" Foreground="Black" HorizontalContentAlignment="Left" Background="LightSkyBlue"
                        HorizontalAlignment="Center" Width="{Binding ElementName=StackPanel_Chat, Path=ActualWidth}" Visibility="Collapsed"/>
+                <TextBlock Text="Escribe un mensaje para empezar esta conversación" FontFamily="Yu Gothic" FontSize="18" 
+                           FontWeight="SemiBold" Name="Label_NoMessages" TextWrapping="Wrap" 
+                       HorizontalAlignment="Center" 
+                       Width="361" TextAlignment="Center" Foreground="#FF31353A" Visibility="Collapsed"/>
                 <ScrollViewer Name="ScrollViewer_ListMessages" Visibility="Collapsed" BorderBrush="Black" BorderThickness="1">
-                    <ListView Name="ListView_Chat" Height="419">
+                    <ListView Name="ListView_Chat" MaxHeight="419" MinHeight="360">
                     </ListView>
                 </ScrollViewer>
                 <StackPanel Orientation="Horizontal" Width="562" Name="StackPanel_MessageToSend" Visibility="Collapsed" VerticalAlignment="Bottom">
@@ -40,10 +44,10 @@
                           VerticalAlignment="Center" VerticalContentAlignment="Center"
                         materialDesign:HintAssist.Hint="Escribe un mensaje"
                              materialDesign:TextFieldAssist.UnderlineBrush="{x:Null}"
-                        TextWrapping="Wrap" Width="512"
+                        TextWrapping="Wrap" Width="512" Name="TextBox_Message"
                         VerticalScrollBarVisibility="Auto" BorderBrush="#BC656565" BorderThickness="1,1,1,1" />
                     <Button Margin="0 0 0 0" Grid.Column="2" Name="Button_SendMessage" HorizontalAlignment="Right"
-                      Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                      Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" Click="SendMessage"
                       ToolTip="Enviar mensaje" Background="{x:Null}" BorderBrush="{x:Null}" Visibility="{Binding Path=ThisVisibility, ElementName=previewUser}">
                             <materialDesign:PackIcon Kind="Send" Height="30" Width="30" Foreground="#05303b"/>
                     </Button>
