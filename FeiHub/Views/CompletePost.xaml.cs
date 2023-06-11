@@ -74,6 +74,31 @@ namespace FeiHub.Views
             }
             AddUserDataToPost();
             AddComments();
+            AddImages();
+        }
+        public void AddImages()
+        {
+            WrapPanel wrapPanel = new WrapPanel();
+            wrapPanel.HorizontalAlignment = HorizontalAlignment.Center;
+
+            /* 
+             * ESTO SE SUSTITUYE CON LO DE LAS IMÁGENES QUE TENGAS :)
+            ImageSourceConverter converter = new ImageSourceConverter();
+            Image image = new Image();
+            image.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+            image.Margin = new Thickness(0, 10, 0, 10);
+            wrapPanel.Children.Add(image);
+            Image image2 = new Image();
+            image2.Source = (ImageSource)converter.ConvertFromString("../../Resources/uv.png");
+            image2.Margin = new Thickness(0, 10, 0, 10);
+            wrapPanel.Children.Add(image2);
+            Image image3 = new Image();
+            image3.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
+            image3.Margin = new Thickness(0, 10, 0, 10);
+            wrapPanel.Children.Add(image3);
+            */
+
+            StackPanel_Post.Children.Add(wrapPanel);
         }
         public async void AddUserDataToPost()
         {
