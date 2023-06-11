@@ -119,6 +119,13 @@ namespace FeiHub.UserControls
         }
 
         public static readonly DependencyProperty PostMainPhotoProperty = DependencyProperty.Register("PostMainPhoto", typeof(ImageSource), typeof(PostPreview));
+        public Visibility ThisVisibility
+        {
+            get { return (Visibility)GetValue(ThisVisibilityProperty); }
+            set { SetValue(ThisVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty ThisVisibilityProperty = DependencyProperty.Register("ThisVisibility", typeof(Visibility), typeof(PostPreview));
 
         public void ReportThisPost(Object sender, RoutedEventArgs args)
         {

@@ -53,6 +53,7 @@ namespace FeiHub.Views
             PostPreview.Body = post.body;
             PostPreview.Username = post.author;
             PostPreview.PostDate = post.dateOfPublish.Date;
+            PostPreview.ThisVisibility = Visibility.Hidden;
             if (post.target == "EVERYBODY")
             {
                 PostPreview.Target = "Todos";

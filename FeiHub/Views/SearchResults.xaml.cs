@@ -28,6 +28,10 @@ namespace FeiHub.Views
         public SearchResults(string username)
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUsers;
+            this.MainBar.Button_Profile.Click += GoToMyProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             usernameToFind = username;
             AddUsersFind(usernameToFind);
         }
@@ -35,7 +39,7 @@ namespace FeiHub.Views
         private void FindUsers(object sender, RoutedEventArgs e)
         {
             WrapPanel_Users.Children.Clear();
-            usernameToFind = TextBox_Finder.Text;
+            usernameToFind = MainBar.TextBox_Search.Text;
             if (usernameToFind != "")
             {
                 AddUsersFind(usernameToFind);
@@ -101,6 +105,10 @@ namespace FeiHub.Views
                 }
             }
         }
+        private void GoToMyProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
+        }
         private void GoToChat(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -112,6 +120,15 @@ namespace FeiHub.Views
                     this.NavigationService.Navigate(new Chat(user));
                 }
             }
+        }
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            SingletonUser.Instance.BorrarSinglenton();
+            this.NavigationService.Navigate(new LogIn());
         }
     }
 }

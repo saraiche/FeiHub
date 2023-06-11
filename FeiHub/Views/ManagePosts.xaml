@@ -21,13 +21,13 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" >
             <Button Grid.Column="1"
-                Margin="5 0 0 0"
+                Margin="5 0 0 0" Click="GoToProfile"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                   ToolTip="Ir a Perfil" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
             </Button>
             <Button x:Name="Logout" Grid.Column="1"
-                Margin="5 0 30 0"
+                Margin="5 0 30 0" Click="LogOut"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                   ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />

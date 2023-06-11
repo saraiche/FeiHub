@@ -73,7 +73,7 @@ namespace FeiHub.Views
 
             if (result == MessageBoxResult.Yes)
             {
-                this.NavigationService.Navigate(new MainPage());
+                this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
             }
         }
 

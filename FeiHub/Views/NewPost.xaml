@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:FeiHub.Views"
+      xmlns:uc="clr-namespace:FeiHub.UserControls"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="845"
       Title="NewPost">
@@ -16,39 +17,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Fill="#14a3c8"/>
-        <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="15 0 0 0" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Right"/>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Center">
-            <TextBox Grid.Column="1" 
-                FontFamily="Yu Gothic" FontSize="14" FontWeight="Medium" Margin="0 0 0 0"
-                 Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                materialDesign:HintAssist.Hint="Buscar en FeiHub"
-                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto" BorderBrush="#BC656565" BorderThickness="1,1,1,1" />
-            <Button Grid.Column="1"
-                Margin="5 0 0 0"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
-            </Button>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" >
-            <Button Grid.Column="1"
-                Margin="5 0 0 0"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Ir a perfil" Background="#05303b" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
-            </Button>
-            <Button Grid.Column="1"
-                Margin="5 0 30 0"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
-            </Button>
-        </StackPanel>
+        <uc:MainBar x:Name="MainBar" Grid.ColumnSpan="2"/>
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Margin="30">
             <Label Content="Crear Publicación" FontFamily="Yu Gothic" FontSize="19" FontWeight="ExtraBlack" Name="Label_PageTitle"/>
             <TextBox HorizontalAlignment="Left" Name="TextBox_Title"
@@ -80,8 +51,6 @@
                 <Button Margin="20 0 0 0" Background="#0f7f9b" Name="Button_Post"
                     Content="Publicar" FontWeight="Bold" FontSize="14"
                     Style="{StaticResource MaterialDesignRaisedLightButton}" Click="CreatePost"/>
-                <Button x:Name="Button_Cancel" Margin="20 0 0 0" Background="#FFCE1D1D"
-                    Style="{StaticResource MaterialDesignRaisedLightButton}"/>
                 <Button Margin="20 0 0 0" Background="#0f7f9b" Name="Button_SaveChanges"
                     Content="Guardar cambios" FontWeight="Bold" FontSize="14" Visibility="Collapsed"
                     Style="{StaticResource MaterialDesignRaisedLightButton}" Click="EditPost"/>

@@ -25,12 +25,20 @@ namespace FeiHub.Views
         public Chat()
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUser;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             AddFollowing();
         }
 
         public Chat(User user)
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUser;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             AddFollowing();
             ShowChatWithUser(user);
         }
@@ -83,6 +91,28 @@ namespace FeiHub.Views
                 {
                     this.NavigationService.Navigate(new Chat(user));
                 }
+            }
+        }
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            SingletonUser.Instance.BorrarSinglenton();
+            this.NavigationService.Navigate(new LogIn());
+        }
+        private void GoToProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
+        }
+        private void FindUser(object sender, RoutedEventArgs e)
+        {
+            string username = "";
+            username = MainBar.TextBox_Search.Text;
+            if (username != "")
+            {
+                this.NavigationService.Navigate(new SearchResults(username));
             }
         }
     }
