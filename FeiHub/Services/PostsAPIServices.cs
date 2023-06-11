@@ -229,8 +229,9 @@ namespace FeiHub.Services
             }
         }
 
-        public async Task<HttpResponseMessage> CreatePost(Posts newPosts)
+        public async Task<Posts> CreatePost(Posts newPosts)
         {
+            Posts post = new Posts();
             try
             {
                 string apiUrl = "/posts/createPost";
@@ -238,13 +239,44 @@ namespace FeiHub.Services
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
                 content.Headers.Add("token", SingletonUser.Instance.Token);
                 HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress + apiUrl, content);
-                return response;
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    JObject jsonObject = JObject.Parse(jsonResponse);
+                    post.id = jsonObject.GetValue("id").ToString();
+                    post.title = jsonObject.GetValue("title").ToString();
+                    post.author = jsonObject.GetValue("author").ToString();
+                    post.body = jsonObject.GetValue("body").ToString();
+                    post.dateOfPublish = DateTime.Parse(jsonObject.GetValue("dateOfPublish").ToString());
+                    JArray photosArray = jsonObject.GetValue("photos") as JArray;
+                    if (photosArray != null)
+                    {
+                        post.photos = photosArray.ToObject<Photo[]>();
+                    }
+                    post.target = jsonObject.GetValue("target").ToString();
+                    post.likes = int.Parse(jsonObject.GetValue("likes").ToString());
+                    post.dislikes = int.Parse(jsonObject.GetValue("dislikes").ToString());
+                    JArray commentsArray = jsonObject.GetValue("comments") as JArray;
+                    if (commentsArray != null)
+                    {
+                        post.comments = commentsArray.ToObject<Comment[]>();
+                    }
+
+                    post.StatusCode = response.StatusCode;
+
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    post.StatusCode = System.Net.HttpStatusCode.Unauthorized;
+                }
+                return post;
             }
-            catch (Exception ex)
+            catch
             {
-                HttpResponseMessage response = new HttpResponseMessage();
-                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-                return response;
+                Posts errorPost = new Posts();
+                errorPost.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                return errorPost;
             }
         }
         public async Task<List<Posts>> GetPostsByUsername(string username)
@@ -347,5 +379,6 @@ namespace FeiHub.Services
                 return response;
             }
         }
+        
     }
 }

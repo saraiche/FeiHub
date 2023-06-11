@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +25,8 @@ namespace FeiHub.Views
     /// </summary>
     public partial class NewPost : Page
     {
+
+        List<string> selectedFilePaths = new List<string>();
         string title = "";
         string body = "";
         string target = "";
@@ -31,6 +34,7 @@ namespace FeiHub.Views
         DateTime dateOfPublish = DateTime.Now;
         Photo[] photos = null;
         PostsAPIServices postsAPIServices = new PostsAPIServices();
+        S3Service s3Service = new S3Service();
         Posts postToEdit = new Posts();
         public NewPost()
         {
@@ -110,32 +114,59 @@ namespace FeiHub.Views
                 postCreated.body = body;
                 postCreated.author = author;
                 postCreated.target = target;
-                if(photos != null)
-                {
-                    postCreated.photos = photos;
-                }
-                else
-                {
-                    postCreated.photos = new Photo[0];
-                }
+                postCreated.photos = new Photo[0];
                 postCreated.dateOfPublish = dateOfPublish;
-                HttpResponseMessage response = await postsAPIServices.CreatePost(postCreated);
-                if (response.IsSuccessStatusCode)
+                Posts newPost = await postsAPIServices.CreatePost(postCreated);
+                if (newPost.StatusCode == System.Net.HttpStatusCode.Created)
                 {
-                    MessageBoxResult result = MessageBox.Show("Publicación creada exitosamente, se te redirigirá a la página principal", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    if (result == MessageBoxResult.OK)
+                    if (selectedFilePaths.Count > 0)
                     {
-                        this.NavigationService.Navigate(new MainPage());
+                        List<Photo> tempPhotos = new List<Photo>(newPost.photos);
+                        foreach (string imagePath in selectedFilePaths)
+                        {
+                            int counter = 1;
+                            string customName = $"{newPost.id}{counter++}";
+                            bool uploadSuccess = await s3Service.UploadImage(imagePath, customName);
+
+                            if (uploadSuccess)
+                            {
+                                string imageUrl = s3Service.GetImageURL(customName);
+                                tempPhotos.Add(new Photo { url = imageUrl });
+                            }
+                        }
+                        newPost.photos = tempPhotos.ToArray();
+                        HttpResponseMessage response = await postsAPIServices.EditPost(newPost);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            MessageBoxResult result = MessageBox.Show("Publicación creada exitosamente, se te redirigirá a la página principal", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                            if (result == MessageBoxResult.OK)
+                            {
+                                this.NavigationService.Navigate(new MainPage());
+                            }
+                        }
+                        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        {
+                            MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
+                            SingletonUser.Instance.BorrarSinglenton();
+                            this.NavigationService.Navigate(new LogIn());
+                        }
+                        if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                        {
+                            MessageBox.Show("Tuvimos un error al crear tu publicación, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                    else
+                    {
+                        postCreated.photos = new Photo[0];
                     }
                 }
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) 
+                if (newPost.StatusCode == System.Net.HttpStatusCode.Unauthorized) 
                 {
                     MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                     SingletonUser.Instance.BorrarSinglenton();
                     this.NavigationService.Navigate(new LogIn());
                 }
-                if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                if (newPost.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
                     MessageBox.Show("Tuvimos un error al crear tu publicación, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -158,13 +189,13 @@ namespace FeiHub.Views
         private void AddPhotos(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Todos los archivos|*.*";
+            openFileDialog.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            openFileDialog.Multiselect = false;
+            openFileDialog.Multiselect = true;
 
             if (openFileDialog.ShowDialog() == true)
             {
-                // No se realiza ninguna acción adicional aquí
+                selectedFilePaths.AddRange(openFileDialog.FileNames);
             }
         }
 
