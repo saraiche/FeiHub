@@ -717,7 +717,7 @@ namespace FeiHub.Services
                 response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
                 return response;
             }
-        }          
+        }
         public async Task<Chats> CreateChat(Chats.Chat messageToSend, string username)
         {
             Chats chat = new Chats();
@@ -733,7 +733,7 @@ namespace FeiHub.Services
                 };
                 string jsonRequest = JsonConvert.SerializeObject(requestData);
                 StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-                content.Headers.Add("token", SingletonUser.Instance.Token); 
+                content.Headers.Add("token", SingletonUser.Instance.Token);
                 HttpResponseMessage response = await httpClient.PostAsync(httpClient.BaseAddress + apiUrl, content);
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
@@ -759,6 +759,7 @@ namespace FeiHub.Services
                 chat.StatusCode = System.Net.HttpStatusCode.InternalServerError;
             }
             return chat;
+        }
         public async Task<List<Posts>> GetReporteredPosts()
         {
             try
