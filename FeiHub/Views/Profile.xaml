@@ -83,7 +83,7 @@
                             </Button>
                             <Button Margin="30 0 0 0" Name="Button_EditProfile" HorizontalAlignment="Right"
                           Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                          ToolTip="Dejar de seguir" Background="{x:Null}" BorderBrush="{x:Null}">
+                          ToolTip="Dejar de seguir" Background="{x:Null}" BorderBrush="{x:Null}" Click="EditProfile">
                                 <materialDesign:PackIcon Kind="PencilOutline" Height="30" Width="30" Foreground="#05303b"/>
                             </Button>
                         </StackPanel>

@@ -79,7 +79,8 @@ namespace FeiHub.Views
             image.Source = (ImageSource)converter.ConvertFromString("../../Resources/uv.png");
             postPreview.WrapPanel_Images.Children.Add(image);
             //  NO TIENE OBJETO POST
-            //postPreview.postPreview.Border_Post.Tag = post;
+            //postPreview.postPreview.Tag = post.id;
+            //posts.postPreview.Id = post.id;
             postPreview.postPreview.Border_Post.MouseDown += GoToCompletePost;
             StackPanel_Posts.Children.Add(postPreview);
 
@@ -228,6 +229,7 @@ namespace FeiHub.Views
                     {
                         UserControls.PostPreview posts = new UserControls.PostPreview();
                         posts.postPreview.Username = post.author;
+                        posts.postPreview.Id = post.id;
                         User userData = await usersAPIServices.GetUser(post.author);
                         if (userData.profilePhoto == null)
                         {
