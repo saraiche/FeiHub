@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FeiHub.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
@@ -118,7 +119,17 @@ namespace FeiHub.Views
             }
             );
         }
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            SingletonUser.Instance.BorrarSinglenton();
+            this.NavigationService.Navigate(new LogIn());
+        }
+        private void GoToProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
+        }
     }
+
 
     internal class Post
     {

@@ -35,11 +35,19 @@ namespace FeiHub.Views
         public NewPost()
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUser;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
         }
 
         public NewPost(Posts post)
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUser;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             postToEdit = post;
             Label_PageTitle.Content = "Editar Publicación";
             TextBox_Title.Text = postToEdit.title;
@@ -63,7 +71,7 @@ namespace FeiHub.Views
 
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainPage());
+            this.NavigationService.GoBack();
         }
 
         private async void CreatePost(object sender, RoutedEventArgs e)
@@ -214,6 +222,24 @@ namespace FeiHub.Views
             else
             {
                 MessageBox.Show("No puede dejar campos vacíos", "Notificación", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            SingletonUser.Instance.BorrarSinglenton();
+            this.NavigationService.Navigate(new LogIn());
+        }
+        private void GoToProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
+        }
+        private void FindUser(object sender, RoutedEventArgs e)
+        {
+            string username = "";
+            username = MainBar.TextBox_Search.Text;
+            if (username != "")
+            {
+                this.NavigationService.Navigate(new SearchResults(username));
             }
         }
     }

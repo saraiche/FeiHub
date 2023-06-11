@@ -1,6 +1,7 @@
 ﻿using FeiHub.Models;
 using FeiHub.Services;
 using FeiHub.UserControls;
+using MaterialDesignColors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,18 +30,30 @@ namespace FeiHub.Views
         public Profile()
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUser;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             AddImagesToPost();
         }
 
         public Profile(string username)
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUser;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             AddDataUserLogged();
             
         }
         public Profile(User user)
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += FindUser;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             this.userConsulted = user;
             if (String.IsNullOrEmpty(user.educationalProgram))
             {
@@ -282,6 +295,7 @@ namespace FeiHub.Views
                         {
                             posts.Label_Photos.Visibility = Visibility.Visible;
                         }
+                        posts.postPreview.ThisVisibility = Visibility.Hidden;
                         posts.postPreview.Likes = post.likes;
                         posts.postPreview.Dislikes = post.dislikes;
                         if (post.target == "EVERYBODY")
@@ -324,7 +338,7 @@ namespace FeiHub.Views
         private void FindUser(object sender, RoutedEventArgs e)
         {
             string username = "";
-            username = TextBox_Finder.Text;
+            username = MainBar.TextBox_Search.Text;
             if (username != "")
             {
                 this.NavigationService.Navigate(new SearchResults(username));
@@ -381,12 +395,22 @@ namespace FeiHub.Views
 
         private void LogOut(object sender, RoutedEventArgs e)
         {
-
+            SingletonUser.Instance.BorrarSinglenton();
+            this.NavigationService.Navigate(new LogIn());
         }
 
         private void GoToProfile(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
+        }
+
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
+        private void GoToThisUserChat(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Chat(userConsulted));
         }
     }
 }

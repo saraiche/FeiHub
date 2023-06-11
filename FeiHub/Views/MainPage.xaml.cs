@@ -120,6 +120,7 @@ namespace FeiHub.Views
                         {
                             posts.Label_Photos.Visibility = Visibility.Visible;
                         }
+                        posts.postPreview.ThisVisibility = Visibility.Hidden;
                         posts.postPreview.Likes = post.likes;
                         posts.postPreview.Dislikes = post.dislikes;
                         if(post.target == "EVERYBODY")
@@ -229,6 +230,7 @@ namespace FeiHub.Views
                         {
                             posts.postPreview.Target = "Estudiantes";
                         }
+                        posts.postPreview.ThisVisibility = Visibility.Hidden;
                         posts.postPreview.Border_Post.Tag = post;
                         posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
                         posts.postPreview.Button_Comment.Tag = post;
@@ -298,6 +300,7 @@ namespace FeiHub.Views
                         {
                             posts.postPreview.Target = "Estudiantes";
                         }
+                        posts.postPreview.ThisVisibility = Visibility.Hidden;
                         posts.postPreview.Border_Post.Tag = post;
                         posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
                         posts.postPreview.Button_Comment.Tag = post;

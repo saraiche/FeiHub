@@ -29,7 +29,9 @@
                         </MenuItem>
                     </Menu>
                 </StackPanel>
-                <local:PreviewUser Username="{Binding Path=Username,ElementName=postPreview}" Source="{Binding Path=ProfilePhoto,ElementName=postPreview}"/>
+                <local:PreviewUser Username="{Binding Path=Username,ElementName=postPreview}" 
+                                   Source="{Binding Path=ProfilePhoto,ElementName=postPreview}" 
+                                   ThisVisibility="{Binding ElementName=postPreview, Path=ThisVisibility}"/>
                 <Label x:Name="Label_Date" FontSize="13" FontWeight="Bold" FontFamily="Yu Gothic" Height="28">
                 </Label>
                 <TextBlock x:Name="TextBlock_Title" Text="{Binding Path=Title,ElementName=postPreview}"
