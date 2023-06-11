@@ -63,6 +63,8 @@ namespace FeiHub.Views
                         WrapPanel_Users.Children.Add(users);
                         users.previewUser.TextBlock_Username.Tag = user;
                         users.previewUser.TextBlock_Username.MouseDown += GoToProfile;
+                        users.previewUser.Button_SendMessage.Tag = user;
+                        users.previewUser.Button_SendMessage.Click += GoToChat;
                     }
                 }
                 if (usersObtained[0].StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -96,6 +98,18 @@ namespace FeiHub.Views
                 if (user != null)
                 {
                     this.NavigationService.Navigate(new Profile(user));
+                }
+            }
+        }
+        private void GoToChat(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var user = button.Tag as User;
+                if (user != null)
+                {
+                    this.NavigationService.Navigate(new Chat(user));
                 }
             }
         }

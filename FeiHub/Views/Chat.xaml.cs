@@ -28,77 +28,16 @@ namespace FeiHub.Views
             AddFollowing();
         }
 
+        public Chat(User user)
+        {
+            InitializeComponent();
+            AddFollowing();
+            ShowChatWithUser(user);
+        }
+
         public void AddFollowing()
         {
             
-            PreviewUser following = new PreviewUser();
-
-            ImageSourceConverter converter = new ImageSourceConverter();
-            following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
-            following.previewUser.Username = "Saraiche";
-            following.previewUser.Border_Seguidor.MouseDown += Border_Seguidor_MouseDown;
-            StackPanel_Following.Children.Add(following);
-
-            PreviewUser following2 = new PreviewUser();
-            following2.ThisVisibility = Visibility.Collapsed;
-            following2.Username = "Carsiano";
-            following2.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            following2.previewUser.Border_Seguidor.MouseDown += Border_Seguidor_MouseDown;
-            StackPanel_Following.Children.Add(following2);
-
-            PreviewUser following3 = new PreviewUser();
-            following3.ThisVisibility = Visibility.Collapsed;
-            following3.Username = "Carsiano";
-            following3.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            StackPanel_Following.Children.Add(following3);
-
-            PreviewUser following4 = new PreviewUser();
-            following4.ThisVisibility = Visibility.Collapsed;
-            following4.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
-            following4.previewUser.Username = "Saraiche";
-
-            StackPanel_Following.Children.Add(following4);
-
-            PreviewUser following5 = new PreviewUser();
-            following5.ThisVisibility = Visibility.Collapsed;
-            following5.Username = "Carsiano";
-            following5.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            StackPanel_Following.Children.Add(following5);
-
-            PreviewUser following6 = new PreviewUser();
-            following6.ThisVisibility = Visibility.Collapsed;
-            following6.Username = "Carsiano";
-            following6.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            StackPanel_Following.Children.Add(following6);
-
-            PreviewUser following7 = new PreviewUser();
-            following7.ThisVisibility = Visibility.Collapsed;
-            following7.Username = "Carsiano";
-            following7.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            StackPanel_Following.Children.Add(following7);
-
-            PreviewUser following8 = new PreviewUser();
-            following8.ThisVisibility = Visibility.Collapsed;
-            following8.Username = "Carsiano";
-            following8.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            StackPanel_Following.Children.Add(following8);
-
-            PreviewUser following9 = new PreviewUser();
-            following9.ThisVisibility = Visibility.Collapsed;
-            following9.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
-            following9.previewUser.Username = "Saraiche";
-
-            StackPanel_Following.Children.Add(following9);
-
-            PreviewUser following10 = new PreviewUser();
-            following10.Username = "Carsiano";
-            StackPanel_Following.Children.Add(following10);
-
-            PreviewUser following11 = new PreviewUser();
-            following11.ThisVisibility = Visibility.Collapsed;
-            following11.Username = "Carsiano";
-            following11.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/pic.jpg");
-            StackPanel_Following.Children.Add(following11);
         }
 
         private void Border_Seguidor_MouseDown(object sender, MouseButtonEventArgs e)
@@ -115,8 +54,36 @@ namespace FeiHub.Views
             //Esta es la línea que se debe modificar 
             ListView_Chat.Items.Add(username + " : Hola");
             ListView_Chat.Items.Add(username + " : Hola");
-            ListView_Chat.Items.Add(username + " : Hola");
+            ListView_Chat.Items.Add(username + " : Desde border");
 
+        }
+
+        public void ShowChatWithUser(User user)
+        {
+            Label_NoChatSelected.Visibility = Visibility.Collapsed;
+            Label_Username.Content = user.username;
+            Label_Username.Visibility = Visibility.Visible;
+            ScrollViewer_ListMessages.Visibility = Visibility.Visible;
+            ListView_Chat.Items.Clear();
+            StackPanel_MessageToSend.Visibility = Visibility.Visible;
+
+            //Esta es la línea que se debe modificar 
+            ListView_Chat.Items.Add(user.username + " : Desde botón");
+            ListView_Chat.Items.Add(user.username + " : Hola");
+            ListView_Chat.Items.Add(user.username + " : Hola");
+        }
+
+        private void GoToChat(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var user = button.Tag as User;
+                if (user != null)
+                {
+                    this.NavigationService.Navigate(new Chat(user));
+                }
+            }
         }
     }
 }

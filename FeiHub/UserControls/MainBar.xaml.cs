@@ -27,9 +27,5 @@ namespace FeiHub.UserControls
             InitializeComponent();
         }
 
-        private void SearchResults(object sender, RoutedEventArgs e)
-        {
-            
-        }
     }
 }

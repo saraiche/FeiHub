@@ -26,17 +26,12 @@ namespace FeiHub
         public MainWindow()
         {
             InitializeComponent();
-            Frame_PagesNavigation.Navigate(new LogIn());
+            Frame_PagesNavigation.Navigate(new EditProfile());
         }
 
         private void DestroySingleton(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SingletonUser.Instance.BorrarSinglenton();
-        }
-
-        public void NavigateToPage(Page page)
-        {
-            Frame_PagesNavigation.Navigate(page);
         }
     }
 }

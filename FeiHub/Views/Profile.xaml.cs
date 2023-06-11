@@ -30,6 +30,13 @@ namespace FeiHub.Views
             InitializeComponent();
             AddImagesToPost();
         }
+
+        public Profile(string username)
+        {
+            InitializeComponent();
+            //buscar la info del user por el nombre de usuario, cuando es el perfil del singlenton no tenemos los datos necesarios :(
+            MessageBox.Show("Hacer el método");
+        }
         public Profile(User user)
         {
             InitializeComponent();
@@ -138,6 +145,8 @@ namespace FeiHub.Views
                         }
                         following.Margin = new Thickness(10);
                         following.previewUser.TextBlock_Username.Tag = user;
+                        following.previewUser.Button_SendMessage.Tag = user;
+                        following.previewUser.Button_SendMessage.Click += GoToChat;
                         following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
                         WrapPanel_Following.Children.Add(following);
                     }
@@ -183,6 +192,8 @@ namespace FeiHub.Views
                         follower.Margin = new Thickness(10);
                         follower.previewUser.TextBlock_Username.Tag = user;
                         follower.previewUser.TextBlock_Username.MouseDown += GoToProfile;
+                        follower.previewUser.Button_SendMessage.Tag = user;
+                        follower.previewUser.Button_SendMessage.Click += GoToChat;
                         WrapPanel_Followers.Children.Add(follower);
                     }
                 }
@@ -289,6 +300,22 @@ namespace FeiHub.Views
                     this.NavigationService.Navigate(new CompletePost(post));
                 }
             }
+        }
+        private void GoToChat(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var user = button.Tag as User;
+                if (user != null)
+                {
+                    this.NavigationService.Navigate(new Chat(user));
+                }
+            }
+        }
+        private void EditProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new EditProfile());
         }
     }
 }
