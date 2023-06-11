@@ -329,14 +329,15 @@ namespace FeiHub.Services
             }
         }
 
-        public async Task<HttpResponseMessage> DeletePost(int idPost)
+        public async Task<HttpResponseMessage> EditPost(Posts newPosts)
         {
             try
             {
-                string apiUrl = $"/posts/deletePost/{idPost}";
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, httpClient.BaseAddress + apiUrl);
-                request.Headers.Add("token", SingletonUser.Instance.Token);
-                HttpResponseMessage response = await httpClient.SendAsync(request);
+                string apiUrl = "/posts/editPost";
+                string jsonRequest = JsonConvert.SerializeObject(newPosts);
+                StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                content.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress + apiUrl, content);
                 return response;
             }
             catch (Exception ex)

@@ -108,6 +108,10 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto= (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        else
+                        {
+                            // ADD PHOTO IN AWS
+                        }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
                         posts.postPreview.Body = post.body;
@@ -196,6 +200,10 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        else
+                        {
+                            // ADD PHOTO IN AWS
+                        }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
                         posts.postPreview.Body = post.body;
@@ -257,6 +265,10 @@ namespace FeiHub.Views
 
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        else
+                        {
+                            // ADD PHOTO IN AWS
                         }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;

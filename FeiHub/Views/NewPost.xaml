@@ -84,7 +84,7 @@
                     Style="{StaticResource MaterialDesignRaisedLightButton}"/>
                 <Button Margin="20 0 0 0" Background="#0f7f9b" Name="Button_SaveChanges"
                     Content="Guardar cambios" FontWeight="Bold" FontSize="14" Visibility="Collapsed"
-                    Style="{StaticResource MaterialDesignRaisedLightButton}"/>
+                    Style="{StaticResource MaterialDesignRaisedLightButton}" Click="EditPost"/>
                 <Button Margin="20 0 0 0" Background="#FFCE1D1D"
                     Content="Cancelar" FontWeight="Bold" FontSize="14"
                     Style="{StaticResource MaterialDesignRaisedLightButton}" Click="GoBack" IsCancel="True"/>
