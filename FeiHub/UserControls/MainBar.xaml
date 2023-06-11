@@ -9,13 +9,21 @@
              d:DesignHeight="56" d:DesignWidth="845">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.25*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.56*"/>
+            <ColumnDefinition Width="276*"/>
+            <ColumnDefinition Width="308*"/>
+            <ColumnDefinition Width="261*"/>
         </Grid.ColumnDefinitions>
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Fill="#14a3c8"/>
-        <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="15 0 0 0" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Right"/>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="10 0 0 0" HorizontalAlignment="Center">
+            <Button x:Name="Button_GoBack" Grid.Column="1"
+                Margin="5 0 0 0"
+                  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                  ToolTip="Buscar" Background="#FF10B6E0" BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="ArrowLeftBoldOutline" Height="23" Width="35"/>
+            </Button>
+            <Label Content="FeiHub" FontFamily="Yu Gothic" FontSize="25" FontWeight="DemiBold" VerticalAlignment="Center" Margin="15,0,0,0" HorizontalContentAlignment="Center" Height="48"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="#14a3c8" HorizontalAlignment="Center" Width="246">
             <TextBox x:Name="TextBox_Search" Grid.Column="1" 
                 FontFamily="Yu Gothic" FontSize="14" FontWeight="Medium" Margin="0 0 0 0"
                  Width="200" VerticalAlignment="Center" VerticalContentAlignment="Center"
@@ -26,18 +34,18 @@
             <Button x:Name="Button_Search" Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}" Click="SearchResults">
+                  ToolTip="Buscar" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Magnify" Height="23" Width="35"/>
             </Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" >
-            <Button Grid.Column="1"
+        <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Height="40" Margin="141,0,0,0" Width="120" >
+            <Button Grid.Column="1" x:Name="Button_Profile"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                   ToolTip="Ir al perfil" Background="#05303b" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
             </Button>
-            <Button x:Name="Logout" Grid.Column="1"
+            <Button x:Name="Button_LogOut" Grid.Column="1"
                 Margin="5 0 30 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                   ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">

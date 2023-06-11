@@ -154,10 +154,6 @@ namespace FeiHub.Views
         }
 
 
-        private void SendMessage(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Mando mensaje a " + (((((e.Source as Button).Parent as Grid).Parent as Border).Parent as UserControl) as UserControls.PreviewUser).Username);
-        }
 
         private void GoToProfile(object sender, MouseButtonEventArgs e)
         {

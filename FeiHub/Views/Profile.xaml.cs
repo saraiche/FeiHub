@@ -30,6 +30,13 @@ namespace FeiHub.Views
             InitializeComponent();
             AddImagesToPost();
         }
+
+        public Profile(string username)
+        {
+            InitializeComponent();
+            //buscar la info del user por el nombre de usuario, cuando es el perfil del singlenton no tenemos los datos necesarios :(
+            MessageBox.Show("Hacer el método");
+        }
         public Profile(User user)
         {
             InitializeComponent();
@@ -305,6 +312,10 @@ namespace FeiHub.Views
                     this.NavigationService.Navigate(new Chat(user));
                 }
             }
+        }
+        private void EditProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new EditProfile());
         }
     }
 }
