@@ -1,5 +1,6 @@
 ﻿using FeiHub.Models;
 using FeiHub.Services;
+using FeiHub.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace FeiHub.Views
     /// </summary>
     public partial class Profile : Page
     {
-        public User User { get; set; }
+        User userConsulted = new User();
         UsersAPIServices usersAPIServices = new UsersAPIServices();
         PostsAPIServices postsAPIServices = new PostsAPIServices();
         public Profile()
@@ -34,13 +35,13 @@ namespace FeiHub.Views
         public Profile(string username)
         {
             InitializeComponent();
-            //buscar la info del user por el nombre de usuario, cuando es el perfil del singlenton no tenemos los datos necesarios :(
-            MessageBox.Show("Hacer el método");
+            AddDataUserLogged();
+            
         }
         public Profile(User user)
         {
             InitializeComponent();
-            this.User = user;
+            this.userConsulted = user;
             if (String.IsNullOrEmpty(user.educationalProgram))
             {
                 Label_EducationalProgram.Visibility = Visibility.Collapsed;
@@ -50,8 +51,8 @@ namespace FeiHub.Views
             else
             {
                 Label_EducationalProgram.Visibility = Visibility.Visible;
-                Label_EducationalProgram.Content = User.educationalProgram;
-                Label_Mail.Content = User.schoolId;
+                Label_EducationalProgram.Content = userConsulted.educationalProgram;
+                Label_Mail.Content = userConsulted.schoolId;
                 Label_UserType.Content = "Estudiante";
             }
             if (user.profilePhoto == null)
@@ -59,17 +60,42 @@ namespace FeiHub.Views
                 ImageSourceConverter converter = new ImageSourceConverter();
                 ProfilePhoto.ImageSource = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
             }
+            else
+            {
+                ProfilePhoto.ImageSource = new BitmapImage(new Uri(user.profilePhoto));
+            }
+            if (user.username == SingletonUser.Instance.Username)
+            {
+                IsOwner();
+            }
             FillHeader();
             AddPosts();
         }
 
-        /// <summary>
-        /// Write the data from the user in the header
-        /// </summary>
+        public async void AddDataUserLogged()
+        {
+            userConsulted = await usersAPIServices.GetUser(SingletonUser.Instance.Username);
+            Label_EducationalProgram.Visibility = Visibility.Visible;
+            Label_EducationalProgram.Content = userConsulted.educationalProgram;
+            Label_Mail.Content = userConsulted.schoolId;
+            Label_UserType.Content = "Estudiante";
+            if (userConsulted.profilePhoto == null)
+            {
+                ImageSourceConverter converter = new ImageSourceConverter();
+                ProfilePhoto.ImageSource = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+            }
+            else
+            {
+                ProfilePhoto.ImageSource = new BitmapImage(new Uri(userConsulted.profilePhoto));
+            }
+            FillHeader();
+            AddPosts();
+            IsOwner();
+        }
         public void FillHeader()
         {
-            Label_Name.Content = User.name + " " + User.paternalSurname + " " + User.maternalSurname;
-            Label_Username.Content = User.username;
+            Label_Name.Content = userConsulted.name + " " + userConsulted.paternalSurname + " " + userConsulted.maternalSurname;
+            Label_Username.Content = userConsulted.username;
         }
         public void AddImagesToPost()
         {
@@ -129,7 +155,7 @@ namespace FeiHub.Views
         }
         public async void AddFollowing()
         {
-            List<User> followingUsers = await usersAPIServices.GetListUsersFollowing(User.username);
+            List<User> followingUsers = await usersAPIServices.GetListUsersFollowing(userConsulted.username);
             if (followingUsers.Count > 0)
             {
                 if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.OK)
@@ -143,6 +169,10 @@ namespace FeiHub.Views
                         {
                             ImageSourceConverter converter = new ImageSourceConverter();
                             following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        else
+                        {
+                            following.previewUser.Source = new BitmapImage(new Uri(user.profilePhoto));
                         }
                         following.Margin = new Thickness(10);
                         following.previewUser.TextBlock_Username.Tag = user;
@@ -175,7 +205,7 @@ namespace FeiHub.Views
         }
         public async void AddFollowers()
         {
-            List<User> followersUsers = await usersAPIServices.GetListUsersFollowers(User.username);
+            List<User> followersUsers = await usersAPIServices.GetListUsersFollowers(userConsulted.username);
             if (followersUsers.Count > 0)
             {
                 if (followersUsers[0].StatusCode == System.Net.HttpStatusCode.OK)
@@ -189,6 +219,10 @@ namespace FeiHub.Views
                         {
                             ImageSourceConverter converter = new ImageSourceConverter();
                             follower.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        else
+                        {
+                            follower.previewUser.Source = new BitmapImage(new Uri(user.profilePhoto));
                         }
                         follower.Margin = new Thickness(10);
                         follower.previewUser.TextBlock_Username.Tag = user;
@@ -220,7 +254,7 @@ namespace FeiHub.Views
         }
         public async void AddPosts()
         {
-            List<Posts> postsObtained = await postsAPIServices.GetPostsByUsername(User.username);
+            List<Posts> postsObtained = await postsAPIServices.GetPostsByUsername(userConsulted.username);
             if (postsObtained.Count > 0)
             {
                 if (postsObtained[0].StatusCode == System.Net.HttpStatusCode.OK)
@@ -236,6 +270,10 @@ namespace FeiHub.Views
 
                             ImageSourceConverter converter = new ImageSourceConverter();
                             posts.postPreview.ProfilePhoto = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
+                        }
+                        else
+                        {
+                            posts.postPreview.ProfilePhoto = new BitmapImage(new Uri(userData.profilePhoto));
                         }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
@@ -317,7 +355,24 @@ namespace FeiHub.Views
         }
         private void EditProfile(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new EditProfile());
+            this.NavigationService.Navigate(new EditProfile(userConsulted));
+        }
+        public void IsOwner()
+        {
+            Button_EditProfile.Visibility = Visibility.Visible;
+            Button_Follow.Visibility = Visibility.Collapsed;
+            Button_UnFollow.Visibility = Visibility.Collapsed;
+            Button_SendMessage.Visibility = Visibility.Collapsed;
+        }
+
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GoToProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
         }
     }
 }

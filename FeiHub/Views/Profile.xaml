@@ -36,16 +36,16 @@
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="36" Margin="556,0,0,0" Width="120" >
-            <Button Grid.Column="1"
+            <Button x:Name="Button_Profile" Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Ir al Perfil" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Ir al Perfil" Background="#05303b" BorderBrush="{x:Null}" Click="GoToProfile">
                 <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
             </Button>
-            <Button Grid.Column="1"
+            <Button x:Name="Button_LogOut" Grid.Column="1"
                 Margin="5 0 30 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Salir" Background="#05303b" BorderBrush="{x:Null}" Click="LogOut">
                 <materialDesign:PackIcon Kind="ExitToApp" Height="23" Width="35"  />
             </Button>
         </StackPanel>
@@ -83,7 +83,7 @@
                             </Button>
                             <Button Margin="30 0 0 0" Name="Button_EditProfile" HorizontalAlignment="Right"
                           Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                          ToolTip="Dejar de seguir" Background="{x:Null}" BorderBrush="{x:Null}" Click="EditProfile">
+                          ToolTip="Dejar de seguir" Background="{x:Null}" BorderBrush="{x:Null}" Click="EditProfile" Visibility="Collapsed">
                                 <materialDesign:PackIcon Kind="PencilOutline" Height="30" Width="30" Foreground="#05303b"/>
                             </Button>
                         </StackPanel>

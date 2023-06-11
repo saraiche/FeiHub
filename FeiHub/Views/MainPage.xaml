@@ -38,10 +38,10 @@
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" >
-            <Button Grid.Column="1"
+            <Button x:Name="Button_MyProfile" Grid.Column="1"
                 Margin="5 0 0 0"
                   Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                  ToolTip="Ir al perfil" Background="#05303b" BorderBrush="{x:Null}">
+                  ToolTip="Ir al perfil" Background="#05303b" BorderBrush="{x:Null}" Click="GoToMyProfile">
                 <materialDesign:PackIcon Kind="Account" Height="23" Width="35"  />
             </Button>
             <Button x:Name="Logout" Grid.Column="1"

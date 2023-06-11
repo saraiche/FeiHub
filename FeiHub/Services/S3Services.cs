@@ -53,7 +53,8 @@ public class S3Service
             var request = new GetPreSignedUrlRequest
             {
                 BucketName = BucketName,
-                Key = imageName
+                Key = imageName,
+                Expires = DateTime.Now.AddSeconds(604800)
             };
 
             var url = amazonS3Client.GetPreSignedURL(request);
