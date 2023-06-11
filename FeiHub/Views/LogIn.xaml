@@ -38,7 +38,7 @@
             <Label Content="Universidad Veracruzana" Background="#063970" Width="247" HorizontalAlignment="Right" 
                    FontFamily="Yu Gothic" FontWeight="Bold" FontStretch="SemiExpanded" Foreground="#DDFFFFFF" 
                    HorizontalContentAlignment="Center" Margin="0,0,0,575" VerticalContentAlignment="Center"/>
-            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_LogIn" Visibility="Visible">
+            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_LogIn" Visibility="Collapsed">
                 <Label Content="Inicio de Sesión" HorizontalAlignment="Center"
                         FontFamily="Yu Gothic" Margin="0 80 0 50 " FontSize="50"/>
                 <TextBox x:Name="Username"
@@ -64,9 +64,9 @@
                         FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" Height="30" Width="164" Click="ButtonSignIn_Click"/>
             </StackPanel>
             
-            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_SignIn" Visibility="Collapsed">
+            <StackPanel Orientation="Vertical" Margin="30" Name="StackPanel_SignIn" Visibility="Visible">
                 <Label Content="¡Bienvenido!" HorizontalAlignment="Center"
-                        FontFamily="Yu Gothic" Margin="0 70 0 0 " FontSize="50"/>
+                        FontFamily="Yu Gothic" Margin="0 30 0 0 " FontSize="50"/>
                 <TextBlock Text="Crea tu cuenta como estudiante o como académico para comenzar a usar FeiHub" 
                            HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" TextAlignment="Center"
                            FontFamily="Yu Gothic"/>
@@ -77,7 +77,7 @@
                     <TabItem 
                     Header="Estudiante">
                         <TextBlock Margin="0">
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Name="St">
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                                 <TextBox x:Name="NameStudent"
                                     VerticalAlignment="Center" FontWeight="Normal"  FontSize="14"
@@ -100,9 +100,9 @@
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                     materialDesign:HintAssist.HelperText="Ej: s12345678"
                                     materialDesign:TextFieldAssist.UnderlineBrush="#063970"/>
-                                <ComboBox x:Name="EducationalProgramStudent" HorizontalAlignment="Center" Margin="20 10 0 0"
+                                <ComboBox x:Name="EducationalProgramStudent" HorizontalAlignment="Center" Margin="0 10 0 0"
                                   materialDesign:HintAssist.Hint="Programa Educativo" FontFamily="Yu Gothic" FontSize="14"
-                                    FontWeight="Normal" IsEditable="True" Height="43">
+                                    FontWeight="Normal" IsEditable="True" Height="43" Width="{Binding ElementName=St, Path=ActualWidth}">
                                   <ComboBoxItem
                                     Content="Estadística" />
                                   <ComboBoxItem
@@ -137,7 +137,7 @@
                                          Background="#14a3c8"
                                         FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" 
                                          Height="30" Width="114" Click="SingInStudent"/>
-                                <Label Content="¿Ya tienes una cuenta?" HorizontalAlignment="Center" Margin="0 25 0 0"/>
+                                <Label Content="¿Ya tienes una cuenta?" HorizontalAlignment="Center" Margin="0 17 0 0"/>
                                 <Button Content="Iniciar sesión" Margin="0 0 0 0"
                                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Background="White"
                                     FontFamily="Yu Gothic" FontWeight="Normal" BorderBrush="{x:Null}" Height="30" 

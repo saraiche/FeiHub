@@ -239,8 +239,11 @@ namespace FeiHub.Views
 
         private void Search(object sender, RoutedEventArgs e)
         {
-            string stringToSearch = this.MainBar.TextBox_Search.Text;
-            MessageBox.Show(stringToSearch);
+            string username = MainBar.TextBox_Search.Text;
+            if (username != "")
+            {
+                this.NavigationService.Navigate(new SearchResults(username));
+            }
         }
 
         private void GoBack(object sender, RoutedEventArgs e)
