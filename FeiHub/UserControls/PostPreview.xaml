@@ -7,59 +7,62 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
               Name="postPreview"
              mc:Ignorable="d">
-    <Border CornerRadius="5" BorderBrush="Black" Margin="10" BorderThickness="1,1,1,1" Name="Border_Post">
-        <Border.Style>
-            <Style TargetType="Border">
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#dfdfdf"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
-        <StackPanel Orientation="Vertical" Margin="10, 0, 10, 10">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Name="Label_Target" Content="{Binding Path=Target,ElementName=postPreview}" Margin="0 0 30 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
+    <Grid>
+        <Border CornerRadius="5" BorderBrush="Black" Margin="10" BorderThickness="1,1,1,1" Name="Border_Post" Visibility="Visible">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#dfdfdf"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel Orientation="Vertical" Margin="10, 0, 10, 10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Label Name="Label_Target" Content="{Binding Path=Target,ElementName=postPreview}" Margin="0 0 30 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
                        FontFamily="Yu Gothic" FontSize="12" FontWeight="Light"/>
-                <Menu materialDesign:MenuAssist.TopLevelMenuItemHeight="20" x:Name="MenuPost" Visibility="Collapsed">
-                    <MenuItem Header=":" FontFamily="Yu Gothic" FontWeight="Bold" FontSize="10">
-                        <MenuItem Header="Editar" Name="MenuItem_EditPost"/>
-                        <MenuItem Header="Eliminar" Name="MenuItem_DeletePost"/>
-                    </MenuItem>
-                </Menu>
-            </StackPanel>
-            <local:PreviewUser Username="{Binding Path=Username,ElementName=postPreview}" Source="{Binding Path=ProfilePhoto,ElementName=postPreview}"/>
-            <Label x:Name="Label_Date" FontSize="13" FontWeight="Bold" FontFamily="Yu Gothic" Height="28"
-                   Content="{Binding Path=PostDate,ElementName=postPreview}"/>
-            <TextBlock x:Name="TextBlock_Title" Text="{Binding Path=Title,ElementName=postPreview}"
+                    <Menu materialDesign:MenuAssist.TopLevelMenuItemHeight="20" x:Name="MenuPost" Visibility="Collapsed">
+                        <MenuItem Header=":" FontFamily="Yu Gothic" FontWeight="Bold" FontSize="10">
+                            <MenuItem Header="Editar" Name="MenuItem_EditPost"/>
+                            <MenuItem Header="Eliminar" Name="MenuItem_DeletePost"/>
+                        </MenuItem>
+                    </Menu>
+                </StackPanel>
+                <local:PreviewUser Username="{Binding Path=Username,ElementName=postPreview}" Source="{Binding Path=ProfilePhoto,ElementName=postPreview}"/>
+                <Label x:Name="Label_Date" FontSize="13" FontWeight="Bold" FontFamily="Yu Gothic" Height="28">
+                </Label>
+                <TextBlock x:Name="TextBlock_Title" Text="{Binding Path=Title,ElementName=postPreview}"
                        FontSize="15" FontWeight="Bold" FontFamily="Yu Gothic"
                        Foreground="#084251"/>
-            <TextBlock x:Name="TextBlock_Body"
+                <TextBlock x:Name="TextBlock_Body"
                        Text="{Binding Path=Body,ElementName=postPreview}"
                        FontSize="13" FontWeight="Light" FontFamily="Yu Gothic" TextWrapping="Wrap"/>
-            <Label Name="Label_Photos" Content="Esta publicación contiene fotos, ingresa a ella para verlas" Margin="10 0 10 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
+                <Label Name="Label_Photos" Content="Esta publicación contiene fotos, ingresa a ella para verlas" Margin="10 0 10 0" HorizontalContentAlignment="Center" Background="#2bc3e9"
                        FontFamily="Yu Gothic" FontSize="12" FontWeight="Light" Visibility="Collapsed"/>
-            <WrapPanel HorizontalAlignment="Center" Name="WrapPanel_Images" Visibility="Collapsed">
-                <Image Source="/Resources/pic.jpg" Width="150" x:Name="Image_Post"/>
-            </WrapPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
-                <materialDesign:Badged x:Name="Badge_Likes" Badge="{Binding Path=Likes,ElementName=postPreview}" BadgeBackground="#b8ebf7">
-                    <Button Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta">
-                        <materialDesign:PackIcon Kind="ThumbUpOutline" />
+                <WrapPanel HorizontalAlignment="Center" Name="WrapPanel_Images" Visibility="Collapsed">
+                    <Image Source="/Resources/pic.jpg" Width="150" x:Name="Image_Post"/>
+                </WrapPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                    <materialDesign:Badged x:Name="Badge_Likes" Badge="{Binding Path=Likes,ElementName=postPreview}" BadgeBackground="#b8ebf7">
+                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="Me gusta">
+                            <materialDesign:PackIcon Kind="ThumbUpOutline" />
+                        </Button>
+                    </materialDesign:Badged>
+                    <materialDesign:Badged x:Name="Badged_Dislikes" Badge="{Binding Path=Dislikes,ElementName=postPreview}" Margin="20 0 0 0" BadgeBackground="#b8ebf7">
+                        <Button Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta">
+                            <materialDesign:PackIcon Kind="ThumbDownOutline" />
+                        </Button>
+                    </materialDesign:Badged>
+                    <Button Background="#139dc0" Margin="20 0 0 0" BorderBrush="#139dc0" ToolTip="Comentar">
+                        <materialDesign:PackIcon Kind="CommentEditOutline" />
                     </Button>
-                </materialDesign:Badged>
-                <materialDesign:Badged x:Name="Badged_Dislikes" Badge="{Binding Path=Dislikes,ElementName=postPreview}" Margin="20 0 0 0" BadgeBackground="#b8ebf7">
-                    <Button Background="#094e60" BorderBrush="#094e60" ToolTip="No me gusta">
-                        <materialDesign:PackIcon Kind="ThumbDownOutline" />
+                    <Button Background="Red" Margin="20 0 0 0" BorderBrush="Red" ToolTip="Reportar publicación" Click="ReportThisPost">
+                        <materialDesign:PackIcon Kind="Flag" />
                     </Button>
-                </materialDesign:Badged>
-                <Button Background="#139dc0" Margin="20 0 0 0" BorderBrush="#139dc0" ToolTip="Comentar">
-                    <materialDesign:PackIcon Kind="CommentEditOutline" />
-                </Button>
-                <Button Background="Red" Margin="20 0 0 0" BorderBrush="Red" ToolTip="Reportar publicación">
-                    <materialDesign:PackIcon Kind="Flag" />
-                </Button>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-    </Border>
+        </Border>
+        <local:ReportPost Visibility="Collapsed" x:Name="ReportPost_report"/>
+    </Grid>
 </UserControl>

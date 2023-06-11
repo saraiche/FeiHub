@@ -101,6 +101,7 @@ namespace FeiHub.Views
                     {
                         UserControls.PostPreview posts  = new UserControls.PostPreview();
                         posts.postPreview.Username = post.author;
+                        posts.postPreview.Id = post.id;
                         User userData = await usersAPIServices.GetUser(post.author);
                         if (userData.profilePhoto == null)
                         {
@@ -193,6 +194,7 @@ namespace FeiHub.Views
                     {
                         UserControls.PostPreview posts = new UserControls.PostPreview();
                         posts.postPreview.Username = post.author;
+                        posts.postPreview.Id = post.id;
                         User userData = await usersAPIServices.GetUser(post.author);
                         if (userData.profilePhoto == null)
                         {
@@ -259,6 +261,7 @@ namespace FeiHub.Views
                     {
                         UserControls.PostPreview posts = new UserControls.PostPreview();
                         posts.postPreview.Username = post.author;
+                        posts.postPreview.Id = post.id;
                         User userData = await usersAPIServices.GetUser(post.author);
                         if (userData.profilePhoto == null)
                         {

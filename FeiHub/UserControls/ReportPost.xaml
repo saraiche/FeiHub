@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="FeiHub.UserControls.ReportPost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FeiHub.UserControls">
+    <Border BorderBrush="Black" BorderThickness="0.5" CornerRadius="60" Background="White">
+        <StackPanel Orientation="Vertical" Margin="30">
+            <Label Content="Reportar publicación" FontFamily="Yu Gothic" FontSize="18" FontWeight="SemiBold" Foreground="#073c4a"/>
+            <TextBlock Text="Nos preocupamos por mantener un ambiente de respeto y comodidad para toda la comunidad. Te agradecemos por preocuparte por ti y los demás usuarios reportando publicaciones que infrigen las reglas. Cuéntanos, ¿por qué quieres reportar esta publicación?" 
+                       TextWrapping="Wrap" TextAlignment="Justify" FontFamily="Yu Gothic" FontWeight="Light" FontSize="12"/>
+            <DataGrid Width="381" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                      Margin="0 20 0 0" x:Name="DataGrid_Situations" FontFamily="Yu Gothic" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Situación" IsReadOnly="True" FontFamily="Yu Gothic" Binding="{Binding}" x:Name="Column_Situations"/>
+                    <DataGridCheckBoxColumn Header="¿Se presenta?" IsReadOnly="False"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
+                <Button Content="Reportar" Margin="0 0 0 0" Name="Button_Report" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                        Style="{StaticResource MaterialDesignRaisedSecondaryButton}" 
+                                         Background="LightBlue" Click="ReportThisPost"
+                                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" 
+                                         Height="30" Width="120" />
+                <Button Content="Cancelar" Margin="50 0 0 0" Name="Button_Cancel" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                        Style="{StaticResource MaterialDesignRaisedSecondaryButton}" 
+                                         Background="Red" 
+                                        FontFamily="Yu Gothic" FontWeight="Bold" BorderBrush="{x:Null}" 
+                                         Height="30" Width="120" Click="Button_Cancel_Click" IsCancel="True"/>
+            </StackPanel>
+            
+        </StackPanel>
+    </Border>
+</UserControl>
