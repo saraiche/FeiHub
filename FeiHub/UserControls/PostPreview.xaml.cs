@@ -125,5 +125,15 @@ namespace FeiHub.UserControls
             ReportPost_report.Tag = Id;
             ReportPost_report.Visibility = Visibility.Visible;
         }
+        public void LikePost(Object sender, RoutedEventArgs args)
+        {
+            //Aquí va like, el idPost está en this.Id
+            MessageBox.Show("Like");
+        }
+        public void DislikePost(Object sender, RoutedEventArgs args)
+        {
+            //Aquí va dislike, el idPost está en this.Id
+            MessageBox.Show("Dislike");
+        }
     }
 }

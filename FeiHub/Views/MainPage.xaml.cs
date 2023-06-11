@@ -136,6 +136,8 @@ namespace FeiHub.Views
                         }
                         posts.postPreview.Border_Post.Tag = post;
                         posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
+                        posts.postPreview.Button_Comment.Tag = post;
+                        posts.postPreview.Button_Comment.Click += CommentPost;
                         StackPanel_Posts.Children.Add(posts);
                     }
                 }
@@ -229,6 +231,8 @@ namespace FeiHub.Views
                         }
                         posts.postPreview.Border_Post.Tag = post;
                         posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
+                        posts.postPreview.Button_Comment.Tag = post;
+                        posts.postPreview.Button_Comment.Click += CommentPost;
                         StackPanel_Posts.Children.Add(posts);
                     }
                 }
@@ -296,6 +300,8 @@ namespace FeiHub.Views
                         }
                         posts.postPreview.Border_Post.Tag = post;
                         posts.postPreview.Border_Post.MouseDown += GoToCompletePost;
+                        posts.postPreview.Button_Comment.Tag = post;
+                        posts.postPreview.Button_Comment.Click += CommentPost;
                         StackPanel_Posts.Children.Add(posts);
                     }
                 }
@@ -348,6 +354,18 @@ namespace FeiHub.Views
             if (border != null)
             {
                 var post = border.Tag as Posts;
+                if (post != null)
+                {
+                    this.NavigationService.Navigate(new CompletePost(post));
+                }
+            }
+        }
+        private void CommentPost(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var post = button.Tag as Posts;
                 if (post != null)
                 {
                     this.NavigationService.Navigate(new CompletePost(post));

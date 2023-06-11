@@ -1,6 +1,7 @@
 ﻿using FeiHub.Models;
 using FeiHub.Services;
 using FeiHub.UserControls;
+using MaterialDesignColors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,20 @@ namespace FeiHub.Views
         public CompletePost()
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += Search;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             AddComments();
         }
 
         public CompletePost(Posts post)
         {
             InitializeComponent();
+            this.MainBar.Button_GoBack.Click += GoBack;
+            this.MainBar.Button_Search.Click += Search;
+            this.MainBar.Button_Profile.Click += GoToProfile;
+            this.MainBar.Button_LogOut.Click += LogOut;
             postConsulted = post;
             PostPreview = new PostPreview();
             PostPreview.Id = post.id;
@@ -136,6 +145,13 @@ namespace FeiHub.Views
                     }
                     commentUserControl.comment.Body = commentObtained.body;
                     commentUserControl.comment.DateOfComment = commentObtained.dateOfComment.Date;
+                    if(commentObtained.author == SingletonUser.Instance.Username)
+                    {
+                        commentUserControl.comment.MenuComment.Visibility = Visibility.Visible;
+                        commentUserControl.comment.MenuComment.Tag = commentObtained;
+                        commentUserControl.comment.MenuItem_EditComment.Click += EditComment;
+                        commentUserControl.comment.MenuItem_DeleteComment.Click += DeleteComment;
+                    }
                     StackPanel_Comments.Children.Add(commentUserControl);
                 }
             }
@@ -145,6 +161,61 @@ namespace FeiHub.Views
                 labelWithoutComments.Content = "Esta publicación aún no tiene comentarios, ¡sé el primero en comentarla!";
                 StackPanel_Comments.Children.Add(labelWithoutComments);
             }
+        }
+
+        private void DeleteComment(object sender, RoutedEventArgs e)
+        {
+            var menu = (sender as MenuItem).Parent as MenuItem;
+            if (menu != null)
+            {
+                var comment = menu.Tag as Models.Comment;
+                if (comment != null)
+                {
+                    MessageBox.Show("Eliminar");
+                }
+            }
+        }
+
+        private void EditComment(object sender, RoutedEventArgs e)
+        {
+            var menu = (sender as MenuItem).Parent as MenuItem;
+            if (menu != null)
+            {
+                var comment = menu.Tag as Models.Comment;
+                if (comment != null)
+                {
+                    MessageBox.Show("Editar");
+                }
+            }
+        }
+
+        private void CommentPost(object sender, RoutedEventArgs args)
+        {
+            var idPost = postConsulted.id;
+            var body = TextBlox_Comment.Text;
+            var date = DateTime.Now;
+            var author = SingletonUser.Instance.Username;
+        }
+        private void LogOut(object sender, RoutedEventArgs e)
+        {
+            SingletonUser.Instance.BorrarSinglenton();
+            this.NavigationService.Navigate(new LogIn());
+        }
+
+        private void GoToProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
+        }
+
+        private void Search(object sender, RoutedEventArgs e)
+        {
+            string stringToSearch = this.MainBar.TextBox_Search.Text;
+            MessageBox.Show(stringToSearch);
+        }
+
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
         }
     }
 }
