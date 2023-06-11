@@ -85,7 +85,7 @@ namespace FeiHub.Views
                 ProfilePhoto.ImageSource = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
             }
             else
-            {
+            {   
                 ProfilePhoto.ImageSource = new BitmapImage(new Uri(userConsulted.profilePhoto));
             }
             FillHeader();
