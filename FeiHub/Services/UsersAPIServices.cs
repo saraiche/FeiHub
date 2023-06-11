@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 using System.Xml.Linq;
+using FeiHub.Views;
 
 namespace FeiHub.Services
 {
@@ -88,7 +89,6 @@ namespace FeiHub.Services
             try
             {
                 string apiUrl = $"/users/{username}";
-
                 HttpResponseMessage response = await httpClient.GetAsync(httpClient.BaseAddress + apiUrl);
                 User userObtained = new User();
                 string jsonResponse = await response.Content.ReadAsStringAsync();
@@ -272,6 +272,24 @@ namespace FeiHub.Services
                 return userList;
             }
 
+        }
+        public async Task<HttpResponseMessage> EditUser(User newUser)
+        {
+            try
+            {
+                string apiUrl = $"/users/{newUser.username}";
+                string jsonRequest = JsonConvert.SerializeObject(newUser);
+                StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                content.Headers.Add("token", SingletonUser.Instance.Token);
+                HttpResponseMessage response = await httpClient.PutAsync(httpClient.BaseAddress + apiUrl, content);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                return response;
+            }
         }
 
     }

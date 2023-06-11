@@ -111,7 +111,7 @@ namespace FeiHub.Views
                         }
                         else
                         {
-                            // ADD PHOTO IN AWS
+                            posts.postPreview.ProfilePhoto = new BitmapImage(new Uri(userData.profilePhoto));
                         }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
@@ -206,7 +206,7 @@ namespace FeiHub.Views
                         }
                         else
                         {
-                            // ADD PHOTO IN AWS
+                            posts.postPreview.ProfilePhoto = new BitmapImage(new Uri(userData.profilePhoto));
                         }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
@@ -275,7 +275,7 @@ namespace FeiHub.Views
                         }
                         else
                         {
-                            // ADD PHOTO IN AWS
+                            posts.postPreview.ProfilePhoto = new BitmapImage(new Uri(userData.profilePhoto));
                         }
                         posts.postPreview.PostDate = post.dateOfPublish.Date;
                         posts.postPreview.Title = post.title;
@@ -383,6 +383,11 @@ namespace FeiHub.Views
                     this.NavigationService.Navigate(new Chat(user));
                 }
             }
+        }
+
+        private void GoToMyProfile(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Profile(SingletonUser.Instance.Username));
         }
     }
 }
