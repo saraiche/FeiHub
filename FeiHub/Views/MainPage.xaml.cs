@@ -34,12 +34,13 @@ namespace FeiHub.Views
 
         public async void AddFollowing()
         {
+            var loadWindow = CreateWindow();
+            loadWindow.Show();
             followingUsers = await usersAPIServices.GetListUsersFollowing(SingletonUser.Instance.Username);
             if (followingUsers.Count > 0)
             {
                 if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.OK)
                 {
-
                     foreach (User user in followingUsers)
                     {
                         UserControls.PreviewUser following = new UserControls.PreviewUser();
@@ -49,6 +50,10 @@ namespace FeiHub.Views
                             ImageSourceConverter converter = new ImageSourceConverter();
                             following.previewUser.Source = (ImageSource)converter.ConvertFromString("../../Resources/usuario.png");
                         }
+                        else
+                        {
+                            following.previewUser.Source = new BitmapImage(new Uri(user.profilePhoto));
+                        }
                         following.previewUser.TextBlock_Username.Tag = user; 
                         following.previewUser.TextBlock_Username.MouseDown += GoToProfile;
                         following.previewUser.Button_SendMessage.Tag = user;
@@ -56,6 +61,7 @@ namespace FeiHub.Views
                         StackPanel_Following.Children.Add(following);
                     }
                 }
+                loadWindow.Close();
                 if (followingUsers[0].StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
 
@@ -386,6 +392,55 @@ namespace FeiHub.Views
                     this.NavigationService.Navigate(new Chat(user));
                 }
             }
+        }
+        private Window CreateWindow()
+        {
+            var emergentWindow = new Window
+            {
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = true,
+                Background = Brushes.Transparent,
+                Width = 300,
+                Height = 150,
+                Topmost = true,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Content = new Grid
+                {
+                    Background = Brushes.White,
+                    Margin = new Thickness(10),
+                }
+            };
+
+            var grid = emergentWindow.Content as Grid;
+
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50) });
+
+            var textBlock = new TextBlock
+            {
+                Text = "Cargando página, porfavor espere",
+                FontSize = 16,
+                FontWeight = FontWeights.Bold,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var progressBar = new ProgressBar
+            {
+                IsIndeterminate = true,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Height = 20,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+
+            Grid.SetRow(textBlock, 0);
+            Grid.SetRow(progressBar, 1);
+
+            grid.Children.Add(textBlock);
+            grid.Children.Add(progressBar);
+
+            return emergentWindow;
         }
 
         private void GoToMyProfile(object sender, RoutedEventArgs e)

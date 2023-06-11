@@ -39,14 +39,14 @@
             <Label Content="Moderar publicaciones" FontFamily="Yu Gothic" FontSize="19" FontWeight="ExtraBlack" Name="Label_PageTitle"/>
             
                 <DataGrid Margin="40" BorderBrush="Black" BorderThickness="1 1 1 1" SelectionUnit="FullRow" SelectionMode="Single" 
-                          Name="DataGrid_Posts" HorizontalAlignment="Center">
+                          Name="DataGrid_Posts" HorizontalAlignment="Center" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Publicación" IsReadOnly="True" Binding="{Binding Title}"/>
-                        <DataGridTextColumn Header="Número de reportes" IsReadOnly="True" Binding="{Binding Number}"/>
+                        <DataGridTextColumn Header="Publicación" IsReadOnly="True" Binding="{Binding title}"/>
+                        <DataGridTextColumn Header="Número de reportes" IsReadOnly="True" Binding="{Binding reports}"/>
                         <DataGridTemplateColumn Header="Consultar" IsReadOnly="False">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button  x:Name="Botton_GoTo" Background="#14a3c8" BorderBrush="LightBlue">
+                                    <Button  x:Name="Botton_GoTo" Background="#14a3c8" BorderBrush="LightBlue" Click="GoToPost">
                                         <materialDesign:PackIcon Kind="ArrowRightBoldOutline" />
                                     </Button>
                                 </DataTemplate>
@@ -55,7 +55,7 @@
                         <DataGridTemplateColumn Header="Borrar" IsReadOnly="False">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button  x:Name="Botton_Delete" Background="Red" BorderBrush="Red">
+                                    <Button  x:Name="Botton_Delete" Background="Red" BorderBrush="Red" Click="DeletePost">
                                         <materialDesign:PackIcon Kind="DeleteOutline" />
                                     </Button>
                                 </DataTemplate>

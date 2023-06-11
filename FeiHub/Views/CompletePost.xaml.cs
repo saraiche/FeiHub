@@ -73,7 +73,10 @@ namespace FeiHub.Views
             {
                 IsOwner();
             }
-
+            if(SingletonUser.Instance.Rol == "ADMIN")
+            {
+                IsAdmin();
+            }
             AddUserDataToPost();
             AddComments();
             AddImages();
@@ -124,7 +127,14 @@ namespace FeiHub.Views
                     MessageBoxResult resultDelete = MessageBox.Show("Publicación eliminada, serás redirigido a la página principal", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                     if(resultDelete == MessageBoxResult.OK) 
                     {
-                        this.NavigationService.Navigate(new MainPage());
+                        if(SingletonUser.Instance.Rol == "ADMIN")
+                        {
+                            this.NavigationService.Navigate(new ManagePosts());
+                        }
+                        else
+                        {
+                            this.NavigationService.Navigate(new MainPage());
+                        }
                     }
                 }
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -144,6 +154,17 @@ namespace FeiHub.Views
             PostPreview.MenuPost.Visibility = Visibility.Visible;
             PostPreview.MenuItem_EditPost.Click += EditPost;
             PostPreview.MenuItem_DeletePost.Click += DeletePost;
+        }
+        public void IsAdmin()
+        {
+            PostPreview.MenuPost.Visibility = Visibility.Visible;
+            PostPreview.MenuItem_EditPost.IsEnabled = false;
+            PostPreview.MenuItem_DeletePost.Click += DeletePost;
+            Button_Comment.IsEnabled = false;
+            PostPreview.Button_Comment.IsEnabled = false;
+            PostPreview.Button_Dislike.IsEnabled = false;
+            PostPreview.Button_Like.IsEnabled = false;
+            PostPreview.Button_Report.IsEnabled = false;
         }
 
         public async void AddComments()
@@ -172,6 +193,10 @@ namespace FeiHub.Views
                         commentUserControl.comment.Button_SaveChages.Tag = commentObtained;
                         commentUserControl.comment.MenuItem_EditComment.Click += EditComment;
                         commentUserControl.comment.MenuItem_DeleteComment.Click += DeleteComment;
+                    }
+                    if (SingletonUser.Instance.Rol == "ADMIN")
+                    {
+                        commentUserControl.comment.MenuComment.Visibility = Visibility.Collapsed;
                     }
                     StackPanel_Comments.Children.Add(commentUserControl);
                 }
@@ -285,7 +310,14 @@ namespace FeiHub.Views
 
         private void GoBack(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new MainPage());
+            if(SingletonUser.Instance.Rol == "ADMIN")
+            {
+                this.NavigationService.Navigate(new ManagePosts());
+            }
+            else
+            {
+                this.NavigationService.Navigate(new MainPage());
+            }
         }
     }
 }

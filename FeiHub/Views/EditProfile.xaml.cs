@@ -111,6 +111,8 @@ namespace FeiHub.Views
             {
                 if (!String.IsNullOrEmpty(pathProfilePhoto))
                 {
+                    var loadWindow = CreateWindow();
+                    loadWindow.Show();
                     bool uploadSuccess = await s3Service.UploadImage(pathProfilePhoto, SingletonUser.Instance.Username);
                     if (uploadSuccess)
                     {
@@ -122,6 +124,7 @@ namespace FeiHub.Views
                         HttpResponseMessage response = await usersAPIServices.EditUser(userToEdit);
                         if (response.IsSuccessStatusCode)
                         {
+                            loadWindow.Close();
                             MessageBoxResult result = MessageBox.Show("Perfil editado correctamente, se te regresará a tu perfil", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                             if (result == MessageBoxResult.OK)
                             {
@@ -130,12 +133,14 @@ namespace FeiHub.Views
                         }
                         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                         {
+                            loadWindow.Close();
                             MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                             SingletonUser.Instance.BorrarSinglenton();
                             this.NavigationService.Navigate(new LogIn());
                         }
                         if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                         {
+                            loadWindow.Close();
                             MessageBox.Show("Tuvimos un error al editar tu perfil, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
@@ -145,9 +150,12 @@ namespace FeiHub.Views
                     userToEdit.name = name;
                     userToEdit.paternalSurname = paternalSurname;
                     userToEdit.maternalSurname = maternalSurname;
+                    var loadWindow = CreateWindow();
+                    loadWindow.Show();
                     HttpResponseMessage response = await usersAPIServices.EditUser(userToEdit);
                     if (response.IsSuccessStatusCode)
                     {
+                        loadWindow.Close();
                         MessageBoxResult result = MessageBox.Show("Perfil editado correctamente, se te regresará a tu perfil", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                         if (result == MessageBoxResult.OK)
                         {
@@ -156,12 +164,14 @@ namespace FeiHub.Views
                     }
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
+                        loadWindow.Close();
                         MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                         SingletonUser.Instance.BorrarSinglenton();
                         this.NavigationService.Navigate(new LogIn());
                     }
                     if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                     {
+                        loadWindow.Close();
                         MessageBox.Show("Tuvimos un error al editar tu perfil, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
@@ -190,6 +200,55 @@ namespace FeiHub.Views
                 fullFields = true;
             }
             return fullFields;
+        }
+        private Window CreateWindow()
+        {
+            var emergentWindow = new Window
+            {
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = true,
+                Background = Brushes.Transparent,
+                Width = 300,
+                Height = 150,
+                Topmost = true,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Content = new Grid
+                {
+                    Background = Brushes.White,
+                    Margin = new Thickness(10),
+                }
+            };
+
+            var grid = emergentWindow.Content as Grid;
+
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50) });
+
+            var textBlock = new TextBlock
+            {
+                Text = "Modificando tu perfil, porfavor espere",
+                FontSize = 16,
+                FontWeight = FontWeights.Bold,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var progressBar = new ProgressBar
+            {
+                IsIndeterminate = true,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Height = 20,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+
+            Grid.SetRow(textBlock, 0);
+            Grid.SetRow(progressBar, 1);
+
+            grid.Children.Add(textBlock);
+            grid.Children.Add(progressBar);
+
+            return emergentWindow;
         }
 
     }

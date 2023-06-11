@@ -118,6 +118,8 @@ namespace FeiHub.Views
                 postCreated.target = target;
                 postCreated.photos = new Photo[0];
                 postCreated.dateOfPublish = dateOfPublish;
+                var loadWindow = CreateWindow();
+                loadWindow.Show();
                 Posts newPost = await postsAPIServices.CreatePost(postCreated);
                 if (newPost.StatusCode == System.Net.HttpStatusCode.Created)
                 {
@@ -141,6 +143,7 @@ namespace FeiHub.Views
                         HttpResponseMessage response = await postsAPIServices.EditPost(newPost);
                         if (response.IsSuccessStatusCode)
                         {
+                            loadWindow.Close();
                             MessageBoxResult result = MessageBox.Show("Publicación creada exitosamente, se te redirigirá a la página principal", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                             if (result == MessageBoxResult.OK)
                             {
@@ -149,12 +152,14 @@ namespace FeiHub.Views
                         }
                         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                         {
+                            loadWindow.Close();
                             MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                             SingletonUser.Instance.BorrarSinglenton();
                             this.NavigationService.Navigate(new LogIn());
                         }
                         if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                         {
+                            loadWindow.Close();
                             MessageBox.Show("Tuvimos un error al crear tu publicación, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
@@ -165,12 +170,14 @@ namespace FeiHub.Views
                 }
                 if (newPost.StatusCode == System.Net.HttpStatusCode.Unauthorized) 
                 {
+                    loadWindow.Close();
                     MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                     SingletonUser.Instance.BorrarSinglenton();
                     this.NavigationService.Navigate(new LogIn());
                 }
                 if (newPost.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
+                    loadWindow.Close();
                     MessageBox.Show("Tuvimos un error al crear tu publicación, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -250,9 +257,13 @@ namespace FeiHub.Views
                 postToEdit.body = body;
                 postToEdit.target = target;
                 postToEdit.dateOfPublish = dateOfPublish;
+                var loadWindow = CreateWindow();
+                loadWindow.Show();
                 HttpResponseMessage response = await postsAPIServices.EditPost(postToEdit);
+                loadWindow.Close();
                 if (response.IsSuccessStatusCode)
                 {
+                    loadWindow.Close();
                     MessageBoxResult result = MessageBox.Show("Publicación editada exitosamente, se te redirigirá a la página principal", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                     if (result == MessageBoxResult.OK)
                     {
@@ -261,12 +272,14 @@ namespace FeiHub.Views
                 }
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
+                    loadWindow.Close();
                     MessageBox.Show("Su sesión expiró, vuelve a iniciar sesión", "Notificación", MessageBoxButton.OK, MessageBoxImage.Information);
                     SingletonUser.Instance.BorrarSinglenton();
                     this.NavigationService.Navigate(new LogIn());
                 }
                 if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {
+                    loadWindow.Close();
                     MessageBox.Show("Tuvimos un error al editar tu publicación, inténtalo más tarde", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -292,6 +305,55 @@ namespace FeiHub.Views
             {
                 this.NavigationService.Navigate(new SearchResults(username));
             }
+        }
+        private Window CreateWindow()
+        {
+            var emergentWindow = new Window
+            {
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = true,
+                Background = Brushes.Transparent,
+                Width = 300,
+                Height = 150,
+                Topmost = true,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Content = new Grid
+                {
+                    Background = Brushes.White,
+                    Margin = new Thickness(10),
+                }
+            };
+
+            var grid = emergentWindow.Content as Grid;
+
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50) });
+
+            var textBlock = new TextBlock
+            {
+                Text = "Cargando publicación, porfavor espere",
+                FontSize = 16,
+                FontWeight = FontWeights.Bold,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var progressBar = new ProgressBar
+            {
+                IsIndeterminate = true,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Height = 20,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+
+            Grid.SetRow(textBlock, 0);
+            Grid.SetRow(progressBar, 1);
+
+            grid.Children.Add(textBlock);
+            grid.Children.Add(progressBar);
+
+            return emergentWindow;
         }
     }
 }

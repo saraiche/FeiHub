@@ -71,7 +71,14 @@ namespace FeiHub.Views
                     user.Username = userCredentials.username;
                     user.Rol = userCredentials.rol;
                     user.Token = userCredentials.token;
-                    this.NavigationService.Navigate(new MainPage());
+                    if(userCredentials.rol == "ADMIN")
+                    {
+                        this.NavigationService.Navigate(new ManagePosts());
+                    }
+                    else
+                    {
+                        this.NavigationService.Navigate(new MainPage());
+                    }
                 }
                 else
                 {
